@@ -1,11 +1,11 @@
 "use client"
 import { useForm,SubmitHandler} from "react-hook-form";
-import FormControl from "../components/formcontrol/formcontrol";
-import Googlemap from "../components/googlemap/googlemap";
-import { IEventDetails } from "../components/table/table";
-import { EventForm } from "../components/eventform/eventform";
+import FormControl from "../../components/formcontrol/formcontrol";
+import Googlemap from "../../components/googlemap/googlemap";
+import { IEventDetails } from "../../components/table/table";
+import { EventForm } from "../../components/eventform/eventform";
 import { useRef } from "react";
-import { UPLOAD_BASE_URL } from "../constants/constants";
+import { UPLOAD_BASE_URL } from "../../constants/constants";
 
 export default function EditEvent({searchParams}:{searchParams:IEventDetails}){
     const file = useRef<File>()

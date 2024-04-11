@@ -10,8 +10,8 @@ export default function Header(){
                     <Link className="navlink" href="/dashboard"
                     >
                         Event List</Link>
-                    <Link className="navlink" href="/event">Add Event</Link>
-                    <Link className="navlink"href="/event">Logout</Link>
+                    <Link className="navlink" href="/dashboard/event">Add Event</Link>
+                    <Link className="navlink"href="/dashboard/event">Logout</Link>
                 </div>
                 <MobileNav />
             </nav>

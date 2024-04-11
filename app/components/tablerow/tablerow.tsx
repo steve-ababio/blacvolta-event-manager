@@ -53,7 +53,7 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
                                 <BiExpandHorizontal size={20} />
                                 <div className="text-[14px] flex items-center flex-1">view more</div>
                             </button>
-                            <Link href={{pathname:`/edit`,query:{...event}}}>
+                            <Link href={{pathname:`/dashboard/edit`,query:{...event}}}>
                                 <button className="flex items-center gap-x-4 mb-3 hover:bg-slate-400/20 w-full">
                                     <MdOutlineEdit size={20} />
                                     <div className="text-[14px] items-center flex flex-1">edit</div>

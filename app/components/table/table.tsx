@@ -19,7 +19,6 @@ export interface IEventDetails {
 
 interface EventDetailsListProps{
     data:IEventDetails[],
-    children:React.ReactNode
 }
 
 export default function Table({data}:EventDetailsListProps){

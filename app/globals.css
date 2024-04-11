@@ -36,6 +36,8 @@
     md:px-0 md:mb-0
   }
   .form-control{
-    @apply border border-slate-300/80 focus:ring-2 outline-none text-slate-600 duration-300 px-4 focus:ring-blue-400 rounded-[5px] w-full py-2
+    @apply border border-slate-300/80 focus:ring-2 outline-none
+     text-slate-600 duration-300 px-4 focus:ring-blue-400 
+     rounded-[5px] w-full py-2
   }
 }
