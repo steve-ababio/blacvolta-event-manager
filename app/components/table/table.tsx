@@ -3,6 +3,7 @@ import TableRow from "@/app/components/tablerow/tablerow";
 import Modal from "../modal/modal";
 import { useRef, useState } from "react";
 import React from "react";
+import { redirect } from "next/navigation";
 
 export interface IEventDetails {
     Id:string,
@@ -28,9 +29,8 @@ export default function Table({data}:EventDetailsListProps){
     const [event,setEvent] = useState<IEventDetails>();
     const [showdeleteprompt,setShowDeletePrompt] = useState(false);
     const imgelement = useRef<HTMLImageElement>(null);
-    
     function closeModal(){
-        imgelement.current!.src = "";
+        // imgelement.current!.src = "";
         setModalOpen(false);
     }
     function closeDeletePrompt(){
@@ -39,9 +39,9 @@ export default function Table({data}:EventDetailsListProps){
     async function deleteEvent(){
         setLoading(true);
         try{
-            const response = await fetch(`https://blacvolta.com/events/api.php?id=${event?.Id}`,{method:"DELETE"});
+            const response = await fetch(`/api/delete/?id=${event?.Id}`,{method:"DELETE"});
             const message = await response.json();
-            console.log(message);
+            redirect("/dashboard")
         }catch(error){
             console.log(error);
         }finally{
@@ -77,7 +77,7 @@ export default function Table({data}:EventDetailsListProps){
                 </tbody>
             </table>
             <Modal open={modalopen} onclose={closeModal}>
-                <div className=" w-[28rem] px-8 pt-8 bg-white overflow-y-auto relative z-50">
+                <div className={`w-[28rem] px-8 pt-8 bg-white overflow-y-auto relative z-50 duration-[350ms] ${modalopen ? 'scale-100':'scale-0'}`}>
                     <div className="relative w-full h-[18rem]">
                         <img ref={imgelement} className="rounded-[10px] h-full w-full absolute object-cover top-0 left-0" src={event?.FlyerImagePath} alt="event flyer image" />
                     </div>

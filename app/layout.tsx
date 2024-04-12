@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
+import Sessionprovider from "./providers/sessionprovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXf9sQhYbbVARXX_XsGXH6cznRTTL80-k&libraries=places&callback=initMap" async></script>
+      </head>
       <body className={`${inter.className} bg-white min-h-screen`}>
+        <Sessionprovider>
           {children}
+        </Sessionprovider>
       </body>
     </html>
   );

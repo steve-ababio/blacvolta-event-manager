@@ -40,26 +40,26 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
     
     return(
         <>
-            <tr className="w-full border-b border-b-gray-400">
+            <tr className="w-full border-b border-b-gray-400/50 text-[14px]">
                 <td className="align-top p-[.75rem]">{EventDate}</td>
                 <td className="align-top p-[.75rem]">{EventTime}</td>
                 <td className="align-top p-[.75rem]">{Venue}</td>
                 <td className="align-top p-[.75rem]">{EventName}</td>
-                <td className="p-[0.75rem] flex gap-1 justify-center items-center">
+                <td className="p-[0.75rem] flex gap-1  items-center">
                     <div className="relative cursor-pointer" onClick={showAction}>
-                        <BsThreeDots size={20}/>
+                        <div className="hover:bg-blue-300/30 p-1 rounded-[5px]"><BsThreeDots size={20}/></div>
                         <div ref={activeelement} className={`${viewaction ? 'scale-100':'scale-0'} z-30 duration-300 py-3 absolute top-full right-full px-4 w-[10rem] shadow-md bg-white`}>
-                            <button onClick={openModal} className="flex items-center gap-x-4 mb-3 hover:bg-slate-400/20 w-full">
+                            <button onClick={openModal} className="flex items-center gap-x-4 mb-3 pl-2 hover:bg-slate-300/30 w-full">
                                 <BiExpandHorizontal size={20} />
                                 <div className="text-[14px] flex items-center flex-1">view more</div>
                             </button>
-                            <Link href={{pathname:`/dashboard/edit`,query:{...event}}}>
-                                <button className="flex items-center gap-x-4 mb-3 hover:bg-slate-400/20 w-full">
+                            <Link href={{pathname:`/edit`,query:{...event}}}>
+                                <button className="flex items-center gap-x-4 mb-3 hover:bg-slate-300/30 pl-2 w-full">
                                     <MdOutlineEdit size={20} />
                                     <div className="text-[14px] items-center flex flex-1">edit</div>
                                 </button>
                             </Link>
-                            <button onClick={showDeletePrompt} className="flex items-center gap-x-4 mb-3 hover:bg-slate-400/20 w-full">
+                            <button onClick={showDeletePrompt} className="flex items-center gap-x-4 mb-3 pl-2 hover:bg-slate-300/30 w-full">
                                 <AiOutlineDelete size={20} color="rgb(239 68 68)" />
                                 <div className="text-[14px] items-center text-red-500 flex flex-1">delete</div>
                             </button>

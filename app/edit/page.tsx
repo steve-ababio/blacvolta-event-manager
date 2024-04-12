@@ -1,40 +1,65 @@
 "use client"
 import { useForm,SubmitHandler} from "react-hook-form";
-import FormControl from "../../components/formcontrol/formcontrol";
-import Googlemap from "../../components/googlemap/googlemap";
-import { IEventDetails } from "../../components/table/table";
-import { EventForm } from "../../components/eventform/eventform";
-import { useRef } from "react";
-import { UPLOAD_BASE_URL } from "../../constants/constants";
+import FormControl from "../components/formcontrol/formcontrol";
+import { IEventDetails } from "../components/table/table";
+import { EventForm } from "../components/eventform/eventform";
+import { useEffect, useRef } from "react";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function EditEvent({searchParams}:{searchParams:IEventDetails}){
-    const file = useRef<File>()
-    const formelement = useRef<HTMLFormElement>(null)
-    const {EventName,EventDate,FlyerImagePath,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = searchParams;
+    const {Id,EventName,EventDate,FlyerImagePath,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = searchParams;
+    const file = useRef<File>();
+    const formelement = useRef<HTMLFormElement>(null);
+    const autocompleteref = useRef<google.maps.places.Autocomplete>();
+    const inputref = useRef<HTMLInputElement>(null);
+    const venue = useRef<string>(Venue);
+    
     const{
         register,
         handleSubmit,
-        formState:{errors,isSubmitting}
+        formState:{errors,isSubmitting,isLoading}
     } = useForm({
         defaultValues:{
             eventname:EventName,
             eventdate:EventDate,
             eventtime:EventTime,
-            venue:Venue,
             inquirynumber:InquiryNumber,
             ticketlinks:TicketLinks,
             eventdescription:Description,
             sociallinks:SocialLinks
         }
     });
+    const options = {
+        componentRestrictions: { country: "gh" },
+        fields: ["name"],
+        types: ["establishment"]
+    };
+    useEffect(function(){
+        autocompleteref.current = new window.google.maps.places.Autocomplete(inputref.current!,options);
+        autocompleteref.current.addListener("place_changed",getPlace);
+    },[]);
+    async function getPlace(){
+        const place = await autocompleteref.current!.getPlace();
+        venue.current = `${place.name}`
+    }
     const submitFormData:SubmitHandler<EventForm> = async(data)=>{
+
+        const fileinfo = file.current;
         const formdata = new FormData(formelement.current!);
-        const response = await fetch(`${UPLOAD_BASE_URL}?`,{method:"PUT",body:formdata});
+        formdata.append("venue",venue.current);
+        if(fileinfo){
+            formdata.append("flyerimagepath",fileinfo!);
+        }else{
+            formdata.append("flyerimagepath",FlyerImagePath);
+        }
+        formdata.append("Id",Id);
+        const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
         const message = await response.json();
+        
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
         if(e.target.files && e.target.files.length){
-             file.current = e.target.files[0];
+            file.current = e.target.files[0];
         }
      }
     return(
@@ -61,13 +86,11 @@ export default function EditEvent({searchParams}:{searchParams:IEventDetails}){
                 name="eventtime"  
                 aria-required="true" type="time" label="Event Time"
             />
-            <FormControl 
-                register={register}
-                validationrules={{required:"Event venue is required"}}
-                name="venue"
-                aria-required="true" type="text" label="Venue:" 
-            />
-            <Googlemap />
+            <div>
+                <label className="text-slate-500">venue</label>
+                <input defaultValue={Venue}  aria-required="true" ref={inputref} className="form-control" />
+            </div>
+
             <FormControl 
                 register={register}
                 name="ticketlinks"
@@ -82,7 +105,7 @@ export default function EditEvent({searchParams}:{searchParams:IEventDetails}){
             <div>
                 <label htmlFor="description">Description</label>
                 <textarea 
-                    // {...register("eventdescription",)}
+                    {...register("eventdescription")}
                     rows={3} id="description" className="py-2 px-4 block border border-slate-300/80 focus:ring-2 focus:ring-blue-400 rounded-[5px] outline-none w-full"/>
             </div>
             <FormControl 
@@ -94,7 +117,18 @@ export default function EditEvent({searchParams}:{searchParams:IEventDetails}){
                 className="bg-blue-500 text-white w-fit px-5 py-2 rounded-md mb-4" 
                 onClick={handleSubmit(submitFormData)}
             >
-                Save Event
+                {isSubmitting ? 
+                    <>
+                        <RotatingLines 
+                            strokeColor="white" 
+                            strokeWidth="4"
+                            animationDuration="0.8"
+                            width="25"
+                            visible={true} />
+                            <span>saving event</span>
+                    </>
+                    :"Save Event"
+                }
             </button>
         </form>
     )

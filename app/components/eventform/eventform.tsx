@@ -1,14 +1,13 @@
 "use client"
 import { SubmitHandler, useForm } from "react-hook-form";
 import FormControl from "../../components/formcontrol/formcontrol";
-import Googlemap from "../../components/googlemap/googlemap";
-import { useRef } from "react";
+import { RotatingLines } from "react-loader-spinner";
+import { useEffect, useRef} from "react";
 
 export interface EventForm{
     eventname:string,
     eventdate:string,
     eventtime:string,
-    venue:string,
     ticketlinks:string
     inquirynumber:string,
     eventdescription:string,
@@ -16,26 +15,47 @@ export interface EventForm{
 }
 
 export default function EventForm(){
-    const file = useRef<File>()
+    const file = useRef<File>();
+    const autocompleteref = useRef<google.maps.places.Autocomplete>();
+    const inputref = useRef<HTMLInputElement>(null);
+    const venue = useRef<string>("");
+    const formelement = useRef<HTMLFormElement>(null);
     const{
         register,
         handleSubmit,
-        formState:{errors,isSubmitting}
+        formState:{errors,isSubmitting,isLoading}
     } = useForm({
         defaultValues:{
             eventname:"",
             eventdate:"",
             eventtime:"",
-            venue:"",
             inquirynumber:"",
             ticketlinks:"",
             eventdescription:"",
             sociallinks:""
         }
     });
-    const submitFormData:SubmitHandler<EventForm> = (data)=>{
+    // const { ref, ...rest } = register("venue");
+    const options = {
+        componentRestrictions: { country: "gh" },
+        fields: ["address_components", "geometry", "icon", "name"],
+        types: ["establishment"]
+    };
+    useEffect(function(){
+        autocompleteref.current = new window.google.maps.places.Autocomplete(inputref.current!,options);
+        autocompleteref.current.addListener("place_changed",getPlace);
+    },[]);
+    async function getPlace(){
+        const place = await autocompleteref.current!.getPlace();
+        venue.current = place.name as string;
+    }
+    const submitFormData:SubmitHandler<EventForm> = async(data)=>{
         const fileinfo = file.current;
-        console.log("data: ",data)
+        const formdata = new FormData(formelement.current!);
+        formdata.append("venue",venue.current);
+        formdata.append("flyerimagepath",fileinfo!);
+        const response = await fetch("/api/event",{method: "POST",body:formdata});
+        const message = response.json();
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
        if(e.target.files && e.target.files.length){
@@ -43,7 +63,7 @@ export default function EventForm(){
        }
     }
     return(
-        <form onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
+        <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
             <div>
                 <label className="block">Event Image: </label>
                 <input onChange={obtainImageFile} type="file" aria-required="true" accept="image/*" required />
@@ -66,13 +86,10 @@ export default function EventForm(){
                 name="eventtime"  
                 aria-required="true" type="time" label="Event Time"
             />
-            <FormControl 
-                register={register}
-                validationrules={{required:"Event venue is required"}}
-                name="venue"
-                aria-required="true" type="text" label="Venue:" 
-            />
-            <Googlemap />
+            <div>
+                <label className="text-slate-500">venue</label>
+                <input aria-required="true" ref={inputref} className="form-control" />
+            </div>
             <FormControl 
                 register={register}
                 name="ticketlinks"
@@ -84,7 +101,7 @@ export default function EventForm(){
                 type="text" label="Inquiry Number:"
             />
             <div>
-                <label htmlFor="description">Description</label>
+                <label htmlFor="description" className="text-slate-500">Description</label>
                 <textarea 
                     {...register("eventdescription",)}
                     rows={3} id="description" className="py-2 px-4 block border border-slate-300/80 focus:ring-2 focus:ring-blue-400 rounded-[5px] outline-none w-full"/>
@@ -95,8 +112,22 @@ export default function EventForm(){
                 type="text" label="Social Link"
             />
             <button 
-                className="bg-blue-500 text-white w-fit px-5 py-2 rounded-md mb-4" 
-                onClick={handleSubmit(submitFormData)}>Add Event</button>
+                className="bg-blue-500 flex justify-center items-center text-white w-fit px-5 py-2 rounded-md mb-4" 
+                onClick={handleSubmit(submitFormData)}>
+                    {isSubmitting ? 
+                        <>
+                            <RotatingLines 
+                                    strokeColor="white" 
+                                    strokeWidth="4"
+                                    animationDuration="0.8"
+                                    width="25"
+                                    visible={true} 
+                            />
+                            <span>Adding event</span> 
+                        </>
+                        :"Add Event"
+                    }
+            </button>
     </form>
     )
 }

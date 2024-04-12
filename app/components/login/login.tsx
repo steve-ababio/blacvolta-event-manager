@@ -1,15 +1,21 @@
 "use client"
 import { SubmitHandler, useForm } from "react-hook-form";
-import React from "react";
+import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { RotatingLines } from "react-loader-spinner";
+import { useRouter } from "next/navigation";
 
 export interface LoginForm{
     username:string,
     password:string
 }
 export default function Login(){;
+    const router = useRouter();
+    const [errormessage,setErrorMessage] = useState("");
     const{
         register,
-        handleSubmit
+        handleSubmit,
+        formState:{isSubmitting}
     } = useForm({
         defaultValues:{
             username:"",
@@ -17,8 +23,24 @@ export default function Login(){;
         }
     });
 
-    const login:SubmitHandler<LoginForm> = (data)=>{
-        console.log(data)
+    const login:SubmitHandler<LoginForm> = async (data)=>{
+        const {username,password} = data;
+        try{
+            const response = await signIn("credentials",{
+                username,
+                password,
+                redirect:false,
+            });
+            if(response && !response.error){
+                router.push("/dashboard");
+            }else{
+                console.log("loggin")
+                setErrorMessage("Invalid credentials");
+                console.log("invalid credentials")
+            }
+        }catch(err){
+            console.log(err)
+        }
     }
     return (
         <div className="flex justify-center flex-col items-center h-screen">
@@ -34,11 +56,26 @@ export default function Login(){;
                         <input {...register("password")} className="form-control" type="password" id="password" />
                     </div>
                     <div className="flex w-full ">
-                        <button onClick={handleSubmit(login)} className="w-full py-3 mt-3 focus-visible:ring-blue-400/70 outline-none focus-visible:ring-4 ring-offset-1 text-white bg-blue-600/80 rounded-[5px]">Login</button>
+                        <button onClick={handleSubmit(login)} className="w-full py-3 flex justify-center items-center mt-3 focus-visible:ring-blue-400/70 outline-none focus-visible:ring-4 ring-offset-1 text-white bg-blue-600/80 rounded-[5px]">
+                           {
+                            isSubmitting ?
+                                <>
+                                    <RotatingLines 
+                                        strokeColor="white" 
+                                        strokeWidth="4"
+                                        animationDuration="0.8"
+                                        width="25"
+                                        visible={true} 
+                                    />
+                                    <span>signing in </span>
+                                </>
+                            :"sign in"
+                           }
+                        </button>
                     </div>
                 </form>
-
             </div>
+            {errormessage && <div className={` duration-700 bg-red-400/20 border ${errormessage ? 'opacity-100 translate-y-0':'opacity-0 translate-y-full'} mb-3 border-red-500 text-slate-600 px-10 rounded-[4px] py-2`}>{errormessage}</div>}
         </div>
     )
 }

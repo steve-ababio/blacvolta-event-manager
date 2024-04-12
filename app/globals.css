@@ -25,13 +25,7 @@
   .navlink{
     @apply block py-[0.5rem] md:after:content-[''] 
     after:block md:after:h-[4px] md:after:rounded-[2px] md:after:w-full
-    overflow-x-hidden
-    md:after:-translate-x-full
-    md:hover:after:translate-x-0 after:duration-300
-    md:transition-transform
-  md:after:bg-blue-500
-    md:hover:bg-transparent
-    hover:bg-slate-400/20
+    overflow-x-hidden hover:text-slate-800
     px-10 mb-2
     md:px-0 md:mb-0
   }

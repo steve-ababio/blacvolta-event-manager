@@ -11,7 +11,7 @@ interface FormControlProps extends React.InputHTMLAttributes<HTMLInputElement> {
     validationrules?:RegisterOptions<EventForm> | undefined,
 }
 
-export default function FormControl({register,name,label,defaultValue,type,onChange,className,validationrules}:FormControlProps) {
+const FormControl = ({register,name,label,defaultValue,type,onChange,className,validationrules}:FormControlProps)=> {
     const controlId = useId();
     return(
         <div className="w-full">
@@ -20,3 +20,4 @@ export default function FormControl({register,name,label,defaultValue,type,onCha
         </div>
     )
 }
+export default FormControl;
