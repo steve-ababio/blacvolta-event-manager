@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import Sessionprovider from "./providers/sessionprovider";
+import Header from "./components/header/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-white min-h-screen`}>
         <Sessionprovider>
+          <Header />
           {children}
         </Sessionprovider>
       </body>
