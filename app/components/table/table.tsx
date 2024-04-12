@@ -43,7 +43,7 @@ export default function Table({data}:EventDetailsListProps){
         try{
             const response = await fetch(`/api/delete/?id=${event?.Id}`,{method:"DELETE"});
             const message = await response.json();
-            router.refresh();
+            window.location.reload();
         }catch(error){
             console.log(error);
         }finally{
