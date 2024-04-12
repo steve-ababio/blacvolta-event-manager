@@ -47,7 +47,7 @@ export default function EventForm(){
     },[]);
     async function getPlace(){
         const place = await autocompleteref.current!.getPlace();
-        venue.current = place.name as string;
+        venue.current = `${place.name}`
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
         const fileinfo = file.current;
