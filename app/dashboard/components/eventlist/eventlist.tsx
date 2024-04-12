@@ -1,6 +1,6 @@
 import Table, { IEventDetails } from "@/app/components/table/table";
 import { prisma } from "@/app/lib/prisma";
-export const revalidate = 1; 
+export const revalidate = 0; 
 export default async function EventList(){
     const events = await prisma.event.findMany({});
     const data:IEventDetails[] = events;

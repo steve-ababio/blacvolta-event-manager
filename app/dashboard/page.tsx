@@ -3,6 +3,7 @@ import EventList from "./components/eventlist/eventlist";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import authOptions from "../api/auth/[...nextauth]/options";
+export const revalidate = 0; 
 
 export default async function Dashboard(){
     const session = await getServerSession(authOptions);

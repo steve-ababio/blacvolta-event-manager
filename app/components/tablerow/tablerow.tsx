@@ -5,7 +5,7 @@ import Link from "next/link";
 import { BsThreeDots } from "react-icons/bs";
 import { BiExpandHorizontal } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useRef, useState } from "react";
 
 interface TableRowProps{
     event:IEventDetails,

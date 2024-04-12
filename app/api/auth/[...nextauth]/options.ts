@@ -19,7 +19,6 @@ const authOptions: NextAuthOptions = {
                 },
             },
             async authorize(credentials) {
-                
                 if(!credentials?.username || !credentials.password){
                     return null;
                 }

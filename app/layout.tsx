@@ -24,7 +24,6 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-white min-h-screen`}>
         <Sessionprovider>
-          <Header />
           {children}
         </Sessionprovider>
       </body>
