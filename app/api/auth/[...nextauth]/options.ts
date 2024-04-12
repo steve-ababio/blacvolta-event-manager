@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/app/lib/prisma';
 
 const authOptions: NextAuthOptions = {
+    secret:process.env.AUTH_SECRET,
     providers:[
         CredentialsProvider({
             name:"sign in",
