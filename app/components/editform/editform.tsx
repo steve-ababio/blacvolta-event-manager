@@ -1,44 +1,37 @@
 "use client"
-import { SubmitHandler, useForm } from "react-hook-form";
-import FormControl from "../../components/formcontrol/formcontrol";
+import { useForm,SubmitHandler} from "react-hook-form";
+import { useEffect, useRef } from "react";
 import { RotatingLines } from "react-loader-spinner";
-import { useEffect, useRef} from "react";
+import FormControl from "../formcontrol/formcontrol";
+import { IEventDetails } from "../table/table";
+import { IEventForm } from "../eventform/eventform";
 
-export interface IEventForm{
-    eventname:string,
-    eventdate:string,
-    eventtime:string,
-    ticketlinks:string
-    inquirynumber:string,
-    eventdescription:string,
-    sociallinks:string
-}
-
-export default function EventForm(){
+export default function EditEventForm(props:IEventDetails){
+    const {Id,EventName,EventDate,FlyerImagePath,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = props;
     const file = useRef<File>();
+    const formelement = useRef<HTMLFormElement>(null);
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement>(null);
-    const venue = useRef<string>("");
-    const formelement = useRef<HTMLFormElement>(null);
+    const venue = useRef<string>(Venue);
+    
     const{
         register,
         handleSubmit,
         formState:{errors,isSubmitting,isLoading}
     } = useForm({
         defaultValues:{
-            eventname:"",
-            eventdate:"",
-            eventtime:"",
-            inquirynumber:"",
-            ticketlinks:"",
-            eventdescription:"",
-            sociallinks:""
+            eventname:EventName,
+            eventdate:EventDate,
+            eventtime:EventTime,
+            inquirynumber:InquiryNumber,
+            ticketlinks:TicketLinks,
+            eventdescription:Description,
+            sociallinks:SocialLinks
         }
     });
-    // const { ref, ...rest } = register("venue");
     const options = {
         componentRestrictions: { country: "gh" },
-        fields: ["address_components", "geometry", "icon", "name"],
+        fields: ["name"],
         types: ["establishment"]
     };
     useEffect(function(){
@@ -47,23 +40,30 @@ export default function EventForm(){
     },[]);
     async function getPlace(){
         const place = await autocompleteref.current!.getPlace();
-        venue.current = place.name as string;
+        venue.current = `${place.name}`
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
+
         const fileinfo = file.current;
         const formdata = new FormData(formelement.current!);
         formdata.append("venue",venue.current);
-        formdata.append("flyerimagepath",fileinfo!);
-        const response = await fetch("/api/event",{method: "POST",body:formdata});
-        const message = response.json();
+        if(fileinfo){
+            formdata.append("flyerimagepath",fileinfo!);
+        }else{
+            formdata.append("flyerimagepath",FlyerImagePath);
+        }
+        formdata.append("Id",Id);
+        const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
+        const message = await response.json();
+        
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
-       if(e.target.files && e.target.files.length){
+        if(e.target.files && e.target.files.length){
             file.current = e.target.files[0];
-       }
-    }
+        }
+     }
     return(
-        <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
+        <form ref={formelement} className="flex flex-col gap-y-5 w-[80%] max-w-[50rem] mx-auto">
             <div>
                 <label className="block">Event Image: </label>
                 <input onChange={obtainImageFile} type="file" aria-required="true" accept="image/*" required />
@@ -88,12 +88,14 @@ export default function EventForm(){
             />
             <div>
                 <label className="text-slate-500">venue</label>
-                <input aria-required="true" ref={inputref} className="form-control" />
+                <input defaultValue={Venue}  aria-required="true" ref={inputref} className="form-control" />
             </div>
+
             <FormControl 
                 register={register}
                 name="ticketlinks"
-                type="text" label="Ticket Links:" 
+                type="text" label="Ticket Links:"
+                
             />
             <FormControl 
                 register={register}
@@ -101,9 +103,9 @@ export default function EventForm(){
                 type="text" label="Inquiry Number:"
             />
             <div>
-                <label htmlFor="description" className="text-slate-500">Description</label>
+                <label htmlFor="description">Description</label>
                 <textarea 
-                    {...register("eventdescription",)}
+                    {...register("eventdescription")}
                     rows={3} id="description" className="py-2 px-4 block border border-slate-300/80 focus:ring-2 focus:ring-blue-400 rounded-[5px] outline-none w-full"/>
             </div>
             <FormControl 
@@ -112,22 +114,22 @@ export default function EventForm(){
                 type="text" label="Social Link"
             />
             <button 
-                className="bg-blue-500 flex justify-center items-center text-white w-fit px-5 py-2 rounded-md mb-4" 
-                onClick={handleSubmit(submitFormData)}>
-                    {isSubmitting ? 
-                        <>
-                            <RotatingLines 
-                                    strokeColor="white" 
-                                    strokeWidth="4"
-                                    animationDuration="0.8"
-                                    width="25"
-                                    visible={true} 
-                            />
-                            <span>Adding event</span> 
-                        </>
-                        :"Add Event"
-                    }
+                className="bg-blue-500 text-white w-fit px-5 py-2 rounded-md mb-4" 
+                onClick={handleSubmit(submitFormData)}
+            >
+                {isSubmitting ? 
+                    <>
+                        <RotatingLines 
+                            strokeColor="white" 
+                            strokeWidth="4"
+                            animationDuration="0.8"
+                            width="25"
+                            visible={true} />
+                            <span>saving event</span>
+                    </>
+                    :"Save Event"
+                }
             </button>
-    </form>
+        </form>
     )
 }

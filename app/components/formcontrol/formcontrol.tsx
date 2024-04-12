@@ -1,14 +1,14 @@
 import React, { useId } from "react";
 import { RegisterOptions, UseFormRegister } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { EventForm } from "../eventform/eventform";
+import { IEventForm } from "../eventform/eventform";
 
 interface FormControlProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label:string,
     type:"text"|"password"|"time"|"date"|"file",
-    register:UseFormRegister<EventForm>,
-    name:keyof EventForm,
-    validationrules?:RegisterOptions<EventForm> | undefined,
+    register:UseFormRegister<IEventForm>,
+    name:keyof IEventForm,
+    validationrules?:RegisterOptions<IEventForm> | undefined,
 }
 
 const FormControl = ({register,name,label,defaultValue,type,onChange,className,validationrules}:FormControlProps)=> {
