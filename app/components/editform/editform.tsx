@@ -115,7 +115,7 @@ export default function EditEventForm(props:IEventDetails){
                 type="text" label="Social Link"
             />
             <button 
-                className="bg-blue-500 text-white w-fit px-5 py-2 rounded-md mb-4" 
+                className="flex justify-center items-center bg-blue-500 text-white w-fit px-5 py-2 rounded-md mb-4" 
                 onClick={handleSubmit(submitFormData)}
             >
                 {isSubmitting ? 
