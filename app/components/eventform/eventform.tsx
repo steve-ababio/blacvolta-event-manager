@@ -55,7 +55,8 @@ export default function EventForm(){
         formdata.append("venue",venue.current);
         formdata.append("flyerimagepath",fileinfo!);
         const response = await fetch("/api/event",{method: "POST",body:formdata});
-        const message = response.json();
+        const message = await response.json();
+        console.log(message);
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
        if(e.target.files && e.target.files.length){

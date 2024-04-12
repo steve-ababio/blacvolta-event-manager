@@ -55,6 +55,7 @@ export default function EditEventForm(props:IEventDetails){
         formdata.append("Id",Id);
         const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
         const message = await response.json();
+        console.log(message);
         
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){

@@ -21,6 +21,7 @@ export async function POST(req:Request){
         const buffer = Buffer.from(await image.arrayBuffer())
         const imagepath = path.join(process.cwd(),`/public/uploads/${filename}`);
         await writeFile(imagepath,buffer);
+        
         await prisma.event.create({
             data:{
                 FlyerImagePath:`/uploads/${filename}`,
