@@ -1,8 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
 import { put } from "@vercel/blob";
-import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
-import path from "path";
 
 export async function POST(req:Request){
     
