@@ -30,7 +30,7 @@ export default function Table({data}:EventDetailsListProps){
     const [showdeleteprompt,setShowDeletePrompt] = useState(false);
     const imgelement = useRef<HTMLImageElement>(null);
     const router = useRouter();
-    
+
     function closeModal(){
         // imgelement.current!.src = "";
         setModalOpen(false);
@@ -43,7 +43,7 @@ export default function Table({data}:EventDetailsListProps){
         try{
             const response = await fetch(`/api/delete/?id=${event?.Id}`,{method:"DELETE"});
             const message = await response.json();
-            router.push("/dashboard");
+            router.refresh();
         }catch(error){
             console.log(error);
         }finally{
