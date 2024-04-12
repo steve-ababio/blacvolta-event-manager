@@ -3,7 +3,7 @@ import TableRow from "@/app/components/tablerow/tablerow";
 import Modal from "../modal/modal";
 import { useRef, useState } from "react";
 import React from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 export interface IEventDetails {
     Id:string,
@@ -29,6 +29,8 @@ export default function Table({data}:EventDetailsListProps){
     const [event,setEvent] = useState<IEventDetails>();
     const [showdeleteprompt,setShowDeletePrompt] = useState(false);
     const imgelement = useRef<HTMLImageElement>(null);
+    const router = useRouter();
+    
     function closeModal(){
         // imgelement.current!.src = "";
         setModalOpen(false);
@@ -41,7 +43,7 @@ export default function Table({data}:EventDetailsListProps){
         try{
             const response = await fetch(`/api/delete/?id=${event?.Id}`,{method:"DELETE"});
             const message = await response.json();
-            redirect("/dashboard")
+            router.push("/dashboard");
         }catch(error){
             console.log(error);
         }finally{
