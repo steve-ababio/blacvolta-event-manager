@@ -22,7 +22,7 @@ export default function RootLayout({
       <head>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXf9sQhYbbVARXX_XsGXH6cznRTTL80-k&libraries=places&callback=initMap" async></script>
       </head>
-      <body className={`${inter.className} bg-white min-h-screen`}>
+      <body className={`${inter.className} bg-white`}>
         <Sessionprovider>
           {children}
         </Sessionprovider>

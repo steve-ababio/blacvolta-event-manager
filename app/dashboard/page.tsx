@@ -10,11 +10,12 @@ export default async function Dashboard(){
     if(!session){
         redirect("/")
     }
-    
     return(
         <>
             <main className="h-full text-slate-600">
-                <Suspense fallback={<div>loading</div>}>
+                <Suspense fallback={
+                    <div className="h-full w-full flex justify-center items-center">loading</div>
+                }>
                     <EventList />
                 </Suspense>
             </main>

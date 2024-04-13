@@ -46,7 +46,6 @@ export async function PUT(req:Request,res:NextResponse){
             }
         });
     }catch(error){
-        console.log("Image upload failed", error);
         return NextResponse.json({ message: "Image upload failed", status: 500 });
     }
     return NextResponse.json({message:"Event editted successfully"});
