@@ -75,7 +75,7 @@ export default function EventForm(){
         <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
             <div>
                 <label className="block">Event Image: </label>
-                <input className="mb-2" onChange={obtainImageFile} type="file" required aria-required="true" accept="image/*" required />
+                <input className="mb-2" onChange={obtainImageFile} type="file"  aria-required="true" accept="image/*" required />
                 {fileemptyerror != "" && <Error message={fileemptyerror!} errortype = "danger" />}
             </div>
             <FormControl 
