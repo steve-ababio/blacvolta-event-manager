@@ -120,10 +120,10 @@ export default function Table({data}:EventDetailsListProps){
                                         strokeColor="white" 
                                         strokeWidth="4"
                                         animationDuration="0.8"
-                                        width="25"
+                                        width="20"
                                         visible={true} 
                                     />
-                                    <span> deleting</span>
+                                    <span className="text-[14px]"> deleting</span>
                                 </>
                                 :<span className="text-[14px]">delete event</span>
                             }
