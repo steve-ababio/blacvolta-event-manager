@@ -14,7 +14,11 @@ export interface IEventForm{
     eventdescription:string,
     sociallinks:string
 }
-
+const options = {
+    componentRestrictions: { country: "gh" },
+    fields: ["address_components", "geometry", "icon", "name"],
+    types: ["establishment"]
+};
 export default function EventForm(){
     const file = useRef<File>();
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
@@ -38,11 +42,6 @@ export default function EventForm(){
             sociallinks:""
         }
     });
-    const options = {
-        componentRestrictions: { country: "gh" },
-        fields: ["address_components", "geometry", "icon", "name"],
-        types: ["establishment"]
-    };
     useEffect(function(){
         autocompleteref.current = new window.google.maps.places.Autocomplete(inputref.current!,options);
         autocompleteref.current.addListener("place_changed",getPlace);
@@ -53,13 +52,10 @@ export default function EventForm(){
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
         const fileinfo = file.current;
-        console.log("fileinfo: ", fileinfo)
         if(!fileinfo){
-            console.log("error fileinfo");
             setFileEmptyError("Event flyer image is required");
         }
         else if(inputref.current!.value === ""){
-            console.log("error event venue");
             setVenueEmptyError("Event venue is required");
         }
         else {

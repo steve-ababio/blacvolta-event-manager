@@ -36,8 +36,7 @@ export default function Login(){;
                 router.push("/dashboard");
             }else{
                 console.log("loggin")
-                setErrorMessage("Invalid credentials");
-                console.log("invalid credentials")
+                setErrorMessage("Incorrect username or password");
             }
         }catch(err){
             console.log(err)
@@ -48,7 +47,7 @@ export default function Login(){;
             <header className="my-10"><h1 className="text-[1.5rem] text-slate-600">Login</h1></header>
             <div className="flex-[7] flex max-w-[25rem] w-full">
                 <div className="px-[60px] w-full h-fit py-3 flex flex-col justify-center rounded-[10px] border border-slate-300/50">
-                    <Error message={errormessage} errortype="danger"/>
+                    {errormessage != "" && <Error message={errormessage} errortype="danger"/>}
                     <form onSubmit={handleSubmit(login)} className="
                          text-slate-500 w-full gap-y-6 flex h-full
                         flex-col justify-center items-center pt-5 pb-10"
