@@ -134,12 +134,12 @@ export default function EventForm(){
                                     strokeColor="white" 
                                     strokeWidth="4"
                                     animationDuration="0.8"
-                                    width="25"
+                                    width="20"
                                     visible={true} 
                             />
-                            <span>Adding event</span> 
+                            <span className="text-[14px]">Adding event</span> 
                         </>
-                        :"Add Event"
+                        :<span className="text-[14px]">Add Event</span>
                     }
             </button>
     </form>

@@ -14,7 +14,7 @@ export default function Header(){
                 <div className="gap-x-4 hidden md:flex">
                     <Link className="navlink" href="/dashboard"
                     >
-                        Event List</Link>
+                        Events</Link>
                     <Link className="navlink" href="/event">Add Event</Link>
                     <button className="navlink" onClick={signout}>Logout</button>
                 </div>
