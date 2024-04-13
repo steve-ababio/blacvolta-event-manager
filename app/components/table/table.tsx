@@ -1,8 +1,9 @@
 "use client"
+import React from "react";
+import { RotatingLines } from "react-loader-spinner";
+import { useRef, useState } from "react";
 import TableRow from "@/app/components/tablerow/tablerow";
 import Modal from "../modal/modal";
-import { useRef, useState } from "react";
-import React from "react";
 
 export interface IEventDetails {
     Id:string,
@@ -22,7 +23,6 @@ interface EventDetailsListProps{
 }
 
 export default function Table({data}:EventDetailsListProps){
-
     const [modalopen,setModalOpen] = useState(false);
     const [loading,setLoading] = useState(false);
     const [event,setEvent] = useState<IEventDetails>();
@@ -49,10 +49,14 @@ export default function Table({data}:EventDetailsListProps){
         }
     }   
     return(
-        <>
+        <div className="w-[90%] mx-auto max-w-[70rem]">
+            <div className="mb-[6px]">
+                <input role="searchbox" className="border border-zinc-400 pl-3 outline-none focus:ring-1 focus:ring-blue-500 py-[6px] rounded-[20px]" placeholder="search" />
+            </div>
             <table className="w-full">
                 <thead className="bg-blue-200/20">
-                    <tr className="text-left">
+                    <tr className="text-left text-slate-600">
+                        <th className="p-[0.75rem]"></th>
                         <th className="p-[0.75rem]">Event Date</th>
                         <th className="p-[0.75rem]">Event Time</th>
                         <th className="p-[0.75rem]">Venue</th>
@@ -108,10 +112,21 @@ export default function Table({data}:EventDetailsListProps){
                     </div>
                     <div className="p-4 flex justify-end gap-1">
                         <button onClick={closeDeletePrompt} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#6C757D]">cancel</button>
-                        <button onClick={deleteEvent} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#DC3545]">{loading? <span>Deleting...</span>:<span>delete</span>}</button>
+                        <button onClick={deleteEvent} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#DC3545]">{loading? 
+                            <>
+                                <RotatingLines 
+                                    strokeColor="white" 
+                                    strokeWidth="4"
+                                    animationDuration="0.8"
+                                    width="25"
+                                    visible={true} />
+                                    <span> Deleting</span>
+                            </>
+                            :"Delete Event"}
+                        </button>
                     </div>
                 </div>
             </Modal>
-        </>
+        </div>
     )
 }

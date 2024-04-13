@@ -8,7 +8,7 @@ export default function Layout({
     return (
         <>
         <Header />
-        <main className=" bg-white min-h-screen w-full">
+        <main className=" bg-white  w-full">
             {children}  
         </main>
         </>

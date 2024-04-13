@@ -23,7 +23,7 @@ export default function EventForm(){
     const{
         register,
         handleSubmit,
-        formState:{errors,isSubmitting,isLoading}
+        formState:{isSubmitting}
     } = useForm({
         defaultValues:{
             eventname:"",
@@ -35,7 +35,6 @@ export default function EventForm(){
             sociallinks:""
         }
     });
-    // const { ref, ...rest } = register("venue");
     const options = {
         componentRestrictions: { country: "gh" },
         fields: ["address_components", "geometry", "icon", "name"],

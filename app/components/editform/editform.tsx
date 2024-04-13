@@ -126,7 +126,7 @@ export default function EditEventForm(props:IEventDetails){
                             animationDuration="0.8"
                             width="25"
                             visible={true} />
-                            <span>saving event</span>
+                            <span>  saving event</span>
                     </>
                     :"Save Event"
                 }

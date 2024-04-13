@@ -26,7 +26,7 @@ export async function POST(req:Request){
 
         await prisma.event.create({
             data:{
-                FlyerImagePath:`/uploads/${filename}`,
+                FlyerImagePath:filename,
                 Description,
                 EventDate,
                 EventName,

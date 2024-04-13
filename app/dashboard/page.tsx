@@ -13,8 +13,7 @@ export default async function Dashboard(){
     
     return(
         <>
-            <main className="h-full text-slate-600 sm:max-w-[540px] md:max-w-[720px] lg:max-w-[1140px] mx-auto">
-                <h2 className="text-[20px]">Event List</h2>
+            <main className="h-full text-slate-600">
                 <Suspense fallback={<div>loading</div>}>
                     <EventList />
                 </Suspense>
