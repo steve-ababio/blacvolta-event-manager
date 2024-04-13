@@ -38,12 +38,12 @@ export default function EditEventForm(props:IEventDetails){
         autocompleteref.current = new window.google.maps.places.Autocomplete(inputref.current!,options);
         autocompleteref.current.addListener("place_changed",getPlace);
     },[]);
+    
     async function getPlace(){
         const place = await autocompleteref.current!.getPlace();
         venue.current = `${place.name}`
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
-
         const fileinfo = file.current;
         const formdata = new FormData(formelement.current!);
         formdata.append("venue",venue.current);
@@ -55,7 +55,6 @@ export default function EditEventForm(props:IEventDetails){
         formdata.append("Id",Id);
         const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
         const message = await response.json();
-        console.log(message);
         
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){

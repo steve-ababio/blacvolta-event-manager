@@ -18,12 +18,9 @@ export async function POST(req:Request){
     const filename = image.name.replaceAll(" ","_");
     try{
         const buffer = Buffer.from(await image.arrayBuffer())
-        // const imagepath = path.join(process.cwd(),`/public/uploads/${filename}`);
-        // await writeFile(imagepath,buffer);
         const blob = await put(filename,buffer, {
             access: 'public',
         });
-
         await prisma.event.create({
             data:{
                 FlyerImagePath:blob.url,

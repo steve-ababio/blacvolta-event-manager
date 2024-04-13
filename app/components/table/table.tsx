@@ -112,7 +112,7 @@ export default function Table({data}:EventDetailsListProps){
                     </div>
                     <div className="p-4 flex justify-end gap-1">
                         <button onClick={closeDeletePrompt} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#6C757D]">cancel</button>
-                        <button onClick={deleteEvent} className="px-[0.75rem] py-[0.375rem] flex justify-center items-center text-white rounded-[4px] bg-[#DC3545]">
+                        <button onClick={deleteEvent} className="px-[0.75rem] text[14px] py-[0.375rem] flex justify-center items-center text-white rounded-[4px] bg-[#DC3545]">
                             {
                                 loading? 
                                 <>
@@ -123,9 +123,9 @@ export default function Table({data}:EventDetailsListProps){
                                         width="25"
                                         visible={true} 
                                     />
-                                    <span> Deleting</span>
+                                    <span> deleting</span>
                                 </>
-                                :"Delete Event"
+                                :<span className="text-[14px]">delete event</span>
                             }
                         </button>
                     </div>

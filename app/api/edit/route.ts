@@ -17,20 +17,24 @@ export async function PUT(req:Request,res:NextResponse){
     const image = data.get("flyerimagepath") as File|string;
 
     try{
-        let filename = image;
+        let imageurl = "";
+        if(typeof image === "string"){
+            imageurl = image;
+        }
         if(image instanceof File){
             const buffer = Buffer.from(await image.arrayBuffer())
-            filename = image.name.replaceAll(" ","_");
+            const filename = image.name.replaceAll(" ","_");
             const blob = await put(filename,buffer, {
                 access: 'public',
             });
+            imageurl = blob.url;
         }
         await prisma.event.update({
             where:{
                 Id
             },
             data:{
-                FlyerImagePath:`${filename}`,
+                FlyerImagePath:imageurl,
                 Description,
                 EventDate,
                 EventName,
