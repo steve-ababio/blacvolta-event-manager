@@ -5,7 +5,6 @@ import { NextResponse} from "next/server";
 export async function PUT(req:Request,res:NextResponse){
 
     const data = await req.formData();
-    console.log(data);
     const Id = data.get('Id') as string;
     const Description = data.get("eventdescription") as string;
     const EventDate = data.get("eventdate") as string;
@@ -22,7 +21,6 @@ export async function PUT(req:Request,res:NextResponse){
         if(image instanceof File){
             const buffer = Buffer.from(await image.arrayBuffer())
             filename = image.name.replaceAll(" ","_");
-            // 
             const blob = await put(filename,buffer, {
                 access: 'public',
             });

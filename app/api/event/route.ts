@@ -26,7 +26,7 @@ export async function POST(req:Request){
 
         await prisma.event.create({
             data:{
-                FlyerImagePath:filename,
+                FlyerImagePath:blob.url,
                 Description,
                 EventDate,
                 EventName,
@@ -40,5 +40,5 @@ export async function POST(req:Request){
     }catch(error){
         return NextResponse.json({ message: "Image upload failed", status: 500 });
     }
-    return NextResponse.json({ message: "Event added successfully", status: 500 });
+    return NextResponse.json({ message: "Event added successfully", });
 }

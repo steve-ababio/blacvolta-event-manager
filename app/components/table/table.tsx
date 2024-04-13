@@ -112,17 +112,21 @@ export default function Table({data}:EventDetailsListProps){
                     </div>
                     <div className="p-4 flex justify-end gap-1">
                         <button onClick={closeDeletePrompt} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#6C757D]">cancel</button>
-                        <button onClick={deleteEvent} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#DC3545]">{loading? 
-                            <>
-                                <RotatingLines 
-                                    strokeColor="white" 
-                                    strokeWidth="4"
-                                    animationDuration="0.8"
-                                    width="25"
-                                    visible={true} />
+                        <button onClick={deleteEvent} className="px-[0.75rem] py-[0.375rem] flex justify-center items-center text-white rounded-[4px] bg-[#DC3545]">
+                            {
+                                loading? 
+                                <>
+                                    <RotatingLines 
+                                        strokeColor="white" 
+                                        strokeWidth="4"
+                                        animationDuration="0.8"
+                                        width="25"
+                                        visible={true} 
+                                    />
                                     <span> Deleting</span>
-                            </>
-                            :"Delete Event"}
+                                </>
+                                :"Delete Event"
+                            }
                         </button>
                     </div>
                 </div>
