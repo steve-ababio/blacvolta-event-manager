@@ -2,7 +2,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import FormControl from "../../components/formcontrol/formcontrol";
 import { RotatingLines } from "react-loader-spinner";
-import { useEffect, useRef} from "react";
+import { useEffect, useRef, useState} from "react";
+import Error from "../error/error";
 
 export interface IEventForm{
     eventname:string,
@@ -20,10 +21,12 @@ export default function EventForm(){
     const inputref = useRef<HTMLInputElement>(null);
     const venue = useRef<string>("");
     const formelement = useRef<HTMLFormElement>(null);
+    const [fileemptyerror,setFileEmptyError] = useState("");
+    const [venueemptyerror,setVenueEmptyError] = useState("");
     const{
         register,
         handleSubmit,
-        formState:{isSubmitting}
+        formState:{isSubmitting,errors},
     } = useForm({
         defaultValues:{
             eventname:"",
@@ -50,12 +53,22 @@ export default function EventForm(){
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
         const fileinfo = file.current;
-        const formdata = new FormData(formelement.current!);
-        formdata.append("venue",venue.current);
-        formdata.append("flyerimagepath",fileinfo!);
-        const response = await fetch("/api/event",{method: "POST",body:formdata});
-        const message = await response.json();
-        console.log(message);
+        console.log("fileinfo: ", fileinfo)
+        if(!fileinfo){
+            console.log("error fileinfo");
+            setFileEmptyError("Event flyer image is required");
+        }
+        else if(inputref.current!.value === ""){
+            console.log("error event venue");
+            setVenueEmptyError("Event venue is required");
+        }
+        else {
+            const formdata = new FormData(formelement.current!);
+            formdata.append("venue",venue.current);
+            formdata.append("flyerimagepath",fileinfo!);
+            const response = await fetch("/api/event",{method: "POST",body:formdata});
+            const message = await response.json();
+        }
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
        if(e.target.files && e.target.files.length){
@@ -66,29 +79,34 @@ export default function EventForm(){
         <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
             <div>
                 <label className="block">Event Image: </label>
-                <input onChange={obtainImageFile} type="file" aria-required="true" accept="image/*" required />
+                <input className="mb-2" onChange={obtainImageFile} type="file" required aria-required="true" accept="image/*" required />
+                {fileemptyerror != "" && <Error message={fileemptyerror!} errortype = "danger" />}
             </div>
             <FormControl 
                 register={register}
                 validationrules={{required:"Event Name is required"}}
                 name="eventname"
                 aria-required="true" type="text" label="Event Name"
+                errormessage={errors.eventname?.message}
             />
             <FormControl 
                 register={register}
                 validationrules={{required:"Event Date is required"}}
                 name="eventdate"
                 aria-required="true" type="date" label="Event Date" 
+                errormessage={errors.eventdate?.message}
             />
             <FormControl 
                 register={register}
                 validationrules={{required:"Event time is required"}}
                 name="eventtime"  
                 aria-required="true" type="time" label="Event Time"
+                errormessage={errors.eventtime?.message}
             />
             <div>
-                <label className="text-slate-500">venue</label>
-                <input aria-required="true" ref={inputref} className="form-control" />
+                <label className="text-slate-500">Venue</label>
+                <input required aria-required="true" ref={inputref} className="form-control mb-2" />
+                {venueemptyerror != "" && <Error message={venueemptyerror!} errortype = "danger" />}
             </div>
             <FormControl 
                 register={register}
