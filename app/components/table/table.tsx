@@ -38,7 +38,7 @@ export default function Table({data}:EventDetailsListProps){
     async function deleteEvent(){
         setLoading(true);
         try{
-            const response = await fetch(`/api/delete/?id=${event?.Id}`,{method:"DELETE"});
+            const response = await fetch(`/api/delete/?id=${event?.Id}&imageurl=${event?.FlyerImagePath}`,{method:"DELETE"});
             const message = await response.json();
             window.location.reload();
         }catch(error){
