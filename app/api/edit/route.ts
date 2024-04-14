@@ -1,5 +1,5 @@
 import { prisma } from "@/app/lib/prisma";
-import { put } from "@vercel/blob";
+import { uploadImage } from "@/app/utils/util";
 import { NextResponse} from "next/server";
 
 export async function PUT(req:Request,res:NextResponse){
@@ -22,12 +22,7 @@ export async function PUT(req:Request,res:NextResponse){
             imageurl = image;
         }
         if(image instanceof File){
-            const buffer = Buffer.from(await image.arrayBuffer())
-            const filename = image.name.replaceAll(" ","_");
-            const blob = await put(filename,buffer, {
-                access: 'public',
-            });
-            imageurl = blob.url;
+            imageurl = await uploadImage(image);
         }
         await prisma.event.update({
             where:{

@@ -1,9 +1,8 @@
 import { prisma } from "@/app/lib/prisma";
-import { put } from "@vercel/blob";
+import { uploadImage } from "@/app/utils/util";
 import { NextResponse } from "next/server";
 
-export async function POST(req:Request){
-    
+export async function POST(req:Request){y
     const data = await req.formData();
     const Description = data.get("eventdescription") as string;
     const EventDate = data.get("eventdate") as string;
@@ -14,16 +13,11 @@ export async function POST(req:Request){
     const SocialLinks = data.get("sociallinks") as string;
     const InquiryNumber = data.get("inquirynumber") as string;
     const image = data.get("flyerimagepath") as File;
-
-    const filename = image.name.replaceAll(" ","_");
     try{
-        const buffer = Buffer.from(await image.arrayBuffer())
-        const blob = await put(filename,buffer, {
-            access: 'public',
-        });
+        const imageurl = await uploadImage(image);
         await prisma.event.create({
             data:{
-                FlyerImagePath:blob.url,
+                FlyerImagePath:imageurl,
                 Description,
                 EventDate,
                 EventName,
