@@ -18,7 +18,7 @@ export default function DeleteEvent({loading,deleteEvent,closeDeletePrompt}:Dele
         <div className="p-4 flex justify-end gap-1">
             <button onClick={closeDeletePrompt} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#6C757D]">cancel</button>
             <button onClick={deleteEvent} className="px-[0.75rem] text[14px] py-[0.375rem] flex justify-center items-center text-white rounded-[4px] bg-[#DC3545]">
-                {Property 'div' does not exist on type 'JSX.IntrinsicElements
+                {
                     loading? 
                     <>
                         <RotatingLines 
