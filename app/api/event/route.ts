@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import path from "path";
 
 export async function POST(req:Request){
+    
     const data = await req.formData();
     const Description = data.get("eventdescription") as string;
     const EventDate = data.get("eventdate") as string;
@@ -14,6 +15,8 @@ export async function POST(req:Request){
     const TicketLinks = data.get("ticketlinks") as string;
     const SocialLinks = data.get("sociallinks") as string;
     const InquiryNumber = data.get("inquirynumber") as string;
+    const IsEventWeekly = data.get("iseventweekly")
+
     const image = data.get("flyerimagepath") as File;
 
     try{

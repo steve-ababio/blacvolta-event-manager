@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 
 export default function Header(){
     function signout(){
-        signOut({callbackUrl:"http://bv-events-manager.vercel.app/"});
+        signOut({callbackUrl:"/",redirect:true});
     }
     return(
         <header className="flex px-[1rem] py-[0.5rem] shadow-md items-center gap-x-2 mb-[3rem] justify-between bg-white text-slate-600">

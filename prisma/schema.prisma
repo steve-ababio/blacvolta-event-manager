@@ -25,4 +25,5 @@ model Event{
   Description String
   InquiryNumber String
   FlyerImagePath String
+  IsEventWeekly Boolean
 }

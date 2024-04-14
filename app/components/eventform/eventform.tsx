@@ -24,6 +24,7 @@ export default function EventForm(){
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement>(null);
     const venue = useRef<string>("");
+    const checkbox = useRef<HTMLInputElement>(null);
     const formelement = useRef<HTMLFormElement>(null);
     const [fileemptyerror,setFileEmptyError] = useState("");
     const [venueemptyerror,setVenueEmptyError] = useState("");
@@ -74,8 +75,8 @@ export default function EventForm(){
     return(
         <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
             <div>
-                <label className="block">Event Image: </label>
-                <input className="mb-2" onChange={obtainImageFile} type="file"  aria-required="true" accept="image/*" required />
+                <label htmlFor="image" className="block">Event Image: </label>
+                <input id="image" className="mb-2" onChange={obtainImageFile} type="file"  aria-required="true" accept="image/*" required />
                 {fileemptyerror != "" && <Error message={fileemptyerror!} errortype = "danger" />}
             </div>
             <FormControl 
@@ -85,6 +86,10 @@ export default function EventForm(){
                 aria-required="true" type="text" label="Event Name"
                 errormessage={errors.eventname?.message}
             />
+            <div>
+                <label htmlFor="isweekly">Does event recur weekly ?</label>
+                <input ref={checkbox} id="isweekly" type="checkbox" name="isweekly" />
+            </div>
             <FormControl 
                 register={register}
                 validationrules={{required:"Event Date is required"}}
