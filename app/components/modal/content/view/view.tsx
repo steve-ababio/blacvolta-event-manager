@@ -31,4 +31,5 @@ const ViewEventDetails = React.forwardRef<HTMLImageElement,ViewEventDetailsProps
     )
 })
 
+ViewEventDetails.displayName = "ViewEventDetails";
 export default ViewEventDetails;

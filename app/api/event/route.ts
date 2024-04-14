@@ -13,6 +13,7 @@ export async function POST(req:Request){y
     const SocialLinks = data.get("sociallinks") as string;
     const InquiryNumber = data.get("inquirynumber") as string;
     const image = data.get("flyerimagepath") as File;
+    
     try{
         const imageurl = await uploadImage(image);
         await prisma.event.create({
