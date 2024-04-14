@@ -34,4 +34,10 @@
      text-slate-600 duration-300 px-4 focus:ring-blue-400 
      rounded-[5px] w-full py-2
   }
+  .flex-col-center{
+    @apply flex flex-col justify-center items-center
+  }
+  .flex-row-center{
+    @apply flex justify-center items-center
+  }
 }

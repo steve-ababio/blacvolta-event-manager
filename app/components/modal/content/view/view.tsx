@@ -1,5 +1,11 @@
 import { IEventDetails } from "@/app/components/table/table";
 import React from "react";
+import { BsCalendarDate, BsFillCalendar2DateFill, BsSmartwatch } from "react-icons/bs";
+import { IoShareSocialOutline } from "react-icons/io5";
+import { LiaPhoneSolid } from "react-icons/lia";
+import { MdOutlineDescription } from "react-icons/md";
+import { SlLocationPin } from "react-icons/sl";
+import { TbExternalLink } from "react-icons/tb";
 
 type ViewEventDetailsProps = {
     modalopen:boolean
@@ -12,16 +18,37 @@ const ViewEventDetails = React.forwardRef<HTMLImageElement,ViewEventDetailsProps
             <div className="relative w-full h-[18rem]">
                 <img ref={ref} className="rounded-[10px] h-full w-full absolute object-cover top-0 left-0" src={event?.FlyerImagePath} alt="event flyer image" />
             </div>
-            <div >
-                <h2 className="font-bold py-5 text-[18px] text-center border-b border-b-slate-500/50">{event?.EventName}</h2>
-                <div>
-                    <div className="py-[6px]"><span className="font-bold">Date: </span>{event?.EventDate}</div>
-                    <div className="py-[6px]"><span className="font-bold">Time: </span>{event?.EventTime}</div>
-                    <div className="py-[6px]"><span className="font-bold">Venue: </span>{event?.Venue}</div>
-                    <div className="py-[6px]"><span className="font-bold">Description: </span>{event?.Description}</div>
-                    <div className="py-[6px]"><span className="font-bold">Ticket Links: </span>{event?.TicketLinks}</div>
-                    <div className="py-[6px]"><span className="font-bold">Inquiry Number: </span>{event?.InquiryNumber}</div>
-                    <div className="py-[6px]"><span className="font-bold">Social Links: </span>{event?.SocialLinks}</div>
+            <div>
+                <h2 className="font-bold pt-3 pb-2 text-[18px] text-center border-b border-b-slate-500/50">{event?.EventName}</h2>
+                <div className="text-slate-500">
+                    <div className="py-[6px]">
+                        <span className="font-bold">Event date: </span>
+                        <span>{event?.EventDate}</span>
+                    </div>
+                    <div className="py-[6px]">
+                        <span className="font-bold">Event time: </span>
+                        <span>{event?.EventTime}</span>
+                    </div>
+                    <div className="py-[6px]">
+                        <span className="font-bold">Venue: </span>
+                        <span>{event?.Venue}</span>
+                    </div>
+                    <div className="py-[6px]">
+                        <span className="font-bold">Description: </span>
+                        <span>{event?.Description}</span>
+                    </div>
+                    <div className="py-[6px]">
+                        <span className="font-bold">Ticket link: </span>
+                        <span>{event?.TicketLinks}</span>
+                    </div>
+                    <div className="py-[6px]">
+                        <span className="font-bold">Inquiry number: </span>
+                        <span>{event?.InquiryNumber}</span>
+                    </div>
+                    <div className="py-[6px]">
+                        <span className="font-bold">Social link: </span>
+                        <span>{event?.SocialLinks}</span>
+                    </div>
                 </div>
             </div>
             <div className="w-full flex justify-end mb-5">

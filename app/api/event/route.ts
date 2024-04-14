@@ -1,6 +1,8 @@
 import { prisma } from "@/app/lib/prisma";
 import { uploadImage } from "@/app/utils/util";
+import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
+import path from "path";
 
 export async function POST(req:Request){
     const data = await req.formData();
@@ -15,10 +17,16 @@ export async function POST(req:Request){
     const image = data.get("flyerimagepath") as File;
 
     try{
-        const imageurl = await uploadImage(image);
+        // const imageurl = await uploadImage(image);
+
+        const buffer = Buffer.from(await image.arrayBuffer())
+        const filename = image.name.replaceAll(" ","_");
+        const imagepath = path.join(process.cwd(),`/public/uploads/${filename}`);
+        await writeFile(imagepath,buffer);
+
         await prisma.event.create({
             data:{
-                FlyerImagePath:imageurl,
+                FlyerImagePath:`uploads/${filename}`,
                 Description,
                 EventDate,
                 EventName,
@@ -30,6 +38,7 @@ export async function POST(req:Request){
             }
         });
     }catch(error){
+        console.log(error);
         return NextResponse.json({ message: "Image upload failed", status: 500 });
     }
     return NextResponse.json({ message: "Event added successfully", });
