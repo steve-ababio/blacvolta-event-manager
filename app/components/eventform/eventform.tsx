@@ -128,18 +128,19 @@ export default function EventForm(){
             <button 
                 className="bg-blue-500 flex justify-center items-center text-white w-fit px-5 py-2 rounded-md mb-4" 
                 onClick={handleSubmit(submitFormData)}>
-                    {isSubmitting ? 
-                        <>
-                            <RotatingLines 
+                    {
+                        isSubmitting ? 
+                            <>
+                                <RotatingLines 
                                     strokeColor="white" 
                                     strokeWidth="4"
                                     animationDuration="0.8"
                                     width="20"
                                     visible={true} 
-                            />
-                            <span className="text-[14px]">Adding event</span> 
-                        </>
-                        :<span className="text-[14px]">Add Event</span>
+                                />
+                                <span className="text-[14px]">Adding event</span> 
+                            </>
+                            :<span className="text-[14px]">Add Event</span>
                     }
             </button>
     </form>

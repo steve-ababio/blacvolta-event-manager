@@ -1,9 +1,10 @@
 "use client"
 import React from "react";
-import { RotatingLines } from "react-loader-spinner";
 import { useRef, useState } from "react";
 import TableRow from "@/app/components/tablerow/tablerow";
 import Modal from "../modal/modal";
+import DeleteEvent from "../modal/content/delete/deletedialog";
+import ViewEventDetails from "../modal/content/view/view";
 
 export interface IEventDetails {
     Id:string,
@@ -80,56 +81,19 @@ export default function Table({data}:EventDetailsListProps){
                 </tbody>
             </table>
             <Modal open={modalopen} onclose={closeModal}>
-                <div className={`w-[28rem] px-8 pt-8 bg-white overflow-y-auto relative z-50 duration-[350ms] ${modalopen ? 'scale-100':'scale-0'}`}>
-                    <div className="relative w-full h-[18rem]">
-                        <img ref={imgelement} className="rounded-[10px] h-full w-full absolute object-cover top-0 left-0" src={event?.FlyerImagePath} alt="event flyer image" />
-                    </div>
-                    <div >
-                        <h2 className="font-bold py-5 text-[18px] text-center border-b border-b-slate-500/50">{event?.EventName}</h2>
-                        <div>
-                            <div className="py-[6px]"><span className="font-bold">Date: </span>{event?.EventDate}</div>
-                            <div className="py-[6px]"><span className="font-bold">Time: </span>{event?.EventTime}</div>
-                            <div className="py-[6px]"><span className="font-bold">Venue: </span>{event?.Venue}</div>
-                            <div className="py-[6px]"><span className="font-bold">Description: </span>{event?.Description}</div>
-                            <div className="py-[6px]"><span className="font-bold">Ticket Links: </span>{event?.TicketLinks}</div>
-                            <div className="py-[6px]"><span className="font-bold">Inquiry Number: </span>{event?.InquiryNumber}</div>
-                            <div className="py-[6px]"><span className="font-bold">Social Links: </span>{event?.SocialLinks}</div>
-                        </div>
-                    </div>
-                    <div className="w-full flex justify-end mb-5">
-                        <button className="bg-slate-600 text-white px-6 py-2 rounded-[4px]" onClick={closeModal}>close</button>
-                    </div>
-                </div>
+                <ViewEventDetails 
+                    closeModal={closeModal}
+                    event={event!} 
+                    ref={imgelement} 
+                    modalopen={modalopen} 
+                />
             </Modal>
             <Modal open={showdeleteprompt} onclose={closeDeletePrompt}>
-                <div className="rounded-[5px] blur-0 z-40 bg-white shadow-md">
-                    <div className="flex justify-between p-4 text-slate-600 w-p[90%] max-w-[500px] items-center border-b border-b-slate-300/30">
-                        <h2 className="text-[20px]">Confirm Deletion</h2>
-                        <button onClick={closeDeletePrompt}>close</button>
-                    </div>
-                    <div className="p-4 border-b border-b-slate-300/30">
-                        <p>Are you sure you want to delete this record? </p>
-                    </div>
-                    <div className="p-4 flex justify-end gap-1">
-                        <button onClick={closeDeletePrompt} className="px-[0.75rem] py-[0.375rem] text-white rounded-[4px] bg-[#6C757D]">cancel</button>
-                        <button onClick={deleteEvent} className="px-[0.75rem] text[14px] py-[0.375rem] flex justify-center items-center text-white rounded-[4px] bg-[#DC3545]">
-                            {
-                                loading? 
-                                <>
-                                    <RotatingLines 
-                                        strokeColor="white" 
-                                        strokeWidth="4"
-                                        animationDuration="0.8"
-                                        width="20"
-                                        visible={true} 
-                                    />
-                                    <span className="text-[14px]"> deleting</span>
-                                </>
-                                :<span className="text-[14px]">delete event</span>
-                            }
-                        </button>
-                    </div>
-                </div>
+               <DeleteEvent 
+                    closeDeletePrompt={closeDeletePrompt} 
+                    deleteEvent={deleteEvent} 
+                    loading={loading}
+                />
             </Modal>
         </div>
     )

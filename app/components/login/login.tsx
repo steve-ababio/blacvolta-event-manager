@@ -65,7 +65,7 @@ export default function Login(){;
                                 w-full py-2 flex justify-center items-center 
                                 mt-3 focus-visible:ring-blue-400/70 outline-none
                                 focus-visible:ring-4 ring-offset-1 text-white
-                            bg-blue-500 duration-150 hover:bg-blue-600/80
+                                bg-blue-500 duration-150 hover:bg-blue-600/80
                                 rounded-[5px]">
                             {
                                 isSubmitting ?

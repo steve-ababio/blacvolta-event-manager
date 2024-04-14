@@ -7,6 +7,7 @@ type ModalProps = {
 }
 export default function Modal({open,onclose,children}:ModalProps){
     const overlay = useRef(null);
+    
     function closeModal(e:React.MouseEvent){
         const overlayelement = e.target;
         if(Object.is(overlayelement,overlay.current)){
