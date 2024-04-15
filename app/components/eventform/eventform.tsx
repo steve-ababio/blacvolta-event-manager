@@ -56,7 +56,6 @@ export default function EventForm(){
         venue.current = `${place.name}`
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
-        console.log(selectref.current?.value);
         const fileinfo = file.current;
         if(!fileinfo){
             setFileEmptyError("Event flyer image is required");
@@ -108,7 +107,7 @@ export default function EventForm(){
                 <label htmlFor="isweekly">Does event recur weekly?</label>
             </div>
             {
-                iseventweekly && <Select ref={selectref} selectedvalue={"0"}  />
+                iseventweekly && <Select ref={selectref} selectedvalue="0"  />
             }
             {
                 !iseventweekly && <FormControl 
