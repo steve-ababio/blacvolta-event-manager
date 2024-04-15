@@ -26,7 +26,7 @@ export default function MobileNav(){
                     >
                     Event List</Link>
                 <Link className="navlink" href="/event">Add Event</Link>
-                <button onClick={signout}>Logout</button>
+                <button className="navlink" onClick={signout}>Logout</button>
             </div>
         </div>
     )
