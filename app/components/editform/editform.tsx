@@ -58,9 +58,10 @@ export default function EditEventForm(props:IEventDetails){
         }else{
             formdata.append("flyerimagepath",FlyerImagePath);
         }
+        let selecteddayofweek = (selectref.current) ? selectref.current!.value : "";
         formdata.append("Id",Id);
         console.log(dayofweek.current);
-        formdata.append("dayofweek",selectref.current!.value);
+        formdata.append("dayofweek",selecteddayofweek);
         formdata.append("iseventweekly",JSON.stringify(iseventweekly));
         const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
         const {message} = await response.json();

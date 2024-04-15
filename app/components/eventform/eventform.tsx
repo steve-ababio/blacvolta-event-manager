@@ -63,7 +63,6 @@ export default function EventForm(){
         }else if(inputref.current!.value === ""){
             setVenueEmptyError("Event venue is required");
         }else {
-            console.log("selected day of week: ", selecteddayofweek);
             const formdata = new FormData(formelement.current!);
             formdata.append("venue",venue.current);
             formdata.append("flyerimagepath",fileinfo!);
