@@ -109,7 +109,7 @@ export default function EventForm(){
             </div>
             {
                 <>
-                    iseventweekly && <Select ref={selectref} selectvalue={"0"} selectDayofWeek={selectDayofWeek} />
+                    iseventweekly && <Select ref={selectref} selectedvalue={"0"}  />
                     {requirederror != "" && <Error message={venueemptyerror!} errortype = "danger" />}
                 </>
             }
