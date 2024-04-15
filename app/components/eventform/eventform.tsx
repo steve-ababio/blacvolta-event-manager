@@ -66,7 +66,7 @@ export default function EventForm(){
             const formdata = new FormData(formelement.current!);
             formdata.append("venue",venue.current);
             formdata.append("flyerimagepath",fileinfo!);
-            formdata.append("dayofweek",selectref.current!.value);
+            formdata.append("dayofweek",selectref.current!.value||"");
             formdata.append("iseventweekly",JSON.stringify(iseventweekly));
             const response = await fetch("/api/event",{method: "POST",body:formdata});
             const {message} = await response.json();
