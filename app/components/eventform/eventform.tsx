@@ -4,6 +4,7 @@ import FormControl from "../../components/formcontrol/formcontrol";
 import { RotatingLines } from "react-loader-spinner";
 import { useEffect, useRef, useState} from "react";
 import Error from "../error/error";
+import Select from "../select/select";
 
 export interface IEventForm{
     eventname:string,
@@ -26,8 +27,10 @@ export default function EventForm(){
     const venue = useRef<string>("");
     const checkbox = useRef<HTMLInputElement>(null);
     const formelement = useRef<HTMLFormElement>(null);
+    const dayofweek = useRef("");
     const [fileemptyerror,setFileEmptyError] = useState("");
     const [venueemptyerror,setVenueEmptyError] = useState("");
+    const [iseventweekly,setIsEventWeekly] = useState(false);
     const{
         register,
         handleSubmit,
@@ -63,6 +66,8 @@ export default function EventForm(){
             const formdata = new FormData(formelement.current!);
             formdata.append("venue",venue.current);
             formdata.append("flyerimagepath",fileinfo!);
+            formdata.append("dayofweek",dayofweek.current);
+            formdata.append("iseventweekly",JSON.stringify(iseventweekly));
             const response = await fetch("/api/event",{method: "POST",body:formdata});
             const message = await response.json();
         }
@@ -71,6 +76,14 @@ export default function EventForm(){
        if(e.target.files && e.target.files.length){
             file.current = e.target.files[0];
        }
+    }
+    function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){
+        console.log("checked: ",e.target.checked)
+        setIsEventWeekly(e.target.checked);
+    }
+    function selectDayofWeek(e:React.ChangeEvent<HTMLInputElement>){
+        dayofweek.current = e.target.value;
+        console.log("day of the week: ", dayofweek.current);
     }
     return(
         <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
@@ -86,17 +99,28 @@ export default function EventForm(){
                 aria-required="true" type="text" label="Event Name"
                 errormessage={errors.eventname?.message}
             />
-            <div>
-                <label htmlFor="isweekly">Does event recur weekly ?</label>
-                <input ref={checkbox} id="isweekly" type="checkbox" name="isweekly" />
+            <div className="flex items-center gap-x-4">
+                <input 
+                    ref={checkbox} id="isweekly" 
+                    onChange={checkEventIsWeekly}
+                    type="checkbox" name="isweekly" 
+                    className="h-5 w-5" 
+                />
+                <label htmlFor="isweekly">Does event recur weekly?</label>
             </div>
-            <FormControl 
-                register={register}
-                validationrules={{required:"Event Date is required"}}
-                name="eventdate"
-                aria-required="true" type="date" label="Event Date" 
-                errormessage={errors.eventdate?.message}
-            />
+            {
+                iseventweekly && <Select selectDayofWeek={selectDayofWeek} />
+            }
+            {
+                !iseventweekly && <FormControl 
+                    register={register}
+                    validationrules={{required:"Event Date is required"}}
+                    name="eventdate"
+                    aria-required="true" type="date" label="Event Date" 
+                    errormessage={errors.eventdate?.message}
+                    disabled ={iseventweekly}
+                />
+            }
             <FormControl 
                 register={register}
                 validationrules={{required:"Event time is required"}}
@@ -106,7 +130,11 @@ export default function EventForm(){
             />
             <div>
                 <label className="text-slate-500">Venue</label>
-                <input required aria-required="true" ref={inputref} className="form-control mb-2" />
+                <input 
+                    required aria-required="true" 
+                    ref={inputref}
+                    className="form-control mb-2" 
+                />
                 {venueemptyerror != "" && <Error message={venueemptyerror!} errortype = "danger" />}
             </div>
             <FormControl 

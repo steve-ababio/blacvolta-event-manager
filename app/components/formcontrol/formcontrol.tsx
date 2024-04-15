@@ -13,13 +13,19 @@ interface FormControlProps extends React.InputHTMLAttributes<HTMLInputElement> {
     validationrules?:RegisterOptions<IEventForm> | undefined,
 }
 
-const FormControl = ({register,name,label,defaultValue,type,onChange,className,errormessage="",validationrules}:FormControlProps)=> {
+const FormControl = ({register,name,label,defaultValue,type,onChange,className,disabled,errormessage="",validationrules}:FormControlProps)=> {
     const controlId = useId();
     return(
-        <div className="w-full">
-            <label htmlFor={controlId} className="text-slate-500">{label}</label>
-            <input {...register(name,validationrules)} defaultValue={defaultValue} onChange={onChange} className={twMerge(`border mb-2 border-slate-300/80 focus:ring-2 outline-none text-slate-600 duration-300 px-4 focus:ring-blue-400 rounded-[5px] w-full py-2`,className)} type={type} id={controlId}/>
-             {(errormessage != "" || errormessage !== undefined) && <Error message={errormessage!} errortype = "danger"  />}
+        <div className={`w-full ${disabled ? 'opacity-50': ''}`}>
+            <label htmlFor={controlId} className={`text-slate-500 ${disabled ? 'cursor-not-allowed': ''}`}>{label}</label>
+            <input 
+                {...register(name,validationrules)} 
+                disabled={disabled} defaultValue={defaultValue} 
+                onChange={onChange} 
+                className={twMerge(`border mb-2 disabled:cursor-not-allowed border-slate-300/80 focus:ring-2 outline-none text-slate-600 duration-300 px-4 focus:ring-blue-400 rounded-[5px] w-full py-2`,className)}
+                type={type} id={controlId}
+            />
+            {(errormessage != "" || errormessage !== undefined) && <Error message={errormessage!} errortype="danger"/>}
         </div>
     )
 }
