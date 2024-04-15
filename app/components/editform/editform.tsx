@@ -17,6 +17,7 @@ export default function EditEventForm(props:IEventDetails){
     const dayofweek = useRef("");
     const checkbox = useRef<HTMLInputElement>(null);
     const venue = useRef<string>(Venue);
+    const selectref = useRef<HTMLSelectElement>(null);
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
 
     console.log(iseventweekly)
@@ -59,7 +60,7 @@ export default function EditEventForm(props:IEventDetails){
         }
         formdata.append("Id",Id);
         console.log(dayofweek.current);
-        formdata.append("dayofweek",dayofweek.current);
+        formdata.append("dayofweek",selectref.current!.value);
         formdata.append("iseventweekly",JSON.stringify(iseventweekly));
         const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
         const {message} = await response.json();
@@ -67,9 +68,6 @@ export default function EditEventForm(props:IEventDetails){
             transition:Slide
         });
         
-    }
-    function selectDayofWeek(e:React.ChangeEvent<HTMLSelectElement>){
-        dayofweek.current = e.target.value || "";
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
         if(e.target.files && e.target.files.length){
@@ -103,7 +101,7 @@ export default function EditEventForm(props:IEventDetails){
                 <label htmlFor="isweekly">Does event recur weekly?</label>
             </div>
             {
-                iseventweekly && <Select selectvalue={DayofWeek} selectDayofWeek={selectDayofWeek}/>
+                iseventweekly && <Select selectedvalue={DayofWeek} ref={selectref}/>
             }
             {
                 !iseventweekly && <FormControl 
