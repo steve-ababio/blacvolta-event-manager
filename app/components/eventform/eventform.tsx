@@ -5,6 +5,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { useEffect, useRef, useState} from "react";
 import Error from "../error/error";
 import Select from "../select/select";
+import { toast,Slide } from "react-toastify";
 
 export interface IEventForm{
     eventname:string,
@@ -25,7 +26,6 @@ export default function EventForm(){
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement>(null);
     const venue = useRef<string>("");
-    const checkbox = useRef<HTMLInputElement>(null);
     const formelement = useRef<HTMLFormElement>(null);
     const dayofweek = useRef("");
     const [fileemptyerror,setFileEmptyError] = useState("");
@@ -69,7 +69,10 @@ export default function EventForm(){
             formdata.append("dayofweek",dayofweek.current);
             formdata.append("iseventweekly",JSON.stringify(iseventweekly));
             const response = await fetch("/api/event",{method: "POST",body:formdata});
-            const message = await response.json();
+            const {message} = await response.json();
+            toast.success(message,{
+                transition:Slide
+            });
         }
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
@@ -78,12 +81,10 @@ export default function EventForm(){
        }
     }
     function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){
-        console.log("checked: ",e.target.checked)
         setIsEventWeekly(e.target.checked);
     }
     function selectDayofWeek(e:React.ChangeEvent<HTMLSelectElement>){
         dayofweek.current = e.target.value;
-        console.log("day of the week: ", dayofweek.current);
     }
     return(
         <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
@@ -101,7 +102,7 @@ export default function EventForm(){
             />
             <div className="flex items-center gap-x-4">
                 <input 
-                    ref={checkbox} id="isweekly" 
+                    id="isweekly" 
                     onChange={checkEventIsWeekly}
                     type="checkbox" name="isweekly" 
                     className="h-5 w-5" 
@@ -109,7 +110,7 @@ export default function EventForm(){
                 <label htmlFor="isweekly">Does event recur weekly?</label>
             </div>
             {
-                iseventweekly && <Select selectDayofWeek={selectDayofWeek} />
+                iseventweekly && <Select selectvalue={"0"} selectDayofWeek={selectDayofWeek} />
             }
             {
                 !iseventweekly && <FormControl 
@@ -159,8 +160,14 @@ export default function EventForm(){
                 type="text" label="Social Link"
             />
             <button 
-                className="bg-blue-500 flex justify-center items-center text-white w-fit px-5 py-2 rounded-md mb-4" 
-                onClick={handleSubmit(submitFormData)}>
+                disabled={isSubmitting}
+                className={`
+                    bg-blue-500 flex justify-center 
+                    items-center text-white w-fit px-5 
+                    py-2 rounded-md mb-4 
+                    ${isSubmitting?'opacity-50 cursor-not-allowed':''}
+                    `}
+                    onClick={handleSubmit(submitFormData)}>
                     {
                         isSubmitting ? 
                             <>

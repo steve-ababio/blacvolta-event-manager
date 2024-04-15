@@ -1,23 +1,29 @@
 "use client"
 import { useForm,SubmitHandler} from "react-hook-form";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import FormControl from "../formcontrol/formcontrol";
 import { IEventDetails } from "../table/table";
 import { IEventForm } from "../eventform/eventform";
+import { toast } from "react-toastify";
+import Select from "../select/select";
 
 export default function EditEventForm(props:IEventDetails){
-    const {Id,EventName,EventDate,FlyerImagePath,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = props;
+    const {Id,EventName,EventDate,FlyerImagePath,IsEventWeekly,DayofWeek,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = props;
     const file = useRef<File>();
     const formelement = useRef<HTMLFormElement>(null);
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement>(null);
+    const dayofweek = useRef("");
+    const checkbox = useRef<HTMLInputElement>(null);
     const venue = useRef<string>(Venue);
-    
+    const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
+
+    console.log(iseventweekly)
     const{
         register,
         handleSubmit,
-        formState:{errors,isSubmitting,isLoading}
+        formState:{isSubmitting}
     } = useForm({
         defaultValues:{
             eventname:EventName,
@@ -38,7 +44,6 @@ export default function EditEventForm(props:IEventDetails){
         autocompleteref.current = new window.google.maps.places.Autocomplete(inputref.current!,options);
         autocompleteref.current.addListener("place_changed",getPlace);
     },[]);
-    
     async function getPlace(){
         const place = await autocompleteref.current!.getPlace();
         venue.current = `${place.name}`
@@ -53,15 +58,24 @@ export default function EditEventForm(props:IEventDetails){
             formdata.append("flyerimagepath",FlyerImagePath);
         }
         formdata.append("Id",Id);
+        formdata.append("dayofweek",dayofweek.current);
+        formdata.append("iseventweekly",JSON.stringify(iseventweekly));
         const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
-        const message = await response.json();
+        const {message} = await response.json();
+        toast.success(message);
         
+    }
+    function selectDayofWeek(e:React.ChangeEvent<HTMLSelectElement>){
+        dayofweek.current = e.target.value || "";
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
         if(e.target.files && e.target.files.length){
             file.current = e.target.files[0];
         }
-     }
+    }
+    function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){
+        setIsEventWeekly(e.target.checked);
+    }
     return(
         <form ref={formelement} className="flex flex-col gap-y-5 w-[80%] max-w-[50rem] mx-auto">
             <div>
@@ -74,12 +88,30 @@ export default function EditEventForm(props:IEventDetails){
                 name="eventname"
                 aria-required="true" type="text" label="Event Name"
             />
-            <FormControl 
-                register={register}
-                validationrules={{required:"Event Date is required"}}
-                name="eventdate"
-                aria-required="true" type="date" label="Event Date" 
-            />
+            <div className="flex items-center gap-x-4">
+                <input
+                    checked={iseventweekly}
+                    ref={checkbox}
+                    id="isweekly" 
+                    onChange={checkEventIsWeekly}
+                    type="checkbox" name="isweekly" 
+                    className="h-5 w-5"
+                />
+                <label htmlFor="isweekly">Does event recur weekly?</label>
+            </div>
+            {
+                iseventweekly && <Select selectvalue={DayofWeek} selectDayofWeek={selectDayofWeek}/>
+            }
+            {
+                !iseventweekly && <FormControl 
+                    register={register}
+                    validationrules={{required:"Event Date is required"}}
+                    name="eventdate"
+                    aria-required="true" type="date" label="Event Date" 
+                    disabled={iseventweekly}
+                 />
+            }
+            
             <FormControl 
                 register={register}
                 validationrules={{required:"Event time is required"}}
@@ -95,7 +127,6 @@ export default function EditEventForm(props:IEventDetails){
                 register={register}
                 name="ticketlinks"
                 type="text" label="Ticket Links:"
-                
             />
             <FormControl 
                 register={register}
@@ -114,7 +145,12 @@ export default function EditEventForm(props:IEventDetails){
                 type="text" label="Social Link"
             />
             <button 
-                className="flex justify-center items-center bg-blue-500 text-white w-fit px-5 py-2 rounded-md mb-4" 
+                disabled={isSubmitting}
+                className={
+                    `flex justify-center items-center
+                     bg-blue-500 text-white w-fit px-5
+                      py-2 rounded-md mb-4 ${isSubmitting?'opacity-50 cursor-not-allowed':''}`
+                } 
                 onClick={handleSubmit(submitFormData)}
             >
                 {isSubmitting ? 

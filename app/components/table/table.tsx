@@ -17,6 +17,8 @@ export interface IEventDetails {
     Description:string,
     FlyerImagePath:string,
     InquiryNumber:string,
+    IsEventWeekly:boolean,
+    DayofWeek:string
 }
 
 interface EventDetailsListProps{

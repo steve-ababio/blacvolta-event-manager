@@ -15,6 +15,9 @@ export async function PUT(req:Request,res:NextResponse){
     const SocialLinks = data.get("sociallinks") as string;
     const InquiryNumber = data.get("inquirynumber") as string;
     const image = data.get("flyerimagepath") as File|string;
+    const DayofWeek = data.get("dayofweek") as string;
+    const IsEventWeeklyString = data.get("iseventweekly");
+    const IsEventWeekly = JSON.parse(IsEventWeeklyString as string);
 
     try{
         let imageurl = "";
@@ -37,7 +40,9 @@ export async function PUT(req:Request,res:NextResponse){
                 Venue,
                 TicketLinks,
                 SocialLinks,
-                InquiryNumber
+                InquiryNumber,
+                DayofWeek,
+                IsEventWeekly
             }
         });
     }catch(error){
