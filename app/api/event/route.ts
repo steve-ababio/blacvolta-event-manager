@@ -20,15 +20,15 @@ export async function POST(req:Request){
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string) as boolean;
 
     try{
-        // const imageurl = await uploadImage(image);
-        const buffer = Buffer.from(await image.arrayBuffer())
-        const filename = image.name.replaceAll(" ","_");
-        const imagepath = path.join(process.cwd(),`/public/uploads/${filename}`);
-        await writeFile(imagepath,buffer);
+        const imageurl = await uploadImage(image);
+        // const buffer = Buffer.from(await image.arrayBuffer())
+        // const filename = image.name.replaceAll(" ","_");
+        // const imagepath = path.join(process.cwd(),`/public/uploads/${filename}`);
+        // await writeFile(imagepath,buffer);
 
         await prisma.event.create({
             data:{
-                FlyerImagePath:`uploads/${filename}`,
+                FlyerImagePath:imageurl,
                 Description,
                 EventDate,
                 EventName,
