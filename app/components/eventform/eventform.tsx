@@ -72,7 +72,7 @@ export default function EventForm(){
             const message = await response.json();
         }
     }
-    function obtainImageFile(e:React.ChangeEvent<HTMLSelectElement>){
+    function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
        if(e.target.files && e.target.files.length){
             file.current = e.target.files[0];
        }
@@ -81,7 +81,7 @@ export default function EventForm(){
         console.log("checked: ",e.target.checked)
         setIsEventWeekly(e.target.checked);
     }
-    function selectDayofWeek(e:React.ChangeEvent<HTMLInputElement>){
+    function selectDayofWeek(e:React.ChangeEvent<HTMLSelectElement>){
         dayofweek.current = e.target.value;
         console.log("day of the week: ", dayofweek.current);
     }
