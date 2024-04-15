@@ -57,16 +57,20 @@ export default function EventForm(){
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
         const fileinfo = file.current;
+        let selecteddayofweek = ""
         if(!fileinfo){
             setFileEmptyError("Event flyer image is required");
         }else if(inputref.current!.value === ""){
             setVenueEmptyError("Event venue is required");
-        }
+        }else if(selectref.current){
+            selecteddayofweek = selectref.current!.value;
+        }       
         else {
+            console.log(selecteddayofweek)
             const formdata = new FormData(formelement.current!);
             formdata.append("venue",venue.current);
             formdata.append("flyerimagepath",fileinfo!);
-            formdata.append("dayofweek",selectref.current!.value||"");
+            formdata.append("dayofweek",selecteddayofweek);
             formdata.append("iseventweekly",JSON.stringify(iseventweekly));
             const response = await fetch("/api/event",{method: "POST",body:formdata});
             const {message} = await response.json();
