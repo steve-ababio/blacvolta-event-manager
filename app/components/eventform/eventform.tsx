@@ -108,10 +108,7 @@ export default function EventForm(){
                 <label htmlFor="isweekly">Does event recur weekly?</label>
             </div>
             {
-                <>
-                    iseventweekly && <Select ref={selectref} selectedvalue={"0"}  />
-                    {requirederror != "" && <Error message={venueemptyerror!} errortype = "danger" />}
-                </>
+                iseventweekly && <Select ref={selectref} selectedvalue={"0"}  />
             }
             {
                 !iseventweekly && <FormControl 
