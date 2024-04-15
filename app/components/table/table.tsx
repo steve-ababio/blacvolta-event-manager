@@ -53,13 +53,13 @@ export default function Table({data}:EventDetailsListProps){
     }   
     return(
         <div className="w-[90%] mx-auto max-w-[70rem]">
-            <div className="mb-[6px]">
+            {/* <div className="mb-[6px]">
                 <input role="searchbox" className="border border-zinc-400 pl-3 outline-none focus:ring-1 focus:ring-blue-500 py-[6px] rounded-[20px]" placeholder="search" />
-            </div>
+            </div> */}
             <table className="w-full shadow-sm">
                 <thead className="bg-blue-200/20">
                     <tr className="text-left text-slate-600">
-                        <th className="p-[0.75rem]"></th>
+                        {/* <th className="p-[0.75rem]"></th> */}
                         <th className="p-[0.75rem]">Event Date</th>
                         <th className="p-[0.75rem]">Event Time</th>
                         <th className="p-[0.75rem]">Venue</th>

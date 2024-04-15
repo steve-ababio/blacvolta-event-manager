@@ -38,7 +38,7 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
     return(
         <>
             <tr className="w-full border-b border-b-gray-400/50 text-[14px]">
-                <td className="p-[.7srem] text-center"><input className="w-[18px] border-2 focus:outline-2 focus:-outline-offset-1 focus:outline-blue-400 h-[18px] cursor-pointer" type="checkbox" /></td>
+                {/* <td className="p-[.7srem] text-center"><input className="w-[18px] border-2 focus:outline-2 focus:-outline-offset-1 focus:outline-blue-400 h-[18px] cursor-pointer" type="checkbox" /></td> */}
                 <td className="align-top p-[.75rem]">{EventDate}</td>
                 <td className="align-top p-[.75rem]">{EventTime}</td>
                 <td className="align-top p-[.75rem]">{Venue}</td>
