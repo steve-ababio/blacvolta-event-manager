@@ -25,11 +25,12 @@ export default function EventForm(){
     const file = useRef<File>();
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement>(null);
+    const selectref = useRef<HTMLSelectElement>(null);
     const venue = useRef<string>("");
     const formelement = useRef<HTMLFormElement>(null);
-    const dayofweek = useRef("");
     const [fileemptyerror,setFileEmptyError] = useState("");
     const [venueemptyerror,setVenueEmptyError] = useState("");
+    const [requirederror,setRequiredError] = useState("");
     const [iseventweekly,setIsEventWeekly] = useState(false);
     const{
         register,
@@ -55,18 +56,18 @@ export default function EventForm(){
         venue.current = `${place.name}`
     }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
+        console.log(selectref.current?.value);
         const fileinfo = file.current;
         if(!fileinfo){
             setFileEmptyError("Event flyer image is required");
-        }
-        else if(inputref.current!.value === ""){
+        }else if(inputref.current!.value === ""){
             setVenueEmptyError("Event venue is required");
         }
         else {
             const formdata = new FormData(formelement.current!);
             formdata.append("venue",venue.current);
             formdata.append("flyerimagepath",fileinfo!);
-            formdata.append("dayofweek",dayofweek.current);
+            formdata.append("dayofweek",selectref.current!.value);
             formdata.append("iseventweekly",JSON.stringify(iseventweekly));
             const response = await fetch("/api/event",{method: "POST",body:formdata});
             const {message} = await response.json();
@@ -82,9 +83,6 @@ export default function EventForm(){
     }
     function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){
         setIsEventWeekly(e.target.checked);
-    }
-    function selectDayofWeek(e:React.ChangeEvent<HTMLSelectElement>){
-        dayofweek.current = e.target.value;
     }
     return(
         <form ref={formelement} onSubmit={handleSubmit(submitFormData)} className="flex flex-col gap-y-5">
@@ -110,7 +108,10 @@ export default function EventForm(){
                 <label htmlFor="isweekly">Does event recur weekly?</label>
             </div>
             {
-                iseventweekly && <Select selectvalue={"0"} selectDayofWeek={selectDayofWeek} />
+                <>
+                    iseventweekly && <Select ref={selectref} selectvalue={"0"} selectDayofWeek={selectDayofWeek} />
+                    {requirederror != "" && <Error message={venueemptyerror!} errortype = "danger" />}
+                </>
             }
             {
                 !iseventweekly && <FormControl 
