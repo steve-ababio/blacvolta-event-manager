@@ -5,7 +5,7 @@ import { RotatingLines } from "react-loader-spinner";
 import FormControl from "../formcontrol/formcontrol";
 import { IEventDetails } from "../table/table";
 import { IEventForm } from "../eventform/eventform";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import Select from "../select/select";
 
 export default function EditEventForm(props:IEventDetails){
@@ -58,11 +58,14 @@ export default function EditEventForm(props:IEventDetails){
             formdata.append("flyerimagepath",FlyerImagePath);
         }
         formdata.append("Id",Id);
+        console.log(dayofweek.current);
         formdata.append("dayofweek",dayofweek.current);
         formdata.append("iseventweekly",JSON.stringify(iseventweekly));
         const response = await fetch(`/api/edit`,{method:"PUT",body:formdata});
         const {message} = await response.json();
-        toast.success(message);
+        toast.success(message,{
+            transition:Slide
+        });
         
     }
     function selectDayofWeek(e:React.ChangeEvent<HTMLSelectElement>){
@@ -131,7 +134,7 @@ export default function EditEventForm(props:IEventDetails){
             <FormControl 
                 register={register}
                 name="inquirynumber"
-                type="text" label="Inquiry Number:"
+                type="tel" label="Inquiry Number:"
             />
             <div>
                 <label htmlFor="description">Description</label>

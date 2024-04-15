@@ -8,8 +8,8 @@ export default function Header(){
         signOut({callbackUrl:"/",redirect:true});
     }
     return(
-        <header className="flex px-[1rem] py-[0.5rem] shadow-md items-center gap-x-2 mb-[3rem] justify-between bg-white text-slate-600">
-            <Link href="/dashboard"><h1 className="text-[20px]">Event App</h1></Link>
+        <header className="flex px-[1rem] py-[0.5rem] shadow-sm items-center gap-x-2 mb-[3rem] justify-between bg-white text-slate-600">
+            <h1 className="text-[20px]">Event App</h1>
             <nav className="text-slate-500">
                 <div className="gap-x-4 hidden md:flex">
                     <Link className="navlink" href="/dashboard">Events</Link>

@@ -146,7 +146,7 @@ export default function EventForm(){
             <FormControl 
                 register={register}
                 name="inquirynumber"
-                type="text" label="Inquiry Number:"
+                type="tel" label="Inquiry Number:"
             />
             <div>
                 <label htmlFor="description" className="text-slate-500">Description</label>

@@ -6,7 +6,7 @@ import Error from "../error/error";
 
 interface FormControlProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label:string,
-    type:"text"|"password"|"time"|"date"|"file",
+    type:"text"|"password"|"time"|"date"|"tel",
     register:UseFormRegister<IEventForm>,
     errormessage?:string,
     name:keyof IEventForm,

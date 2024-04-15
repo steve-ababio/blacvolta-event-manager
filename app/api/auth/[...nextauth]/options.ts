@@ -22,7 +22,6 @@ const authOptions: NextAuthOptions = {
                 if(!credentials?.username || !credentials.password){
                     return null;
                 }
-                console.log("credentials",credentials)
                 const user = await prisma.user.findUnique({
                    where:{username:credentials.username.toLocaleLowerCase()}
                 });
@@ -31,7 +30,6 @@ const authOptions: NextAuthOptions = {
                 if(!user || !(user!.password === credentials.password)){
                     return null;
                 }
-                console.log("authenticated");
                 const usersessiondata =  {
                     id:user!.id,
                     username:user!.username,

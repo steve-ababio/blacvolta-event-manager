@@ -7,7 +7,7 @@ export async function PUT(req:Request,res:NextResponse){
     const data = await req.formData();
     const Id = data.get('Id') as string;
     const Description = data.get("eventdescription") as string;
-    const EventDate = data.get("eventdate") as string;
+    const EventDate = data.get("eventdate") as string || "";
     const EventTime = data.get("eventtime") as string;
     const EventName = data.get("eventname") as string;
     const Venue = data.get("venue") as string;
@@ -22,9 +22,11 @@ export async function PUT(req:Request,res:NextResponse){
     try{
         let imageurl = "";
         if(typeof image === "string"){
+            console.log(image);
             imageurl = image;
         }
         if(image instanceof File){
+            console.log("file:",image);
             imageurl = await uploadImage(image);
         }
         await prisma.event.update({
@@ -46,6 +48,7 @@ export async function PUT(req:Request,res:NextResponse){
             }
         });
     }catch(error){
+        console.log(error);
         return NextResponse.json({ message: "Image upload failed", status: 500 });
     }
     return NextResponse.json({message:"Event editted successfully"});
