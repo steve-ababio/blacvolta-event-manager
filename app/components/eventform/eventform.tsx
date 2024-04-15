@@ -64,8 +64,6 @@ export default function EventForm(){
             setVenueEmptyError("Event venue is required");
         }else if(selectref.current){
             selecteddayofweek = selectref.current!.value;
-        }       
-        else {
             console.log(selecteddayofweek)
             const formdata = new FormData(formelement.current!);
             formdata.append("venue",venue.current);
