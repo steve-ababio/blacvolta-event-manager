@@ -72,7 +72,7 @@ export default function EventForm(){
             const message = await response.json();
         }
     }
-    function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
+    function obtainImageFile(e:React.ChangeEvent<HTMLSelectElement>){
        if(e.target.files && e.target.files.length){
             file.current = e.target.files[0];
        }

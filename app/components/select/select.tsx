@@ -1,6 +1,6 @@
 
 type SelectProps = {
-    selectDayofWeek:(e:React.ChangeEvent<HTMLInputElement>)=>void;
+    selectDayofWeek:(e:React.ChangeEvent<HTMLSelectElement>)=>void;
 }
 export default function Select({selectDayofWeek}:SelectProps){
     return (
