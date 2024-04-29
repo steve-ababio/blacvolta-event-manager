@@ -13,14 +13,19 @@ export async function POST(req:Request){
     const SocialLinks = data.get("sociallinks") as string;
     const InquiryNumber = data.get("inquirynumber") as string;
     const IsEventWeeklyString = data.get("iseventweekly");
-    const imageurl = data.get("flyerimagepath") as string;
+    const imagefile = data.get("flyerimage") as File;
     const DayofWeek = data.get("dayofweek") as string;
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string) as boolean;
+    
+    const imageformdata = new FormData();
+    imageformdata.append("image",imagefile)
+    const imageresponse = await fetch("https://files.blacvolta.com/upload.php",{method:"POST",body:imageformdata});
+    const {file_name} = await imageresponse.json();
 
     try{
         await prisma.event.create({
             data:{
-                FlyerImagePath:imageurl,
+                FlyerImagePath:file_name,
                 Description,
                 EventDate,
                 EventName,
