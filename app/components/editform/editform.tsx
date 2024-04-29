@@ -21,7 +21,8 @@ export default function EditEventForm(props:IEventDetails){
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
 
     const [time,meridian] = EventTime.split(" ");
-    let [hour,min] = time.split(":");
+    const [hourstring,min] = time.split(":");
+    let hour = parseInt(hourstring,10);
     if(meridian === "PM" && hour != 12){
         hour += 12; 
     }
