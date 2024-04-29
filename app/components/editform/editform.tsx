@@ -20,6 +20,15 @@ export default function EditEventForm(props:IEventDetails){
     const selectref = useRef<HTMLSelectElement>(null);
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
 
+    const [time,meridian] = EventTime.split(" ");
+    let [hour,min] = time.split(":");
+    if(meridian === "PM" && hour != 12){
+        hour += 12; 
+    }
+    if(meridian === "AM" && hour === 12){
+        hour -= 12;
+    }
+    const eventtime = `${hour}:${min}`;
     const{
         register,
         handleSubmit,
@@ -28,7 +37,7 @@ export default function EditEventForm(props:IEventDetails){
         defaultValues:{
             eventname:EventName,
             eventdate:EventDate,
-            eventtime:EventTime.split(" ")[0],
+            eventtime:eventtime,
             inquirynumber:InquiryNumber,
             ticketlinks:TicketLinks,
             eventdescription:Description,
