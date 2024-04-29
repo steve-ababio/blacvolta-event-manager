@@ -23,13 +23,16 @@ export default function EditEventForm(props:IEventDetails){
     const [time,meridian] = EventTime.split(" ");
     const [hourstring,min] = time.split(":");
     let hour = parseInt(hourstring,10);
+    let finalhour = "";
     if(meridian === "PM" && hour != 12){
         hour += 12; 
+        finalhour = `${hour}`;
     }
     if(meridian === "AM" && hour === 12){
-        hour = "00";
+        hour -= 12;
+        finalhour = `0${hour}`
     }
-    const eventtime = `${hour}:${min}`;
+    const eventtime = `${finalhour}:${min}`;
     const{
         register,
         handleSubmit,
