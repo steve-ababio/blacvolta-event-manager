@@ -13,14 +13,11 @@ export async function POST(req:Request){
     const SocialLinks = data.get("sociallinks") as string;
     const InquiryNumber = data.get("inquirynumber") as string;
     const IsEventWeeklyString = data.get("iseventweekly");
-    const image = data.get("flyerimagepath") as File;
+    const imageurl = data.get("flyerimagepath") as string;
     const DayofWeek = data.get("dayofweek") as string;
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string) as boolean;
 
     try{
-        // const imageurl = await uploadImage(image);
-        const imageurl = "";
-
         await prisma.event.create({
             data:{
                 FlyerImagePath:imageurl,
