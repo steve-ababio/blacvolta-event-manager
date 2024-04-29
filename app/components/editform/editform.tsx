@@ -75,7 +75,12 @@ export default function EditEventForm(props:IEventDetails){
         formdata.append("eventtime",eventtime);
         formdata.append("venue",venue.current);
         if(fileinfo){
-            formdata.append("flyerimagepath",fileinfo!);
+            const imageformdata = new FormData();
+            imageformdata.append("image",fileinfo!)
+            const imageresponse = await fetch("https://files.blacvolta.com/upload.php",{method:"POST",body:imageformdata});
+            const {file_name} = await imageresponse.json();
+            formdata.append("flyerimagepath",file_name);
+            
         }else{
             formdata.append("flyerimagepath",FlyerImagePath);
         }
