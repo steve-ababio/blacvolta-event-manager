@@ -27,7 +27,7 @@ export default function EditEventForm(props:IEventDetails){
         hour += 12; 
     }
     if(meridian === "AM" && hour === 12){
-        hour -= 12;
+        hour = "00";
     }
     const eventtime = `${hour}:${min}`;
     const{
