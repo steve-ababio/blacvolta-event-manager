@@ -55,7 +55,26 @@ export default function EventForm(){
         const place = await autocompleteref.current!.getPlace();
         venue.current = `${place.name}`
     }
+    function formatTime(hourstring:string){
+        let meridian = "";
+        let hour = parseInt(hourstring, 10);
+        if(hour > 12){
+            meridian = "PM";
+            hour -= 12;
+        }else if(hour < 12){
+            meridian = "AM";
+            if(hour === 0){
+                hour = 12;
+            }
+        }else{
+            meridian = "PM";
+        }
+        return[hour,meridian]
+    }
     const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
+        const [hourstring,minute] = formeventdata.eventtime.split(":");
+        const [hour,meridian] = formatTime(hourstring);
+        const eventtime = `${hour}:${minute} ${meridian}`;
         const fileinfo = file.current;
         let selecteddayofweek = (selectref.current) ? selectref.current!.value : "";
         if(!fileinfo){
@@ -64,6 +83,8 @@ export default function EventForm(){
             setVenueEmptyError("Event venue is required");
         }else {
             const formdata = new FormData(formelement.current!);
+            formdata.delete("eventtime");
+            formdata.append("eventtime",eventtime);
             formdata.append("venue",venue.current);
             formdata.append("flyerimagepath",fileinfo!);
             formdata.append("dayofweek",selecteddayofweek);
