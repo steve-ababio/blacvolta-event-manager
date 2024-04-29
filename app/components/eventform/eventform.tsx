@@ -84,7 +84,7 @@ export default function EventForm(){
             const imageformdata = new FormData();
             imageformdata.append("image",fileinfo!)
             const imageresponse = await fetch("https://files.blacvolta.com/upload.php",{method:"POST",body:imageformdata});
-            const {file_name} = imageresponse.json();
+            const {file_name} = await imageresponse.json();
             
             const formdata = new FormData(formelement.current!);
             formdata.delete("eventtime");
