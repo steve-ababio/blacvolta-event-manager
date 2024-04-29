@@ -17,7 +17,6 @@ export interface IEventForm{
     sociallinks:string
 }
 const options = {
-    componentRestrictions: { country: "gh" },
     fields: ["address_components", "geometry", "icon", "name"],
     types: ["establishment"]
 };
@@ -71,7 +70,7 @@ export default function EventForm(){
         }
         return[hour,meridian]
     }
-    const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
+    const submitFormData:SubmitHandler<IEventForm> = async(formeventdata)=>{
         const [hourstring,minute] = formeventdata.eventtime.split(":");
         const [hour,meridian] = formatTime(hourstring);
         const eventtime = `${hour}:${minute} ${meridian}`;
