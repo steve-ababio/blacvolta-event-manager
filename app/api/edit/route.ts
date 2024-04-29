@@ -26,8 +26,11 @@ export async function PUT(req:Request,res:NextResponse){
             imageurl = image;
         }
         if(image instanceof File){
-            console.log("file:",image);
-            imageurl = await uploadImage(image);
+            const imageformdata = new FormData();
+            imageformdata.append("image",image)
+            const imageresponse = await fetch("https://files.blacvolta.com/upload.php",{method:"POST",body:imageformdata});
+            const {file_name} = await imageresponse.json();
+            imageurl = file_name
         }
         await prisma.event.update({
             where:{
