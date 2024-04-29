@@ -37,7 +37,6 @@ export default function EditEventForm(props:IEventDetails){
         }
     });
     const options = {
-        componentRestrictions: { country: "gh" },
         fields: ["name"],
         types: ["establishment"]
     };
@@ -65,7 +64,7 @@ export default function EditEventForm(props:IEventDetails){
         }
         return[hour,meridian]
     }
-    const submitFormData:SubmitHandler<IEventForm> = async(data)=>{
+    const submitFormData:SubmitHandler<IEventForm> = async(formeventdata)=>{
         const fileinfo = file.current;
         const [hourstring,minute] = formeventdata.eventtime.split(":");
         const [hour,meridian] = formatTime(hourstring);
