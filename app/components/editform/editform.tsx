@@ -20,7 +20,6 @@ export default function EditEventForm(props:IEventDetails){
     const selectref = useRef<HTMLSelectElement>(null);
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
 
-    console.log(iseventweekly)
     const{
         register,
         handleSubmit,
@@ -29,7 +28,7 @@ export default function EditEventForm(props:IEventDetails){
         defaultValues:{
             eventname:EventName,
             eventdate:EventDate,
-            eventtime:EventTime,
+            eventtime:EventTime.split(" ")[0],
             inquirynumber:InquiryNumber,
             ticketlinks:TicketLinks,
             eventdescription:Description,
