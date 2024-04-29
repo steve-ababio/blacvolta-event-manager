@@ -81,11 +81,16 @@ export default function EventForm(){
         }else if(inputref.current!.value === ""){
             setVenueEmptyError("Event venue is required");
         }else {
+            const imageformdata = new FormData();
+            imageformdata.append("image",fileinfo!)
+            const response = await fetch("https://files.blacvolta.com/upload.php",{method:"POST",body:imageformdata});
+            const {file_name} = response.json();
+            
             const formdata = new FormData(formelement.current!);
             formdata.delete("eventtime");
             formdata.append("eventtime",eventtime);
             formdata.append("venue",venue.current);
-            formdata.append("flyerimagepath",fileinfo!);
+            formdata.append("flyerimagepath",file_name);
             formdata.append("dayofweek",selecteddayofweek);
             formdata.append("iseventweekly",JSON.stringify(iseventweekly));
             const response = await fetch("/api/event",{method: "POST",body:formdata});
