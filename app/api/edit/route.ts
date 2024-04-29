@@ -14,7 +14,7 @@ export async function PUT(req:Request,res:NextResponse){
     const TicketLinks = data.get("ticketlinks") as string;
     const SocialLinks = data.get("sociallinks") as string;
     const InquiryNumber = data.get("inquirynumber") as string;
-    const image = data.get("flyerimagepath") as File|string;
+    const image = data.get("flyerimage") as File|string;
     const DayofWeek = data.get("dayofweek") as string;
     const IsEventWeeklyString = data.get("iseventweekly");
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string);
