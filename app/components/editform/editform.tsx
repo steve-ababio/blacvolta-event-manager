@@ -89,7 +89,7 @@ export default function EditEventForm(props:IEventDetails){
         if(fileinfo){
             formdata.append("flyerimage",fileinfo!);
         }else{
-            formdata.append("flyerimagepath",FlyerImagePath);
+            formdata.append("flyerimage",FlyerImagePath);
         }
         let selecteddayofweek = (selectref.current) ? selectref.current!.value : "";
         formdata.append("Id",Id);
