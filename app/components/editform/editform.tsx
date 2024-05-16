@@ -8,6 +8,22 @@ import { IEventForm } from "../eventform/eventform";
 import { Slide, toast } from "react-toastify";
 import Select from "../select/select";
 
+function convertTime(EventTime:string){
+    const [time,meridian] = EventTime.split(" ");
+    const [hourstring,min] = time.split(":");
+    let hourvalue = parseInt(hourstring,10);
+    let hour = `0${hourvalue}`;
+    if(meridian === "PM" && hourvalue != 12){
+        hourvalue += 12; 
+        hour = `${hourvalue}`;
+    }
+    if(meridian === "AM" && hourvalue === 12){
+        hourvalue -= 12;
+        hour = `0${hourvalue}`
+    }
+    
+    return `${hour}:${min}`;
+}
 export default function EditEventForm(props:IEventDetails){
     const {Id,EventName,EventDate,FlyerImagePath,IsEventWeekly,DayofWeek,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = props;
     const file = useRef<File>();
@@ -19,20 +35,8 @@ export default function EditEventForm(props:IEventDetails){
     const venue = useRef<string>(Venue);
     const selectref = useRef<HTMLSelectElement>(null);
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
-
-    const [time,meridian] = EventTime.split(" ");
-    const [hourstring,min] = time.split(":");
-    let hour = parseInt(hourstring,10);
-    let finalhour = `${hour}`;
-    if(meridian === "PM" && hour != 12){
-        hour += 12; 
-        finalhour = `${hour}`;
-    }
-    if(meridian === "AM" && hour === 12){
-        hour -= 12;
-        finalhour = `0${hour}`
-    }
-    const eventtime = `${finalhour}:${min}`;
+    
+    const eventtime = convertTime(EventTime);
     const{
         register,
         handleSubmit,
