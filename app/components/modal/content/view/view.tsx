@@ -1,5 +1,5 @@
-import { IEventDetails } from "@/app/dashboard/components/table/table";
 import ViewEventDetailsItem from "@/app/components/viewdetailsinfo/viewdetailsinfo";
+import { IEventDetails } from "@/app/constants/constants";
 import React from "react";
 
 type ViewEventDetailsProps = {
