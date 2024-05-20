@@ -25,7 +25,7 @@ const fetcher = (url:string)=>fetch(url,{cache:"no-store"}).then(res => res.json
 export default function BlogList(){
     const {data,isValidating} = useSWR("/api/bloglist",fetcher,
     {
-        refreshWhenHidden:true,
+        refreshWhenHidden:false,
         revalidateOnMount:true,        
         refreshWhenOffline:false
     });

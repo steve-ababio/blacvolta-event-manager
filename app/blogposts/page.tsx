@@ -12,7 +12,7 @@ export default async function BlogPosts(){
     }
     return (
         <main className="h-full">
-            <NavBar pagetitle="Blog posts" />
+            <NavBar pagetitle="Blogs" />
             <div className=" h-[calc(100%-60px)] flex flex-col dark:bg-darkprimary w-full">
                 <BlogList />
             </div>

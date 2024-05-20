@@ -9,7 +9,7 @@ const fetcher = (url:string)=>fetch(url,{cache:"no-store"}).then(res => res.json
 export default function EventList(){
     const {data,isValidating} = useSWR("/api/eventlist",fetcher,
     {
-        refreshWhenHidden:true,
+        refreshWhenHidden:false,
         revalidateOnMount:true,        
         refreshWhenOffline:false
     });
