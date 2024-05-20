@@ -23,7 +23,7 @@ export type BlogPostType = {
 
 const fetcher = (url:string)=>fetch(url).then(res => res.json());
 export default function BlogList(){
-    const {data,isValidating} = useSWR("/api/bloglist",fetcher,
+    const {data,isValidating} = useSWR("/api/blogposts",fetcher,
     {
         refreshWhenHidden:false,
         revalidateOnMount:true,        

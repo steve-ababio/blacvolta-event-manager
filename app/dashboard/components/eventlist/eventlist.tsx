@@ -7,7 +7,8 @@ import useSWR from "swr";
 
 const fetcher = (url:string)=>fetch(url).then(res => res.json());
 export default function EventList(){
-    const {data,isValidating} = useSWR("/api/eventlist",fetcher,
+
+    const {data,isValidating} = useSWR("/api/events",fetcher,
     {
         refreshWhenHidden:false,
         revalidateOnMount:true,      
