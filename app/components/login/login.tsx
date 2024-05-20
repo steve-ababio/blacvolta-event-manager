@@ -16,7 +16,7 @@ export default function Login(){;
     const{
         register,
         handleSubmit,
-        formState:{isSubmitting}
+        formState:{isSubmitting,isLoading}
     } = useForm({
         defaultValues:{
             username:"",
@@ -34,8 +34,8 @@ export default function Login(){;
             });
             if(response && !response.error){
                 router.push("/dashboard");
+
             }else{
-                console.log("loggin")
                 setErrorMessage("Incorrect username or password");
             }
         }catch(err){
@@ -44,21 +44,21 @@ export default function Login(){;
     }
     return (
         <div className="flex justify-center flex-col items-center h-screen ">
-            <header className="my-10"><h1 className="text-[1.5rem] text-slate-600">Login</h1></header>
+            <header className="my-10"><h1 className="text-[1.5rem] text-slate-600 dark:text-slate-200">Login</h1></header>
             <div className="flex-[7] flex max-w-[25rem] w-full">
-                <div className="px-[60px] w-full h-fit py-3 flex flex-col justify-center rounded-[10px] border border-slate-300/50">
+                <div className="px-[60px] w-full h-fit  py-3 flex flex-col justify-center rounded-[10px] border border-slate-300/50">
                     {errormessage != "" && <Error message={errormessage} errortype="danger"/>}
                     <form onSubmit={handleSubmit(login)} className="
                          text-slate-500 w-full gap-y-6 flex h-full
                         flex-col justify-center items-center pt-5 pb-10"
                     >
                         <div className="w-full">
-                            <label htmlFor="username">username</label>
-                            <input {...register("username")} className="form-control"id="username" />
+                            <label className="text-slate-600 dark:text-slate-200" htmlFor="username">username</label>
+                            <input {...register("username")} className="form-control  dark:bg-transparent text-slate-600 dark:text-slate-200"id="username" />
                         </div>
                         <div className="w-full">
-                            <label htmlFor="password">password</label>
-                            <input {...register("password")} className="form-control" type="password" id="password" />
+                            <label htmlFor="password" className="text-slate-600 dark:text-slate-200">password</label>
+                            <input {...register("password")} className="form-control dark:bg-transparent text-slate-600 dark:text-slate-200" type="password" id="password" />
                         </div>
                         <div className="flex w-full ">
                             <button onClick={handleSubmit(login)} className="

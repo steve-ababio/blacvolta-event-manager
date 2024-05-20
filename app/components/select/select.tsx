@@ -6,8 +6,8 @@ type SelectProps = {
  const Select = React.forwardRef<HTMLSelectElement,SelectProps>(({selectedvalue},ref)=>{
     return (
         <div className="w-full">
-            <label id="eventday" className="block mb-[3px]">Event recurring day: </label>
-            <select ref={ref} defaultValue={selectedvalue}  className="w-full border outline-none border-slate-300/80 focus:ring-2 duration-300 px-4 focus:ring-blue-400 py-2 rounded-[5px]" id="eventday" name="daysoftheweek">
+            <label id="eventday" className="block mb-[3px] dark:text-slate-200">Event recurring day: </label>
+            <select ref={ref} defaultValue={selectedvalue}  className="w-full dark:text-slate-200 dark:bg-[#191C20] border outline-none border-slate-300/80 focus:ring-2 duration-300 px-4 focus:ring-blue-400 py-2 rounded-[5px]" id="eventday" name="daysoftheweek">
                 <option value="0">Sunday</option>
                 <option value="1">Monday</option>
                 <option value="2">Tuesday</option>

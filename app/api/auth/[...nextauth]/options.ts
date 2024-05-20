@@ -22,7 +22,7 @@ const authOptions: NextAuthOptions = {
                 if(!credentials?.username || !credentials.password){
                     return null;
                 }
-                const user = await prisma.user.findUnique({
+                const user = await prisma.adminUser.findUnique({
                    where:{username:credentials.username.toLocaleLowerCase()}
                 });
                 

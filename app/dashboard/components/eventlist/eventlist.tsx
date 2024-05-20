@@ -1,19 +1,47 @@
-import Table, { IEventDetails } from "@/app/components/table/table";
-import { prisma } from "@/app/lib/prisma";
+"use client"
+import { IEventDetails } from "@/app/constants/constants";
+import Table from "@/app/dashboard/components/table/table";
+import { FcCalendar } from "react-icons/fc";
+import useSWR from "swr";
 
-export const revalidate = 0; 
-export default async function EventList(){
-    const events = await prisma.event.findMany({});
-    const data:IEventDetails[] = events;
+
+const fetcher = (url:string)=>fetch(url,{cache:"no-store"}).then(res => res.json());
+export default function EventList(){
+    const {data,isValidating} = useSWR("/api/eventlist",fetcher,
+    {
+        refreshWhenHidden:true,
+        revalidateOnMount:true,        
+        refreshWhenOffline:false
+    });
+    const events:IEventDetails[] = data
     
     return(
         <>
             {
-                data.length === 0 ?
-                    <div className="h-full text-[30px] text-slate-600 w-full flex justify-center items-center">
-                        There are no events 
+                isValidating ? 
+                    <div className="
+                        h-full w-full flex justify-center
+                        items-center text-slate-600
+                        dark:text-white text-[20px]"
+                    >
+                        Loading events
                     </div>
-                    :<Table data={data} />
+                :
+                (
+                    data.length === 0 ?
+                        <div className="
+                            dark:bg-darkprimary bg-white text-[30px]
+                            dark:text-slate-200 text-slate-600
+                            w-full flex-col-center h-full"
+                        >
+                            <FcCalendar size={100} />
+                            <p>There are no events </p>
+                        </div>
+                        :
+                        <div className=" mt-[3rem] max-w-[70rem] w-[95%] mx-auto h-full">
+                            <Table data={events} />
+                        </div>
+                )
             }
         </>
     )

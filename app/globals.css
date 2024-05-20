@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html,body{
+  height:100%;
+  -webkit-font-smoothing: antialiased;
+}
+body{
+  margin:0;
+  background-color: rgb(219 234 254 / 0.2);
+}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -14,6 +22,11 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
+}
+*,*::after,*::before{
+  /* padding:0;
+  margin:0; */
+  scroll-behavior: smooth;
 }
 
 @layer utilities {
@@ -39,4 +52,23 @@
   .flex-row-center{
     @apply flex justify-center items-center
   }
+  .tooltip{
+    @apply lg:after:text-center lg:after:block lg:after:w-[6rem]
+    lg:after:rounded-[5px] lg:after:text-[14px] lg:after:-translate-x-[50%] lg:after:left-[50%] 
+    lg:after:hover:bg-[rgb(50,50,50)] lg:after:py-[5px] lg:after:text-white lg:after:top-[calc(100%+5px)]
+    lg:after:absolute lg:after:opacity-0 lg:hover:after:opacity-100
+    lg:after:duration-300 lg:after:pointer-events-none
+  }
+}
+
+@keyframes anim-spin{
+  to{ 
+      transform: rotate(360deg);
+  }
+}
+.anim-spin{
+  animation-name: anim-spin;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
 }

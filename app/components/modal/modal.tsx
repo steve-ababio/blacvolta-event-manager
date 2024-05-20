@@ -15,7 +15,7 @@ export default function Modal({open,onclose,children}:ModalProps){
         }
     }
     return(
-        <div ref={overlay} onClick={closeModal} className={`z-50 fixed backdrop-blur-[3px] inset-0 flex justify-center items-center ${open ? 'visible bg-black/40 ':'invisible'}`}>
+        <div ref={overlay} onClick={closeModal} className={`z-[110] fixed backdrop-blur-[3px] inset-0 flex justify-center items-center ${open ? 'block bg-black/40 ':'hidden'}`}>
             {children}
         </div>
     )

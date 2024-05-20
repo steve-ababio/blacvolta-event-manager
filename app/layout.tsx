@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SessionProvider } from "next-auth/react";
 import Sessionprovider from "./providers/sessionprovider";
-import Header from "./components/header/header";
+import Themeprovider from "./providers/themeprovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +21,11 @@ export default function RootLayout({
       <head>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXf9sQhYbbVARXX_XsGXH6cznRTTL80-k&libraries=places&callback=initMap" async></script>
       </head>
-      <body className={`${inter.className} bg-white`}>
+      <body className={`${inter.className}  dark:bg-darkprimary`}>
         <Sessionprovider>
-          {children}
+          <Themeprovider>
+            {children}
+          </Themeprovider>
         </Sessionprovider>
       </body>
     </html>

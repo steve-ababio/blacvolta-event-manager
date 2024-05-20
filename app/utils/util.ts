@@ -1,10 +1,9 @@
-import { put } from "@vercel/blob";
+import { FILE_UPLOAD_URL } from "../constants/constants";
 
 export async function uploadImage(image:File){
-    const buffer = Buffer.from(await image.arrayBuffer())
-    const filename = image.name.replaceAll(" ","_");
-    const blob = await put(filename,buffer, {
-        access: 'public',
-    });
-    return blob.url;
+    const imageformdata = new FormData();
+    imageformdata.append("image",image)
+    const imageresponse = await fetch(FILE_UPLOAD_URL,{method:"POST",body:imageformdata});
+    const {file_name} = await imageresponse.json();
+    return file_name as string;
 }

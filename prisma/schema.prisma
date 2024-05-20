@@ -1,30 +1,65 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
 }
-  
+
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
   // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model User{
-  id String @id @default(cuid())
-  username String @unique
-  password String 
+model AdminUser {
+  id       String  @id @default(cuid())
+  username String  @unique
+  password String
+  events   Event[]
 }
 
-model Event{
-  Id String @id @default(cuid())
-  EventName String
-  EventDate String
-  EventTime String
-  Venue String
-  TicketLinks String
-  SocialLinks String
-  Description String
-  InquiryNumber String
+model User {
+  id          String  @id @default(cuid())
+  email       String  @unique
+  fullname    String
+  phonenumber String
+  password    String
+  events      Event[]
+}
+
+model Event {
+  Id             String     @id @default(cuid())
+  user           User?       @relation(fields: [userId], references: [id])
+  AdminUser      AdminUser? @relation(fields: [adminUserId], references: [id])
+  adminUserId    String?
+  userId         String?
+  EventName      String
+  EventDate      String
+  EventTime      String
+  Venue          String
+  TicketLinks    String
+  SocialLinks    String
+  Description    String
+  InquiryNumber  String
   FlyerImagePath String
-  IsEventWeekly Boolean
-  DayofWeek String 
+  IsEventWeekly  Boolean
+  DayofWeek      String
+  approved       Boolean
+  paid           Boolean
+}
+
+model Paragraph{
+  id String     @id @unique @default(cuid())
+  title String
+  imagepath String
+  body String
+  blog  BlogPost @relation(fields: [blogID], references: [id],onUpdate: Cascade,onDelete: Cascade)
+  blogID Int
+}
+
+model BlogPost{
+  id Int     @id @unique @default(autoincrement())
+  author String
+  title String
+  date String
+  imagepath String
+  paragraph Paragraph[]
 }

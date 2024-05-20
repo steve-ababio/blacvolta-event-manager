@@ -1,14 +1,16 @@
+import { BiInfoCircle } from "react-icons/bi"
 
 type ErrorType = "danger"|"success"
 export default function Error({message,errortype}:{message:string,errortype:ErrorType,}){
     return(
         <>
             <div className={` 
-                duration-300 text-[14px] bg-red-400/20 border z-10 text-center
-                ${message != "" ? 'opacity-100 scale-100':'opacity-0 scale-0'} 
-                ${errortype === 'danger' ?'border-red-500 bg-red-400/20': 'border-green-500 bg-green-400/20'}
-                text-slate-600 px-10 rounded-[4px] py-[6px]`
+                duration-300 text-[14px] z-10 text-center w-fit
+                ${message != "" ? 'opacity-100 flex-row-center':'opacity-0 hidden'} 
+                ${errortype === 'danger' ?'text-red-500': 'text-green-500'}
+                `
             }>
+                <BiInfoCircle className={`mr-2 ${errortype === "danger" ? 'text-red-500':'text-green-500'}`} size={20}/>
                 {message}
             </div>
         </>
