@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import NotifButton from "../notifbutton/notifbutton"
-import { IEventDetails } from "../../dashboard/components/table/table"
 import { RiExpandLeftRightLine } from "react-icons/ri";
 import { RotatingLines } from "react-loader-spinner";
+import { IEventDetails } from "@/app/constants/constants";
 
 type NotificationItemProp = {
     event:IEventDetails,

@@ -1,12 +1,12 @@
 import { GoInbox } from "react-icons/go";
 import NotificationItem from "../notificationitem/notificationitem";
-import { IEventDetails } from "../../dashboard/components/table/table";
 import React, { useState } from "react";
 import Overlay from "../overlay/overlay";
 import Modal from "../modal/modal";
 import ViewEventDetails from "../modal/content/view/view";
 import { IoRefreshOutline } from "react-icons/io5";
 import { RotatingLines } from "react-loader-spinner";
+import { IEventDetails } from "@/app/constants/constants";
 
 type NotificationProps ={
     visible: boolean,
