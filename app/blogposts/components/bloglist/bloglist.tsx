@@ -1,8 +1,6 @@
-"use client"
 import React from "react";
 import {FcKindle } from "react-icons/fc";
 import BlogTable from "../blogtable/blogtable";
-import useSWR from "swr";
 import { prisma } from "@/app/lib/prisma";
 
 

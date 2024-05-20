@@ -3,7 +3,6 @@ import { IEventDetails } from "@/app/constants/constants";
 import Table from "@/app/dashboard/components/table/table";
 import { prisma } from "@/app/lib/prisma";
 import { FcCalendar } from "react-icons/fc";
-import useSWR from "swr";
 
 async function getApprovedEvents(){
     const results = await prisma.event.findMany({
