@@ -6,12 +6,17 @@ export async function DELETE(req:NextRequest,){
     const Id = searchParams.get("id") as string;
     const imageurl = searchParams.get("imageurl") as string;
 
-    const dbdeletion =  prisma.event.delete({
+    const dbdeletion = prisma.event.delete({
         where:{
             Id
         }
     });
+    try{
     // const imageblobdeletion = del(imageurl);
     await Promise.all([dbdeletion]);
+    }catch(err){
+        console.log(err);
+        NextResponse.json(err)
+    }
     return NextResponse.json({message:"Event has been successfully deleted"})
 }
