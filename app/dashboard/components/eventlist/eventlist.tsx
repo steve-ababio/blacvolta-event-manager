@@ -8,7 +8,7 @@ import useSWR from "swr";
 
 const fetcher = ([url]:string[])=>fetch(url).then(res => res.json());
 export default function EventList(){
-    const {data,isValidating} = useSWR(["/api/events",randomUUID()],fetcher)
+    const {data,isValidating} = useSWR(["/api/events",crypto.randomUUID()],fetcher)
     const events:IEventDetails[] = data;
     console.log("events: ",events);
     
