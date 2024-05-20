@@ -1,4 +1,3 @@
-"use client"
 import { IEventDetails } from "@/app/constants/constants";
 import Table from "@/app/dashboard/components/table/table";
 import { prisma } from "@/app/lib/prisma";
