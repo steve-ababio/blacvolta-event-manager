@@ -1,13 +1,14 @@
 "use client"
 import { IEventDetails } from "@/app/constants/constants";
 import Table from "@/app/dashboard/components/table/table";
+import { randomUUID } from "crypto";
 import { FcCalendar } from "react-icons/fc";
 import useSWR from "swr";
 
 
 const fetcher = ([url]:string[])=>fetch(url).then(res => res.json());
 export default function EventList(){
-    const {data,isValidating} = useSWR(["/api/events"],fetcher)
+    const {data,isValidating} = useSWR(["/api/events",randomUUID()],fetcher)
     const events:IEventDetails[] = data;
     console.log("events: ",events);
     
