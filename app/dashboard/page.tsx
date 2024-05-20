@@ -5,6 +5,7 @@ import authOptions from "../api/auth/[...nextauth]/options";
 import NavBar from "../components/navbar/navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Suspense } from "react";
 
 export default async function Dashboard(){
     const session = await getServerSession(authOptions);
@@ -21,7 +22,18 @@ export default async function Dashboard(){
                     hideProgressBar={true}
                     autoClose={5000}
                 />
-                <EventList />
+                <Suspense fallback={
+                    <div className="
+                        h-full w-full flex justify-center
+                        items-center text-slate-600
+                        dark:text-white text-[20px]"
+                    >
+                        Loading events
+                    </div>} 
+                >
+                    <EventList />
+                </Suspense>
+                
             </div>
         </main>
     )

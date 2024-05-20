@@ -3,6 +3,7 @@ import React from "react";
 import {FcKindle } from "react-icons/fc";
 import BlogTable from "../blogtable/blogtable";
 import useSWR from "swr";
+import { prisma } from "@/app/lib/prisma";
 
 
 export type ParagraphType = {
@@ -20,29 +21,21 @@ export type BlogPostType = {
     imagepath:string,
     paragraph:ParagraphType[]
 }
-
-const fetcher = (url:string)=>fetch(url).then(res => res.json());
-export default function BlogList(){
-    const {data,isValidating} = useSWR("/api/blogposts",fetcher,
-    {
-        refreshWhenHidden:false,
-        revalidateOnMount:true,        
-        refreshWhenOffline:false
+async function getBlogPosts(){
+    return await prisma.blogPost.findMany({
+        relationLoadStrategy:"join",
+        include:{
+            paragraph:true
+        }
     });
+}
 
+export default async function BlogList(){
+    const data = await getBlogPosts();
     const blogs:BlogPostType[] = data;
     return(
         <>
             {
-                 isValidating ? 
-                    <div className="
-                        h-full w-full flex text-slate-600
-                        dark:text-white text-[20px] font-semi-bold
-                        justify-center items-center"
-                    >
-                        Loading blogs
-                    </div>
-                :
                 (
                     data.length === 0 ?
                     <div className="
