@@ -6,17 +6,13 @@ import { FcCalendar } from "react-icons/fc";
 import useSWR from "swr";
 
 async function getApprovedEvents(){
-    try{
-        const results = await prisma.event.findMany({
-            where:{
-                approved:true,
-                paid:true,
-            }
-        });
-        return results;
-    }catch(error){
-        console.log(error);
-    }
+    const results = await prisma.event.findMany({
+        where:{
+            approved:true,
+            paid:true,
+        }
+    });
+    return results;
 }
 export default async function EventList(){
     const data = await getApprovedEvents();
