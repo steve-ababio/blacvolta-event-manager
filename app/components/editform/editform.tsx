@@ -36,7 +36,6 @@ export default function EditEventForm(props:IEventDetails){
     const selectref = useRef<HTMLSelectElement>(null);
     const [fileloadedmessage,setFileLoadedMessage] = useState("");
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
-
     const eventtime = convertTime(EventTime);
     const{
         register,

@@ -40,7 +40,7 @@ export async function POST(req:Request){
         });
     }catch(error){
         console.log(error);
-        return NextResponse.json({ message: "Image upload failed", status: 500 });
+        // return NextResponse.json({ message: "Image upload failed", status: 500 });
     }
     return NextResponse.json({ message: "Event created successfully", });
 }

@@ -72,7 +72,6 @@ export default function EventForm(){
         if(errors.eventvenue!.message!.length > 0)
             clearErrors("eventvenue")
     }
-
     const submitFormData:SubmitHandler<IEventForm> = async(formeventdata)=>{
         const [hourstring,minute] = formeventdata.eventtime.split(":");
         const [hour,meridian] = formatTime(hourstring);
