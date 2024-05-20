@@ -10,6 +10,7 @@ async function getApprovedEvents(){
                 
             }
         });
+        console.log("events:",results);
         return results;
     }catch(error){
         NextResponse.json(error);

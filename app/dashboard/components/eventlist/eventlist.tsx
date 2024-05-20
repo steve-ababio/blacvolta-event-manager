@@ -9,7 +9,10 @@ const fetcher = (url:string)=>fetch(url,{cache:"no-cache"}).then(res => res.json
 export default function EventList(){
     const {data,isValidating} = useSWR("/api/eventlist",fetcher,
     {
+        refreshWhenHidden:false,
         revalidateOnMount:true,      
+        revalidateOnFocus:false,  
+        refreshWhenOffline:false
     });
     const events:IEventDetails[] = data;
     console.log("events: ",events);
