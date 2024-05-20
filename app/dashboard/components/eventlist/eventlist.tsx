@@ -10,10 +10,12 @@ export default function EventList(){
     const {data,isValidating} = useSWR("/api/eventlist",fetcher,
     {
         refreshWhenHidden:false,
-        revalidateOnMount:true,        
+        revalidateOnMount:true,      
+        revalidateOnFocus:false,  
         refreshWhenOffline:false
     });
-    const events:IEventDetails[] = data
+    const events:IEventDetails[] = data;
+    console.log("events: ",events);
     
     return(
         <>
