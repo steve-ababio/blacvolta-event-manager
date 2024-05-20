@@ -1,4 +1,4 @@
-import { IEventDetails } from "@/app/dashboard/components/table/table";
+import { IEventDetails } from "@/app/constants/constants";
 import { prisma } from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
 
