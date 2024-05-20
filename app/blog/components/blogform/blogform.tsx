@@ -139,7 +139,7 @@ export default function BlogForm(){
                     </div>
                     {
                         paragraphfields.map(({filename},index)=>(
-                            <div className="duration-500 mb-5 mt-10">                                 
+                            <div key={index} className="duration-500 mb-5 mt-10">                                 
                                 <div className="flex justify-between border-b border-b-slate-300 py-2 px-2 rounded-[4px] items-center gap-x-5 w-full">
                                     <h2 className="text-[20px] dark:text-white text-slate-600">New paragraph</h2>
                                     <button 
