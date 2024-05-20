@@ -1,8 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
 import { uploadImage } from "@/app/utils/util";
-import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
 
 type ParagraphType = {
     blogID:number,
