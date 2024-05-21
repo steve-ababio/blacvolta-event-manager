@@ -63,13 +63,13 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         }else{
             formdata.append("blogimage",imagepath);
         }
-
+        console.log("paragraphs: ",paragraphs);
         for(let i = 0;i < paragraphs.length;i++){
             formdata.append("paragraph",JSON.stringify(paragraphs[i]));
-            if(paragraphs[i].image!){
+            if(paragraphs[i].image != null){
                 formdata.append(`image-${i}`,paragraphs[i].image!);
             }else{
-                formdata.append(`image-${i}`,imagepath);
+                formdata.append(`image-${i}`,paragraph[i].imagepath);
             }   
         }
         try{
@@ -115,9 +115,12 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         setParagraphs(newparagraphs);
     }
     function deleteParagraphRow(e:React.MouseEvent<HTMLButtonElement>,index:number){
-        const newparagraphs = [...paragraphfields];
+        const newparagraphfields = [...paragraphfields];
+        newparagraphfields.splice(index,1);
+        setParagraphFields(newparagraphfields);
+        const newparagraphs = [...paragraphs];
         newparagraphs.splice(index,1);
-        setParagraphFields(newparagraphs);
+        setParagraphs(newparagraphs);
     }
     return(
         <>
