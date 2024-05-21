@@ -94,7 +94,7 @@ export default function EventForm(){
         formdata.append("adminUserId",user.id);
         formdata.append("iseventweekly",JSON.stringify(iseventweekly));
 
-        const response = await fetch("/api/createevent",{method: "POST",body:formdata});
+        const response = await fetch("/api/createevent",{method:"POST",body:formdata});
         const {message} = await response.json();
         toast.success(message,{
             transition:Slide

@@ -1,8 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
 import { uploadImage } from "@/app/utils/util";
-import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
 
 type ParagraphType = {
     blogID:number,
@@ -37,6 +35,8 @@ export async function POST(req:NextRequest){
     const author = data.get("authorname") as string;
     const date = data.get("datewritten") as string;
     const blogimage = data.get("blogimage") as File;
+
+    console.log("request data: ",data);
     let blogimagepath =  await uploadImage(blogimage);
 
     let {id} = await createBlogpost(author,date,blogtitle,blogimagepath);
@@ -62,5 +62,6 @@ export async function POST(req:NextRequest){
     }catch(error){
         return NextResponse.json({message:"Error creating blog post: "+error});
     }
+    console.log("sending results");
     return NextResponse.json({message:"Blog post created successfully"});
 }
