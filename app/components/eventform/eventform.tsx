@@ -45,13 +45,13 @@ function formatTime(hourstring:string){
 
 export default function EventForm(){
     const {data} = useSession();
-    const file = useRef<File>();
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement|null>(null);
     const selectref = useRef<HTMLSelectElement>(null);
     const venue = useRef<string>("");
     const [iseventweekly,setIsEventWeekly] = useState(false);
     const [fileloadedmessage,setFileLoadedMessage] = useState("");
+    const eventimage = useRef<File>();
 
     const{
         register,
@@ -83,12 +83,12 @@ export default function EventForm(){
         for(const [key,value] of Object.entries(formeventdata)){
             if(key != "eventtime"){
                 if(key === "eventflyer"){
-                    formdata.append(key,value[0]);
                     continue;
                 }
                 formdata.append(key,value);
             }
         }
+        formdata.append("eventflyer",eventimage.current!);
         formdata.append("eventtime",eventtime);
         formdata.append("dayofweek",selecteddayofweek);
         formdata.append("adminUserId",user.id);
@@ -103,7 +103,7 @@ export default function EventForm(){
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
        if(e.target.files && e.target.files.length){
             setFileLoadedMessage(e.target.files[0].name)
-            file.current = e.target.files[0];
+            eventimage.current = e.target.files[0];
        }
     }
     function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){

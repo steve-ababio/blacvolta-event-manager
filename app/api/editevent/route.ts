@@ -18,6 +18,8 @@ export async function PUT(req:Request){
     const IsEventWeeklyString = data.get("iseventweekly");
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string);
 
+    console.log("edit event data:",data)
+
     try{
         let imageurl = "";
         if(typeof image === "string"){

@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useState } from "react";
+import React, {useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BsFolderPlus } from "react-icons/bs";
 import { AiOutlineMinus } from "react-icons/ai";
@@ -26,6 +26,7 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
     const [paragraphs,setParagraphs] = useState<Paragraph[]>([]);
     const [blogfilename,setBlogFileName] = useState("");
     const {author,title,date,imagepath,id} = JSON.parse(props.bloginfo);
+    const blogimage = useRef<File>();
     const paragraph = JSON.parse(props.paragraphs) as ParagraphType[];
     const{
         register,
@@ -57,8 +58,8 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         formdata.append("datewritten",data.datewritten);
         formdata.append("id",id);
 
-        if(data.blogimage[0]){
-            formdata.append("blogimage",data.blogimage[0]);
+        if(blogimage.current){
+            formdata.append("blogimage",blogimage.current);
         }else{
             formdata.append("blogimage",imagepath);
         }
@@ -99,6 +100,7 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
     function ObtainBlogImageFile(e:React.ChangeEvent<HTMLInputElement>){
         if(e.target.files && e.target.files.length){
             setBlogFileName(e.target.files[0].name);
+            blogimage.current = e.target.files[0];
         }
     }
     function handleParagraphTitle(e:React.ChangeEvent<HTMLInputElement>,index:number){

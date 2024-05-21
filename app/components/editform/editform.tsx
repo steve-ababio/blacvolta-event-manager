@@ -37,6 +37,7 @@ export default function EditEventForm(props:IEventDetails){
     const [fileloadedmessage,setFileLoadedMessage] = useState("");
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
     const eventtime = convertTime(EventTime);
+    const eventimage = useRef<File>();
     const{
         register,
         handleSubmit,
@@ -95,8 +96,8 @@ export default function EditEventForm(props:IEventDetails){
                 }
             }
         }
-        if(formeventdata.eventflyer && formeventdata.eventflyer!.length > 0){
-            formdata.append("eventflyer",formeventdata.eventflyer[0]);
+        if(eventimage.current && formeventdata.eventflyer!.length > 0){
+            formdata.append("eventflyer",eventimage.current!);
         }else{
             formdata.append("eventflyer",FlyerImagePath);
         }
@@ -114,7 +115,8 @@ export default function EditEventForm(props:IEventDetails){
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
         if(e.target.files && e.target.files.length){
-            setFileLoadedMessage(e.target.files[0].name)
+            setFileLoadedMessage(e.target.files[0].name);
+            eventimage.current = e.target.files[0];
         }
     }
     function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){

@@ -54,6 +54,8 @@ export async function PUT(req:NextRequest){
     const Id = data.get("id") as string;
     const blogimage = data.get("blogimage") as File|string;
 
+    console.log("edit form data:",data)
+
     let blogimagepath = "";
     if(blogimage instanceof File){
         blogimagepath =  await uploadImage(blogimage);

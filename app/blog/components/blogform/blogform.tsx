@@ -20,6 +20,7 @@ export default function BlogForm(){
     const [paragraphfields,setParagraphFields] = useState<ParagraphField[]>([]);
     const [paragraphs,setParagraphs] = useState<Paragraph[]>([]);
     const [blogfilename,setBlogFileName] = useState("");
+    const blogimage = useRef<File>();
  
     const{
         register,
@@ -35,7 +36,7 @@ export default function BlogForm(){
         formdata.append("blogtitle",data.blogtitle);
         formdata.append("authorname",data.authorname);
         formdata.append("datewritten",data.datewritten);
-        formdata.append("blogimage",data.blogimage[0]);
+        formdata.append("blogimage",blogimage.current!);
 
         for(let i = 0;i < paragraphs.length;i++){
             formdata.append("paragraph",JSON.stringify(paragraphs[i]));
@@ -67,6 +68,7 @@ export default function BlogForm(){
     }
     function ObtainBlogImageFile(e:React.ChangeEvent<HTMLInputElement>){
         if(e.target.files && e.target.files.length){
+            blogimage.current = e.target.files[0];
             setBlogFileName(e.target.files[0].name);
         }
     }
