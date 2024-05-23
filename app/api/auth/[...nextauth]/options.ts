@@ -7,28 +7,18 @@ const authOptions: NextAuthOptions = {
     providers:[
         CredentialsProvider({
             name:"sign in",
-            credentials:{
-                username:{
-                    label:"username",
-                    type:"username",
-                    placeholder:""
-                },
-                password:{
-                    label:"password",
-                    type:"password"
-                },
-            },
+            credentials:{},
             async authorize(credentials) {
-                if(!credentials?.username || !credentials.password){
-                    return null;
+                const{username,password} = credentials as {username:string, password:string}
+                if(!username || !password){
+                    throw new Error("Invalid credentials");
                 }
                 const user = await prisma.adminUser.findUnique({
-                   where:{username:credentials.username.toLocaleLowerCase()}
+                   where:{username:username.toLocaleLowerCase()}
                 });
-                
-                // || !(await compare(credentials.password,user.password)
-                if(!user || !(user!.password === credentials.password)){
-                    return null;
+
+                if(!user || (user!.password != password)){
+                    throw new Error("Invalid credentials");
                 }
                 const usersessiondata =  {
                     id:user!.id,
@@ -53,6 +43,9 @@ const authOptions: NextAuthOptions = {
             session.user = token.user!;
             return session;
         },
+    },
+    pages:{
+        signIn:"/"
     }
 }
 export default authOptions;

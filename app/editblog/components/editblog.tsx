@@ -2,32 +2,35 @@
 import React, {useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BsFolderPlus } from "react-icons/bs";
-import { AiOutlineMinus } from "react-icons/ai";
 import Error from "@/app/components/error/error";
 import { IoImageOutline } from "react-icons/io5";
 import BlogFormControl, { BlogFormType } from "@/app/blog/components/blogformcontrol/blogformcontrol";
 import { ParagraphType } from "@/app/blogposts/components/bloglist/bloglist";
 import { Slide, toast } from "react-toastify";
 
-type ParagraphField ={
-    filename:string,
-    title:string,
-    body:string,
-}
 type Paragraph = {
     image:File|null
     title:string
     body:string
     id:string,
+    blogID:number
 }
 
 export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
-    const [paragraphfields,setParagraphFields] = useState<ParagraphField[]>([]);
-    const [paragraphs,setParagraphs] = useState<Paragraph[]>([]);
     const [blogfilename,setBlogFileName] = useState("");
     const {author,title,date,imagepath,id} = JSON.parse(props.bloginfo);
     const blogimage = useRef<File>();
-    const paragraph = JSON.parse(props.paragraphs) as ParagraphType[];
+    const paragraphdata = JSON.parse(props.paragraphs) as ParagraphType[];
+
+    const [paragraph,setParagraph] = useState<Paragraph>({
+        id:paragraphdata[0].id,
+        body:paragraphdata[0].body,
+        image:null,
+        title:paragraphdata[0].title,
+        blogID:paragraphdata[0].blogID,
+    });
+
+    console.log("paragraph: ",paragraphdata);
     const{
         register,
         handleSubmit,
@@ -41,15 +44,6 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
             datewritten:date
         }
     });
-    useEffect(function(){
-        let existingparagraphs:Paragraph[] = [];
-        const existingparagraphsfields = paragraph.map(({id,title,body})=>{
-            existingparagraphs.push({body,title,image:null,id});
-            return {filename:"",title,body}
-        });
-        setParagraphs(existingparagraphs);
-        setParagraphFields(existingparagraphsfields);
-    },[]);
 
     const submitFormData:SubmitHandler<BlogFormType> = async(data)=>{
         const formdata = new FormData();
@@ -63,15 +57,12 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         }else{
             formdata.append("blogimage",imagepath);
         }
-        console.log("paragraphs: ",paragraphs);
-        for(let i = 0;i < paragraphs.length;i++){
-            formdata.append("paragraph",JSON.stringify(paragraphs[i]));
-            if(paragraphs[i].image != null){
-                formdata.append(`image-${i}`,paragraphs[i].image!);
-            }else{
-                formdata.append(`image-${i}`,paragraph[i].imagepath);
-            }   
-        }
+        formdata.append("paragraph",JSON.stringify(paragraph));
+        if(paragraph.image != null){
+            formdata.append(`paragraphimage`,paragraph.image!);
+        }else{
+            formdata.append(`paragraphimage`,paragraphdata[0].imagepath);
+        }   
         try{
             const response = await fetch("/api/editblog",{method:"PUT",body:formdata});
             const {message} = await response.json();
@@ -82,19 +73,9 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
             console.log(error)
         }
     }
-    
-    function showParagraph(){
-        setParagraphFields([...paragraphfields,{filename:"",title:"",body:""}]);
-        setParagraphs([...paragraphs,{title:"",body:"",image:null,id:""}]);
-    }
-    function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>,index:number){
+    function obtainParagraphNewImageFile(e:React.ChangeEvent<HTMLInputElement>){
         if(e.target.files && e.target.files.length){
-            const newparagraphsfields = [...paragraphfields];
-            newparagraphsfields[index].filename = e.target.files[0].name;
-            setParagraphFields(newparagraphsfields);
-            const newparagraphs = [...paragraphs];
-            newparagraphs[index].image = e.target.files[0];
-            setParagraphs(newparagraphs);
+            setParagraph({...paragraph,image:e.target.files[0]})
        }
     }
     function ObtainBlogImageFile(e:React.ChangeEvent<HTMLInputElement>){
@@ -103,24 +84,11 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
             blogimage.current = e.target.files[0];
         }
     }
-    function handleParagraphTitle(e:React.ChangeEvent<HTMLInputElement>,index:number){
-        updateParagraph(index,e.target.value,"title");
+    function handleParagraphTitle(e:React.ChangeEvent<HTMLInputElement>){
+        setParagraph({...paragraph,title:e.target.value});
     }
-    function handleParagraphBody(e:React.ChangeEvent<HTMLTextAreaElement>,index:number){
-        updateParagraph(index,e.target.value,"body");
-    }
-    function updateParagraph(index:number,value:any,key:keyof Paragraph){
-        const newparagraphs = [...paragraphs];
-        newparagraphs[index][key] = value;
-        setParagraphs(newparagraphs);
-    }
-    function deleteParagraphRow(e:React.MouseEvent<HTMLButtonElement>,index:number){
-        const newparagraphfields = [...paragraphfields];
-        newparagraphfields.splice(index,1);
-        setParagraphFields(newparagraphfields);
-        const newparagraphs = [...paragraphs];
-        newparagraphs.splice(index,1);
-        setParagraphs(newparagraphs);
+    function handleParagraphBody(e:React.ChangeEvent<HTMLTextAreaElement>){
+        setParagraph({...paragraph,body:e.target.value});
     }
     return(
         <>
@@ -171,87 +139,60 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
                         {( errors.blogimage?.message != undefined) && <Error message={errors.blogimage?.message!} errortype="danger"/>}
                         {blogfilename.length > 0 && <div className="rounded-[5px]  dark:text-white text-slate-600 py-2 gap-x-2 flex items-center"><IoImageOutline  className="dark:text-white text-slate-500" size={25}/>{blogfilename}</div>}
                     </div>
-                    {
-                        paragraphfields.map(({filename,title,body},index)=>(
-                            <div key={index} className="duration-500 mb-5 mt-10">                                 
-                                <div className="flex justify-between border-b border-b-slate-300 py-2 px-2 rounded-[4px] items-center gap-x-5 w-full">
-                                    <h2 className="text-[20px] dark:text-white text-slate-600">New paragraph</h2>
-                                    <button 
-                                        type="button" onClick={e=>deleteParagraphRow(e,index)}
-                                        className="
-                                            hover:scale-[1.03] duration-200 rounded-[5px] 
-                                            border border-slate-700 dark:border-slate-200
-                                            text-xl flex-col-center h-6 w-6 px-[2px]" 
-                                            title="delete paragraph "
-                                    >
-                                        <AiOutlineMinus className="dark:text-white text-slate-600" size={20}  />
-                                    </button>
-                                </div>
-                                <div className="h-fit mt-6 mb-5">
-                                    <input 
-                                        data-index={index}
-                                        id={`image-${index}`} className="w-0 h-0 peer"
-                                        onChange={e=>obtainImageFile(e,index)} name="image"
-                                        type="file" aria-required="false" accept="image/*" 
-                                    />
-                                    <label htmlFor={`image-${index}`} className="
-                                        cursor-pointer inline-flex border
-                                        border-slate-400/60 shadow-sm peer-focus:ring-2
-                                        dark:border-blue-200/20 w-fit peer-focus:ring-black
-                                        px-4 py-2 gap-x-3 rounded-[8px] mb-[6px] dark:peer-focus:ring-white
-                                        dark:text-slate-200 text-slate-500"
-                                    >
-                                        <BsFolderPlus size={25} />
-                                        <span>Select paragraph image</span>
-                                    </label>
-                                    {filename.length > 0 && <div className="rounded-[5px] dark:text-white text-slate-600 flex items-center gap-x-2"><IoImageOutline  className="dark:text-white text-slate-500" size={25}/>{filename}</div>}
-                                </div>
-                                <div className="mb-4">
-                                    <label htmlFor={"paragraphtitle"} className="text-slate-500 dark:text-white">paragraph title</label>
-                                    <input 
-                                        defaultValue={title}
-                                        onChange={e=>handleParagraphTitle(e,index)}
-                                        name="paragraphtitle"
-                                        className={`
-                                            border dark:text-slate-200 dark:bg-transparent
-                                            mb-2 disabled:cursor-not-allowed border-slate-300/80 
-                                            focus:ring-2 outline-none text-slate-600 duration-300 
-                                            px-4 focus:ring-black dark:focus:ring-white rounded-[5px] w-full py-2`
-                                        }
-                                        type="text" id="paragraphtitle"
-                                    />
-                                </div>
-                                <div >
-                                <label htmlFor={"paragraphbody"} className="text-slate-500 dark:text-white">paragraph body</label>
-                                    <textarea 
-                                        defaultValue={body}
-                                        onChange={e=>handleParagraphBody(e,index)}
-                                        name="paragraphbody"
-                                        required aria-required="true"
-                                        rows={5} id="paragraphbody" className="
-                                        py-2 dark:text-slate-200 px-4 
-                                        dark:bg-transparent block border
-                                        border-slate-300/80 focus:ring-2
-                                        focus:ring-black rounded-[5px]
-                                        outline-none w-full mb-8 dark:focus:ring-white"
-                                    />    
-                                </div>                           
-                            </div>
-                        ))
-                    }
+                    <div  className="duration-500 mb-5 mt-10">                                 
+                        <div className="flex justify-between border-b border-b-slate-300 py-2 px-2 rounded-[4px] items-center gap-x-5 w-full">
+                            <h2 className="text-[20px] dark:text-white text-slate-600">New paragraph</h2>
+                        </div>
+                        <div className="h-fit mt-6 mb-5">
+                            <input 
+                                id="paragraphimage" className="w-0 h-0 peer"
+                                onChange={obtainParagraphNewImageFile} name="image"
+                                type="file" aria-required="false" accept="image/*" 
+                            />
+                            <label htmlFor="paragraphimage" className="
+                                cursor-pointer inline-flex border
+                                border-slate-400/60 shadow-sm peer-focus:ring-2
+                                dark:border-blue-200/20 w-fit peer-focus:ring-black
+                                px-4 py-2 gap-x-3 rounded-[8px] mb-[6px] dark:peer-focus:ring-white
+                                dark:text-slate-200 text-slate-500"
+                            >
+                                <BsFolderPlus size={25} />
+                                <span>Select paragraph image</span>
+                            </label>
+                            {paragraph.image && <div className="rounded-[5px] dark:text-white text-slate-600 flex items-center gap-x-2"><IoImageOutline  className="dark:text-white text-slate-500" size={25}/>{paragraph.image.name}</div>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor={"paragraphtitle"} className="text-slate-500 dark:text-white">paragraph title</label>
+                            <input 
+                                defaultValue={title}
+                                onChange={handleParagraphTitle}
+                                name="paragraphtitle"
+                                className={`
+                                    border dark:text-slate-200 dark:bg-transparent
+                                    mb-2 disabled:cursor-not-allowed border-slate-300/80 
+                                    focus:ring-2 outline-none text-slate-600 duration-300 
+                                    px-4 focus:ring-black dark:focus:ring-white rounded-[5px] w-full py-2`
+                                }
+                                type="text" id="paragraphtitle"
+                            />
+                        </div>
+                        <div >
+                        <label htmlFor={"paragraphbody"} className="text-slate-500 dark:text-white">paragraph body</label>
+                            <textarea 
+                                defaultValue={paragraph.body}
+                                onChange={handleParagraphBody}
+                                name="paragraphbody"
+                                required aria-required="true"
+                                rows={5} id="paragraphbody" className="
+                                py-2 dark:text-slate-200 px-4 
+                                dark:bg-transparent block border
+                                border-slate-300/80 focus:ring-2
+                                focus:ring-black rounded-[5px]
+                                outline-none w-full mb-8 dark:focus:ring-white"
+                            />    
+                        </div>                           
+                    </div>
                     <div className="flex justify-center mb-4 sm:justify-between items-center  flex-wrap ">
-                        <button type="button" onClick={showParagraph} className="
-                            px-5 border border-slate-600 dark:border-white shrink-0 w-full sm:w-auto
-                            text-slate-700 dark:text-white rounded-[5px] py-2 mb-4 sm:mb-0
-                             before:content-['Add_paragraph'] before:flex-row-center before:text-white
-                            relative dark:before:bg-white before:bg-[rgb(30,30,30)] before:absolute
-                             before:h-full before:invisible hover:before:visible overflow-hidden before:w-full 
-                            before:inset-0 dark:before:text-slate-700
-                            
-                             "
-                        >
-                            Add a paragraph
-                        </button>
                         <button type="submit" disabled={isSubmitting} onClick={handleSubmit(submitFormData)} className={`
                             px-10 bg-[rgb(40,40,40)] shrink-0 sm:w-auto dark:bg-white
                             text-white rounded-[5px] py-2 w-full sm:mb-0 focus-visible:ring-2

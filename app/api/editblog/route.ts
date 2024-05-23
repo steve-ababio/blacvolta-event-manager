@@ -10,22 +10,16 @@ type ParagraphType = {
     id?:string
 }
 
-
-async function updateParagraphs(paragraphs:ParagraphType[]){
-    for(let paragraph of paragraphs){
-        if(paragraph.id === ""){
-            delete paragraph.id;
-            await prisma.paragraph.create({
-                data:paragraph
-            });
-        }else{
-            await prisma.paragraph.update({
-                where:{
-                    id:paragraph.id
-                },
-                data:paragraph
-            });
-        }
+async function updateParagraph(paragraph:ParagraphType){
+    try{
+        await prisma.paragraph.update({
+            where:{
+                id:paragraph.id
+            },
+            data:paragraph
+        });
+    }catch(error){
+        return NextResponse.json({message:`Error updating paragraph: ${error}}`})
     }
 }
 async function updateBlogpost(id:number,author:string,date:string,title:string,imagepath:string){
@@ -44,45 +38,38 @@ async function updateBlogpost(id:number,author:string,date:string,title:string,i
         }
     });
 }
-
 export async function PUT(req:NextRequest){
     const data = await req.formData();
-    const paragraphs:ParagraphType[] = []
     const blogtitle = data.get("blogtitle") as string;
     const author = data.get("authorname") as string;
     const date = data.get("datewritten") as string;
     const Id = data.get("id") as string;
     const blogimage = data.get("blogimage") as File|string;
-
-    console.log("edit form data:",data)
+    const paragraph = JSON.parse(data.get("paragraph") as string);
+    const paragraphimage = data.get("paragraphimage") as File|string;
 
     let blogimagepath = "";
     if(blogimage instanceof File){
-        blogimagepath =  await uploadImage(blogimage);
+        blogimagepath = await uploadImage(blogimage);
     }else{
         blogimagepath = blogimage;
     }   
-    let {id} = await updateBlogpost(parseInt(Id,10),author,date,blogtitle,blogimagepath);
-
-    let paragraphstring = data.getAll("paragraph");
-    for(let i = 0;i < paragraphstring.length;i++) {
-        const paragraph = JSON.parse(paragraphstring[i] as string);
-        paragraph.image = data.get(`image-${i}`) as File|string;
-
-        let paragraphimagepath = paragraph.image;
-        if(paragraph.image instanceof File){
-            paragraphimagepath = await uploadImage(paragraph.image);
-        }
-        paragraphs.push({
-            blogID:id,
-            id:paragraph.id,
-            body:paragraph.body,
-            title:paragraph.title,
-            imagepath:paragraphimagepath
-        });
+    await updateBlogpost(parseInt(Id,10),author,date,blogtitle,blogimagepath);
+    let paragraphimagepath = "";
+    if(paragraphimage instanceof File){
+        paragraphimagepath = await uploadImage(paragraphimage);
+    }else{
+        paragraphimagepath = paragraphimage;
+    }
+    const fullparagraph:ParagraphType = {
+        id:paragraph.id,
+        blogID: paragraph.blogID,
+        body: paragraph.body,
+        imagepath: paragraphimagepath,
+        title: paragraph.title,
     }
     try{
-        await updateParagraphs(paragraphs);
+        await updateParagraph(fullparagraph);
     }catch(error){
         return NextResponse.json({message:"Error creating blog post: "+error});
     }

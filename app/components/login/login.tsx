@@ -16,7 +16,7 @@ export default function Login(){;
     const{
         register,
         handleSubmit,
-        formState:{isSubmitting,isLoading}
+        formState:{isSubmitting}
     } = useForm({
         defaultValues:{
             username:"",
@@ -31,12 +31,12 @@ export default function Login(){;
                 username,
                 password,
                 redirect:false,
+                callbackUrl:"/dashboard"
             });
-            if(response && !response.error){
-                router.push("/dashboard");
-
-            }else{
+            if(! response!.ok && response!.error){
                 setErrorMessage("Incorrect username or password");
+            }else{
+                router.push("/dashboard");
             }
         }catch(err){
             console.log(err)
