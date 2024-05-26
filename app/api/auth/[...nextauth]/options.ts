@@ -21,8 +21,8 @@ const authOptions: NextAuthOptions = {
                     throw new Error("Invalid credentials");
                 }
                 const usersessiondata =  {
-                    id:user!.id,
-                    username:user!.username,
+                    id:user.id,
+                    username:user.username,
                 }
                 return usersessiondata
             },
@@ -30,7 +30,7 @@ const authOptions: NextAuthOptions = {
     ],
    
     session:{
-        maxAge: 2*24*60*60
+        maxAge: 24*60*60
     },
     callbacks:{
         async jwt({token,user}){

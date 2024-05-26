@@ -30,7 +30,6 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         blogID:paragraphdata[0].blogID,
     });
 
-    console.log("paragraph: ",paragraphdata);
     const{
         register,
         handleSubmit,
@@ -51,13 +50,14 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         formdata.append("authorname",data.authorname);
         formdata.append("datewritten",data.datewritten);
         formdata.append("id",id);
+        formdata.append("paragraph",JSON.stringify(paragraph));
 
         if(blogimage.current){
             formdata.append("blogimage",blogimage.current);
         }else{
             formdata.append("blogimage",imagepath);
         }
-        formdata.append("paragraph",JSON.stringify(paragraph));
+       
         if(paragraph.image != null){
             formdata.append(`paragraphimage`,paragraph.image!);
         }else{
