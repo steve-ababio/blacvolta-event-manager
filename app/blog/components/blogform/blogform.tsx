@@ -27,8 +27,6 @@ export default function BlogForm(){
     });
 
     const submitFormData:SubmitHandler<BlogFormType> = async(data)=>{
-        console.log("data: ",data);
-
         const formdata = new FormData();
         formdata.append("blogtitle",data.blogtitle);
         formdata.append("authorname",data.authorname);

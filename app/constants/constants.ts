@@ -17,3 +17,11 @@ export interface IEventDetails {
     approved:boolean
     paid:boolean
 }
+
+export type ParagraphType = {
+    blogID:number,
+    title:string
+    imagepath:string,
+    body:string,
+    id?:string
+}

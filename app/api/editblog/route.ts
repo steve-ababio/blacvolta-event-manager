@@ -1,14 +1,7 @@
+import { ParagraphType } from "@/app/constants/constants";
 import { prisma } from "@/app/lib/prisma";
 import { uploadImage } from "@/app/utils/util";
 import { NextRequest, NextResponse } from "next/server";
-
-type ParagraphType = {
-    blogID:number,
-    title:string
-    imagepath:string,
-    body:string,
-    id?:string
-}
 
 async function updateParagraph(paragraph:ParagraphType){
     try{
