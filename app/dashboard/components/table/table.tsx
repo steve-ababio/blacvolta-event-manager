@@ -68,6 +68,7 @@ export default function Table({data}:EventDetailsListProps){
                     <tr className="text-left dark:text-slate-200 text-slate-600">
                         {/* <th className="p-[0.75rem]"></th> */}
                         <th className="p-[0.75rem]">Event Date</th>
+                        <th className="p-[0.75rem]">Status</th>
                         <th className="p-[0.75rem]">Event Time</th>
                         <th className="p-[0.75rem]">Venue</th>
                         <th className="p-[0.75rem]">Event Name</th>

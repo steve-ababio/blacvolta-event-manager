@@ -15,7 +15,6 @@ async function getApprovedEvents(){
 export default async function EventList(){
     const data = await getApprovedEvents();
     const events:IEventDetails[] = data!;
-    console.log("events: ",events);
     
     return(
         <>

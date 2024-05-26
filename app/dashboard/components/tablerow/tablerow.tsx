@@ -14,12 +14,29 @@ interface TableRowProps{
     setEvent:React.Dispatch<React.SetStateAction<IEventDetails|undefined>>
 }   
 
+type EventStatus = "Upcoming" | "Ended" | "Ongoing"|"Recurring";
+let eventstatus:EventStatus = "Upcoming";
 export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpen}:TableRowProps){
     const {EventDate,EventName,EventTime,Venue,Id} = event;
     const [viewaction,setViewAction] = useState(false);
     const activeelement = useRef<HTMLDivElement>(null);
 
+    const eventdate = new Date(event.EventDate);
+    const currentdate = new Date();
+
+    if( event.EventDate != ""){
+        if(eventdate < currentdate){
+            eventstatus = "Ended";
+        }else if(eventdate > currentdate){
+            eventstatus = "Upcoming";
+        }else {
+            eventstatus = "Ongoing";
+        }
+    }else{
+        eventstatus = "Recurring";
+    }
     useEffect(function(){
+        
         window.addEventListener("click",closeActionMenu);
         return function(){
             window.removeEventListener("click",closeActionMenu);
@@ -47,6 +64,18 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
             <tr className="w-full dark:text-slate-200 text-slate-600 border-b border-b-gray-400/50 text-[14px]">
                 {/* <td className="p-[.7srem] text-center"><input className="w-[18px] border-2 focus:outline-2 focus:-outline-offset-1 focus:outline-blue-400 h-[18px] cursor-pointer" type="checkbox" /></td> */}
                 <td className="align-top p-[.75rem]">{EventDate}</td>
+                <td className="align-top p-[.75rem]">
+                    <div className={`
+                        ${eventstatus === 'Ongoing' ?'bg-green-300/20 text-green-800':''}
+                        ${eventstatus === 'Ended' ?'bg-red-300/20 text-red-800':''}
+                        ${eventstatus === 'Upcoming' ?'bg-violet-300/20 text-violet-800':''}
+                        ${eventstatus === 'Recurring' ?'bg-blue-300/20 text-blue-800':''}
+                        text-center py-[5px] rounded-[5px] text-[13px]
+                        `
+                    }>
+                        {eventstatus}
+                    </div>
+                </td>
                 <td className="align-top p-[.75rem]">{EventTime}</td>
                 <td className="align-top p-[.75rem]">{Venue}</td>
                 <td className="align-top p-[.75rem]">{EventName}</td>
