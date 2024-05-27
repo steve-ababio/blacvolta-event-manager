@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import authOptions from "../api/auth/[...nextauth]/options";
-import AccountSettingsForm from "../components/accountsettingsform/accountsettingsform";
+import AccountSettingsForm from "./components/accountsettingsform/accountsettingsform";
 import NavBar from "../components/navbar/navbar";
 
 export default async function AccountSettings(){
