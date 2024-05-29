@@ -1,6 +1,7 @@
 import React from "react";
 import { IEventDetails } from "@/app/constants/constants";
 import ActionMenu from "../actionmenu/actionmenu";
+import { formatTime } from "@/app/utils/util";
 
 interface TableRowProps{
     event:IEventDetails,
@@ -16,13 +17,19 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
     const eventdate = new Date(event.EventDate);
     const currentdate = new Date();
     currentdate.setHours(0,0,0,0);
+    const eventtime = EventTime.split(":");
+    const [hours,minutes,seconds] = formatTime(eventtime[0],eventtime[1]);
+    eventdate.setHours(hours,minutes,seconds);
+
     if( event.EventDate != ""){
         if(eventdate < currentdate){
             eventstatus = "Ended";
         }else if(eventdate > currentdate){
             eventstatus = "Upcoming";
         }else if(eventdate.getTime() === currentdate.getTime()){
-            eventstatus = "Ongoing";
+            if(new Date().getHours() >= hours){
+                eventstatus = "Ongoing";
+            }
         }
     }else{
         eventstatus = "Recurring";
