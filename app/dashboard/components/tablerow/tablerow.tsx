@@ -44,7 +44,7 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
                         ${eventstatus === 'Ended' ?'bg-red-300/20 text-red-800 dark:bg-red-300 dark:text-red-900 font-semibold':''}
                         ${eventstatus === 'Upcoming' ?'bg-violet-300/20 text-violet-800 dark:bg-violet-300 dark:text-violet-900 font-semibold':''}
                         ${eventstatus === 'Recurring' ?'bg-blue-300/20 text-blue-800 dark:bg-blue-300 dark:text-blue-900 font-semibold':''}
-                        text-center py-[5px] rounded-[5px] text-[13px]
+                        text-center py-[5px] px-2 rounded-[5px] text-[13px]
                         `
                     }>
                         {eventstatus}
