@@ -21,7 +21,7 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
             eventstatus = "Ended";
         }else if(eventdate > currentdate){
             eventstatus = "Upcoming";
-        }else if(eventdate === currentdate){
+        }else if(eventdate.getTime() === currentdate.getTime()){
             eventstatus = "Ongoing";
         }
     }else{
