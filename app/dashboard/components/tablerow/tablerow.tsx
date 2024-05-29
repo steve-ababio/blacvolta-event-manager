@@ -15,7 +15,7 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
     const {EventDate,EventName,EventTime,Venue,Id} = event;
     const eventdate = new Date(event.EventDate);
     const currentdate = new Date();
-
+    currentdate.setHours(0,0,0,0);
     if( event.EventDate != ""){
         if(eventdate < currentdate){
             eventstatus = "Ended";
