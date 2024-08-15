@@ -9,6 +9,7 @@ import { toast,Slide } from "react-toastify";
 import { BsFolderPlus } from "react-icons/bs";
 import { useSession } from "next-auth/react";
 import { IoImageOutline } from "react-icons/io5";
+import { Loader } from "../loader/loader";
 
 export interface IEventForm{
     eventname:string,
@@ -19,7 +20,8 @@ export interface IEventForm{
     eventdescription:string,
     sociallinks:string,
     eventflyer?:FileList,
-    eventvenue:string
+    eventvenue:string,
+    eventtimeframe:string
 }
 const options = {
     fields: ["address_components", "geometry", "icon", "name"],
@@ -61,6 +63,7 @@ export default function EventForm(){
     } = useForm<IEventForm>();
 
     const {ref,...rest} = register("eventvenue",{required:"Event venue is required"});
+
     useEffect(function(){
         autocompleteref.current = new window.google.maps.places.Autocomplete(inputref.current!,options);
         autocompleteref.current.addListener("place_changed",getPlace);
@@ -70,7 +73,7 @@ export default function EventForm(){
         const place = await autocompleteref.current!.getPlace();
         venue.current = `${place.name}`;
         if(errors.eventvenue!.message!.length > 0)
-            clearErrors("eventvenue")
+            clearErrors("eventvenue");
     }
     const submitFormData:SubmitHandler<IEventForm> = async(formeventdata)=>{
         const [hourstring,minute] = formeventdata.eventtime.split(":");
@@ -106,16 +109,18 @@ export default function EventForm(){
             eventimage.current = e.target.files[0];
        }
     }
+
     function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){
         setIsEventWeekly(e.target.checked);
     }
+    
     return(
         <form onSubmit={handleSubmit(submitFormData)} className="flex flex-col bg-white dark:bg-[#191C20] gap-y-5">
              <div className="h-fit my-3">
                 <input 
                     id="image" className="w-0 h-0 overflow-hidden peer"
                     {...register("eventflyer",{required:"Event flyer image is required"})}
-                    onChange={e=>{clearErrors("eventflyer");obtainImageFile(e)}} type="file"
+                    onChange={e=>{clearErrors("eventflyer"); obtainImageFile(e)}} type="file"
                     aria-required="true" accept="image/*"
                 />
                 <label htmlFor="image" className="
@@ -126,7 +131,7 @@ export default function EventForm(){
                   dark:text-slate-200 text-slate-500"
                 >
                     <BsFolderPlus size={25} />
-                    <span>Select image</span>
+                    <span>Select image *</span>
                 </label>
                 {fileloadedmessage != "" && <div className="rounded-[5px] dark:text-white text-slate-600 flex items-center gap-x-2"><IoImageOutline  className="dark:text-white text-slate-500" size={25}/>{fileloadedmessage}</div>}
                 {( errors.eventflyer?.message != undefined) && <Error message={errors.eventflyer?.message!} errortype = "danger" />}
@@ -136,7 +141,7 @@ export default function EventForm(){
                 register={register}
                 validationrules={{required:"Event Name is required"}}
                 name="eventname"
-                aria-required="true" type="text" label="Event Name"
+                aria-required="true" type="text" label="Event Name *"
                 errormessage={errors.eventname?.message}
             />
             <div className="flex items-center gap-x-4">
@@ -151,27 +156,41 @@ export default function EventForm(){
             {
                 iseventweekly && <Select ref={selectref} selectedvalue="0"  />
             }
+            
             {
-                !iseventweekly && <FormControl 
-                    register={register}
-                    onChange={()=>clearErrors("eventdate")}
-                    validationrules={{required:"Event Date is required"}}
-                    name="eventdate"
-                    aria-required="true" type="date" label="Event Date" 
-                    errormessage={errors.eventdate?.message}
-                    disabled ={iseventweekly}
-                />
+                !iseventweekly && 
+                <>
+                    <FormControl 
+                        register={register}
+                        onChange={()=>clearErrors("eventdate")}
+                        validationrules={{required:"Event Date is required"}}
+                        name="eventdate"
+                        aria-required="true" type="date" label="Event Date *" 
+                        errormessage={errors.eventdate?.message}
+                        disabled ={iseventweekly}
+                    />
+                    <FormControl 
+                        min={0}
+                        register={register}
+                        onChange={()=>clearErrors("eventtimeframe")}
+                        validationrules={{required:"Event Timeframe is required"}}
+                        name="eventtimeframe"
+                        aria-required="true" type="number" label="Event Timeframe * (number of days)" 
+                        errormessage={errors.eventtimeframe?.message}
+                        disabled ={iseventweekly}
+                    />
+                </>
             }
             <FormControl 
                 register={register}
                 validationrules={{required:"Event time is required"}}
                 onChange={()=>clearErrors("eventtime")}
                 name="eventtime"  
-                aria-required="true" type="time" label="Event Time"
+                aria-required="true" type="time" label="Event Time *"
                 errormessage={errors.eventtime?.message}
             />
             <div>
-                <label className="text-slate-500 dark:text-slate-200">Venue</label>
+                <label className="text-slate-500 dark:text-slate-200">Venue *</label>
                 <input 
                     {...rest}
                     name="eventvenue"
@@ -225,13 +244,7 @@ export default function EventForm(){
                     {
                         isSubmitting ? 
                             <>
-                                <RotatingLines 
-                                    strokeColor="white" 
-                                    strokeWidth="4"
-                                    animationDuration="0.8"
-                                    width="20"
-                                    visible={true} 
-                                />
+                                <Loader />
                                 <span className="text-[14px]">Adding event</span> 
                             </>
                             :<span className="text-[14px]">Add Event</span>

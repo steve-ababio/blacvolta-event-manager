@@ -33,7 +33,8 @@ export default function Login(){;
                 redirect:false,
                 callbackUrl:"/dashboard"
             });
-            if(! response!.ok && response!.error){
+            console.log(response);
+            if(!response!.ok && response!.error){
                 setErrorMessage("Incorrect username or password");
             }else{
                 router.push("/dashboard");

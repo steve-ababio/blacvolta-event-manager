@@ -3,15 +3,23 @@ import { PiBellSimple } from "react-icons/pi"
 import Notifications from "../notifications/notifications"
 import useSWR from "swr";
 import { useEffect, useRef, useState } from "react";
-import { IEventDetails } from "@/app/constants/constants";
+import { IEditorial, IUserEventDetails } from "@/app/constants/constants";
 
-const fetcher = (url:string)=>fetch(url,{cache:"no-store"}).then(res => res.json());
+const fetcher = (url:string) => fetch(url).then(r => r.json())
+
+
 const NotificationContainer = ()=>{
-    const {data,mutate,isValidating} = useSWR("/api/unapprovedevents",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const eventsdata = useSWR("/api/unapprovedevents",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const editorialsdata = useSWR("/api/unapprovededitorials",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+   
     const [visible,setVisible] = useState(false);
     const notificationref= useRef<HTMLDivElement>(null);
-    const events:IEventDetails[] = data || [];
+  
+    const unapprovedevents = eventsdata.data;
+    const  unapprovededitorials = editorialsdata.data!;
     
+    const events:IUserEventDetails[] = unapprovedevents || [];
+    const editorials:IEditorial[] = unapprovededitorials || [];
     useEffect(()=>{
         // ,{capture:true}
         window.addEventListener("click",closeMenu);
@@ -21,7 +29,11 @@ const NotificationContainer = ()=>{
     },[]);
 
     function fetchLatestEvents(){
-        mutate();
+        eventsdata.mutate();
+        
+    }
+    function fetchLatestEditorials(){
+        editorialsdata.mutate();
     }
     function closeMenu(e:MouseEvent){
         if(!notificationref.current!.contains(e.target as HTMLElement)){
@@ -31,20 +43,24 @@ const NotificationContainer = ()=>{
     function showNotificationMenu(){
         setVisible(!visible);
     }
+    let notificationcount = events.length + editorials.length;
     return (
         <div ref={notificationref} className="relative text-slate-500 dark:text-slate-300">
             <button className="relative px-2 flex items-center lg:after:content-['requests'] tooltip" onClick={showNotificationMenu}>
-                    <PiBellSimple size={26} className="text-slate-500 dark:text-slate-100" /> 
-                    {
-                        events!.length > 0 && <div data-indicator className="absolute top-[1px] left-[7px] w-[13px] h-[13px] flex-col-center dark:bg-slate-100 bg-slate-700 rounded-[50%]">
-                            <span className="text-white dark:text-slate-600 font-semibold text-[8px]">{events!.length}</span>
-                        </div>
-                    }
-                </button>
+                <PiBellSimple size={26} className="text-slate-500 dark:text-slate-100" /> 
+                {
+                    (events!.length > 0 || editorials.length > 0 )&& <div data-indicator className="absolute top-[1px] left-[7px] w-[13px] h-[13px] flex-col-center dark:bg-slate-100 bg-slate-700 rounded-[50%]">
+                        <span className="text-white dark:text-slate-600 font-semibold text-[8px]">{notificationcount.toString()}</span>
+                    </div>
+                }
+            </button>
             <Notifications
                 fetchLatestEvents={fetchLatestEvents} 
-                isLoading={isValidating}
+                fetchLatestEditorials={fetchLatestEditorials}
+                iseventloading={eventsdata.isValidating}
+                iseditorialloading={editorialsdata.isValidating}
                 events={events!} 
+                editorials={editorials} 
                 setVisible={setVisible} 
                 visible={visible}
             />

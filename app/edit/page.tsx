@@ -5,9 +5,9 @@ import authOptions from "../api/auth/[...nextauth]/options";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBar from "../components/navbar/navbar";
-import { IEventDetails } from "../constants/constants";
+import { IEvent } from "../constants/constants";
 
-export default async function EditEvent({searchParams}:{searchParams:IEventDetails}){
+export default async function EditEvent({searchParams}:{searchParams:IEvent}){
     const session = await getServerSession(authOptions);
     if(!session){
         redirect("/")

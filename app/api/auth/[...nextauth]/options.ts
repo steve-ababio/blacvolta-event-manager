@@ -13,18 +13,23 @@ const authOptions: NextAuthOptions = {
                 if(!username || !password){
                     throw new Error("Invalid credentials");
                 }
-                const user = await prisma.adminUser.findUnique({
-                   where:{username:username.toLocaleLowerCase()}
-                });
-
-                if(!user || (user!.password != password)){
-                    throw new Error("Invalid credentials");
+                try{
+                    const user = await prisma.adminUser.findUnique({
+                    where:{username}
+                    });
+                    console.log("user:",user);
+                    if(!user || (user!.password != password)){
+                        throw new Error("Invalid credentials");
+                    }
+                    const usersessiondata =  {
+                        id:user.id,
+                        username:user.username,
+                    }
+                    return usersessiondata
+                }catch(error){
+                    console.log(error);
+                    throw error;
                 }
-                const usersessiondata =  {
-                    id:user.id,
-                    username:user.username,
-                }
-                return usersessiondata
             },
         })
     ],

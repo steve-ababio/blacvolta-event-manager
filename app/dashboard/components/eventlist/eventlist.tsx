@@ -1,4 +1,4 @@
-import { IEventDetails } from "@/app/constants/constants";
+import { IEvent } from "@/app/constants/constants";
 import Table from "@/app/dashboard/components/table/table";
 import { prisma } from "@/app/lib/prisma";
 import { FcCalendar } from "react-icons/fc";
@@ -14,8 +14,7 @@ async function getApprovedEvents(){
 }
 export default async function EventList(){
     const data = await getApprovedEvents();
-    const events:IEventDetails[] = data!;
-    console.log("events: ",events);
+    const events:IEvent[] = data!;
     
     return(
         <>

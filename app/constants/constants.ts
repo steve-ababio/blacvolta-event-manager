@@ -1,8 +1,15 @@
+import { Paragraph } from "../blog/components/blogform/blogform";
+
 export const FILE_UPLOAD_URL = "https://files.blacvolta.com/upload.php";
-export interface IEventDetails {
+
+export interface IUser{
+    Organizationname:string,
+    Email:string,
+    Phonenumber?:string, 
+    EventId:string
+}
+export interface IEvent{
     Id:string,
-    adminUserId:string|null,
-    userId:string|null,
     Venue:string,
     EventDate:string,
     EventName:string,
@@ -14,6 +21,26 @@ export interface IEventDetails {
     InquiryNumber:string,
     IsEventWeekly:boolean,
     DayofWeek:string,
-    approved:boolean
-    paid:boolean
+    approved:boolean,
+    paid:boolean,
 }
+export type IUserEventDetails = IEvent & IUser;
+export interface ParagraphResult {
+    id: string;
+    body: string; 
+    position: number;
+    instagrampostlink: string; 
+    imagepath: string; 
+    blogID: number;
+}
+export interface IEditorial {
+    id:number,
+    author:string,
+    title:string,
+    date:string,
+    imagepath:string,
+    approved:boolean,
+    paragraph:ParagraphResult[]
+}
+
+export type Tab_T = "EVENTS"|"EDITORIALS"

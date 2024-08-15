@@ -1,14 +1,14 @@
 "use client"
 import { useForm,SubmitHandler} from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
-import { RotatingLines } from "react-loader-spinner";
 import { IEventForm } from "../eventform/eventform";
 import { Slide, toast } from "react-toastify";
 import Select from "../select/select";
 import { BsFolderPlus } from "react-icons/bs";
 import FormControl from "../formcontrol/formcontrol";
-import { IEventDetails } from "@/app/constants/constants";
+import { IEvent} from "@/app/constants/constants";
 import { IoImageOutline } from "react-icons/io5";
+import { Loader } from "../loader/loader";
 
 function convertTime(EventTime:string){
     const [time,meridian] = EventTime.split(" ");
@@ -26,7 +26,7 @@ function convertTime(EventTime:string){
     
     return `${hour}:${min}`;
 }
-export default function EditEventForm(props:IEventDetails){
+export default function EditEventForm(props:IEvent){
     const {Id,EventName,EventDate,FlyerImagePath,IsEventWeekly,DayofWeek,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = props;
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement|null>(null);
@@ -241,13 +241,7 @@ export default function EditEventForm(props:IEventDetails){
                 {
                     isSubmitting ? 
                     <div className="flex-row-center">
-                        <RotatingLines 
-                            strokeColor="white" 
-                            strokeWidth="4"
-                            animationDuration="0.8"
-                            width="25"
-                            visible={true} 
-                        />
+                        <Loader />
                         <span> saving event</span>
                     </div>
                     :"Save Event"

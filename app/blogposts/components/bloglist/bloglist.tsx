@@ -6,10 +6,9 @@ import { prisma } from "@/app/lib/prisma";
 
 export type ParagraphType = {
     id:string
-    imagepath:string,
-    title:string,
     body:string,
-    blogID:number
+    blogID:number,
+    instagrampostlink:string
 }
 export type BlogPostType = {
     id: number;

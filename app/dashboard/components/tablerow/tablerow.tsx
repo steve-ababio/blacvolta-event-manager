@@ -5,13 +5,13 @@ import { BsThreeDots } from "react-icons/bs";
 import { BiExpandHorizontal } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 import React, {useEffect, useRef, useState } from "react";
-import { IEventDetails } from "@/app/constants/constants";
+import { IEvent } from "@/app/constants/constants";
 
 interface TableRowProps{
-    event:IEventDetails,
+    event:IEvent,
     setModalOpen:React.Dispatch<React.SetStateAction<boolean>>,
     setShowDeletePrompt:React.Dispatch<React.SetStateAction<boolean>>
-    setEvent:React.Dispatch<React.SetStateAction<IEventDetails|undefined>>
+    setEvent:React.Dispatch<React.SetStateAction<IEvent|undefined>>
 }   
 
 export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpen}:TableRowProps){
@@ -19,6 +19,14 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
     const [viewaction,setViewAction] = useState(false);
     const activeelement = useRef<HTMLDivElement>(null);
 
+    let date = "";
+    if(EventDate != ""){
+        date = new Date(EventDate).toLocaleDateString("en-us",{
+            day:"numeric",
+            month:"short",
+            year:"numeric"
+        });
+    }   
     useEffect(function(){
         window.addEventListener("click",closeActionMenu);
         return function(){
@@ -46,7 +54,7 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
         <>
             <tr className="w-full dark:text-slate-200 text-slate-600 border-b border-b-gray-400/50 text-[14px]">
                 {/* <td className="p-[.7srem] text-center"><input className="w-[18px] border-2 focus:outline-2 focus:-outline-offset-1 focus:outline-blue-400 h-[18px] cursor-pointer" type="checkbox" /></td> */}
-                <td className="align-top p-[.75rem]">{EventDate}</td>
+                <td className="align-top p-[.75rem]">{date}</td>
                 <td className="align-top p-[.75rem]">{EventTime}</td>
                 <td className="align-top p-[.75rem]">{Venue}</td>
                 <td className="align-top p-[.75rem]">{EventName}</td>

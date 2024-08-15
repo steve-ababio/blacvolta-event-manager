@@ -1,10 +1,10 @@
 import ViewEventDetailsItem from "@/app/components/viewdetailsinfo/viewdetailsinfo";
-import { IEventDetails } from "@/app/constants/constants";
+import { IEvent,IUserEventDetails } from "@/app/constants/constants";
 import React from "react";
 
 type ViewEventDetailsProps = {
     modalopen:boolean
-    event:IEventDetails
+    event:IEvent|IUserEventDetails
     closeModal:()=>void
 }
 function dayOfWeekAsString(dayIndex:number) {
@@ -15,7 +15,7 @@ const ViewEventDetails = ({event,modalopen,closeModal}:ViewEventDetailsProps) =>
     return(
         <div className={`
             max-w-[28rem] w-[90%] px-8 pt-8 dark:border 
-            dark:bg-[#191C20] bg-white 
+            dark:bg-[#191C20] bg-white h-[90vh]
             dark:border-slate-300/20 rounded
             overflow-y-auto relative z-[110] duration-[350ms]
             ${modalopen ? 'scale-100':'scale-0'}`
@@ -24,7 +24,7 @@ const ViewEventDetails = ({event,modalopen,closeModal}:ViewEventDetailsProps) =>
                 <img  className="rounded-[10px] max-h-full max-w-full" src={event?.FlyerImagePath} alt="event flyer image" />
             </div>
             <div className="text-[14px] md:text-[16px]">
-                <h2 className="font-bold pt-3 text-slate-600 dark:text-slate-200 pb-2 text-[18px] text-center border-b border-b-slate-500/50">{event?.EventName}</h2>
+                <h2 className="font-bold pt-3 text-slate-600 dark:text-slate-200 pb-2 text-[18px] border-b border-b-slate-500/50">{event?.EventName}</h2>
                 <div className="text-slate-500 dark:text-slate-200">
                     <ViewEventDetailsItem title="Event date: " eventinfo={event?.EventDate} />
                     <ViewEventDetailsItem title="Event time: " eventinfo={event?.EventTime} />

@@ -1,25 +1,23 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import TableRow from "@/app/dashboard/components/tablerow/tablerow";
 import Modal from "../../../components/modal/modal";
-import ViewEventDetails from "../../../components/modal/content/view/view";
+import ViewEventDetails from "../../../components/modal/content/eventpreview/eventpreview";
 import Link from "next/link";
 import { FaCalendarPlus } from "react-icons/fa";
 import DeleteRecord from "../../../components/modal/content/delete/deletedialog";
-import { IEventDetails } from "@/app/constants/constants";
+import { IEvent } from "@/app/constants/constants";
 import { Slide, toast } from "react-toastify";
 
-
-
 interface EventDetailsListProps{
-    data:IEventDetails[],
+    data:IEvent[],
 }
 
 export default function Table({data}:EventDetailsListProps){
     const [modalopen,setModalOpen] = useState(false);
     const [loading,setLoading] = useState(false);
-    const [event,setEvent] = useState<IEventDetails>();
+    const [event,setEvent] = useState<IEvent>();
     const [showdeleteprompt,setShowDeletePrompt] = useState(false);
 
     function closeModal(){
@@ -76,7 +74,7 @@ export default function Table({data}:EventDetailsListProps){
                 </thead>
                 <tbody>
                     {
-                        data.map((event:IEventDetails)=>(
+                        data.map((event:IEvent)=>(
                             <React.Fragment key={event.Id}>
                                 <TableRow
                                     setShowDeletePrompt={setShowDeletePrompt} 

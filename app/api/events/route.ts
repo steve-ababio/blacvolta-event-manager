@@ -3,14 +3,7 @@ import { NextResponse } from "next/server";
 
 async function getApprovedEvents(){
     try{
-        const results = await prisma.event.findMany({
-            // where:{
-            //     approved:true,
-            //     paid:true,
-                
-            // }
-        });
-        console.log("events:",results);
+        const results = await prisma.event.findMany({where:{approved:true,paid:true} });
         return results;
     }catch(error){
         NextResponse.json(error);

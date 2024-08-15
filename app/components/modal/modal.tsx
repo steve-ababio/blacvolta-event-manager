@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 
 type ModalProps = {
     open:boolean,
@@ -14,6 +14,13 @@ export default function Modal({open,onclose,children}:ModalProps){
             onclose()
         }
     }
+    useEffect(function(){
+        if(open){
+            document.body.classList.add("body-no-scroll");
+        }else{
+            document.body.classList.remove("body-no-scroll");
+        }
+    },[open]);
     return(
         <div ref={overlay} onClick={closeModal} className={`z-[110] fixed backdrop-blur-[3px] inset-0 flex justify-center items-center ${open ? 'block bg-black/40 ':'hidden'}`}>
             {children}

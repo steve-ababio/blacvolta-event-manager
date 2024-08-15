@@ -60,6 +60,9 @@ body{
     lg:after:duration-300 lg:after:pointer-events-none
   }
 }
+.body-no-scroll{
+  overflow-y: hidden;
+}
 
 @keyframes anim-spin{
   to{ 

@@ -6,14 +6,14 @@ import Error from "../error/error";
 
 interface FormControlProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label:string,
-    type:"text"|"password"|"time"|"date"|"tel",
+    type:"text"|"password"|"time"|"date"|"tel"|"number",
     register:UseFormRegister<IEventForm>,
     errormessage?:string,
     name:keyof IEventForm,
     validationrules?:RegisterOptions<IEventForm> | undefined,
 }
 
-const FormControl = ({register,name,label,defaultValue,type,onChange,className,disabled,errormessage="",validationrules}:FormControlProps)=> {
+const FormControl = ({register,name,min,label,defaultValue,type,onChange,className,disabled,errormessage="",validationrules}:FormControlProps)=> {
     const controlId = useId();
     return(
         <div className={`w-full ${disabled ? 'opacity-50': ''} pb-3`}>
@@ -24,6 +24,7 @@ const FormControl = ({register,name,label,defaultValue,type,onChange,className,d
                 onChange={onChange} 
                 className={twMerge(`border dark:text-slate-200 dark:bg-transparent mb-2 disabled:cursor-not-allowed border-slate-300/80 focus:ring-2 outline-none text-slate-600 duration-300 px-4 focus:ring-black dark:focus:ring-white rounded-[5px] w-full py-2`,className)}
                 type={type} id={controlId}
+                min={min}
             />
             {(errormessage != "" || errormessage !== undefined) && <Error message={errormessage!} errortype="danger"/>}
         </div>

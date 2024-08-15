@@ -1,9 +1,9 @@
-import { IEventDetails } from "@/app/constants/constants";
+import {  IEvent } from "@/app/constants/constants";
 import { prisma } from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
 
-export async function  GET(){
-    let results:IEventDetails[];
+export async function GET(){
+    let results:IEvent[];
     try{
          results = await prisma.event.findMany({
             where:{

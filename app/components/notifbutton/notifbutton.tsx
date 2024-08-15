@@ -7,7 +7,7 @@ interface NotifButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement> {
 }
 const NotifButton = React.forwardRef<HTMLButtonElement,NotifButtonProps>(({className,disabled,onClick,children}:NotifButtonProps,ref)=>{
     return(
-        <button disabled={disabled} ref={ref} onClick={onClick} className={twMerge(`px-8 rounded-[4px] py-[5px] gap-x-2 flex items-center`,className)}>
+        <button disabled={disabled} ref={ref} onClick={onClick} className={twMerge(`px-4 rounded-[4px] py-[4px] gap-x-2 flex items-center`,className)}>
             {children}
         </button>
     )

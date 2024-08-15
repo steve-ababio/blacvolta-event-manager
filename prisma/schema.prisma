@@ -13,24 +13,13 @@ model AdminUser {
   id       String  @id @default(cuid())
   username String  @unique
   password String
-  events   Event[]
-}
-
-model User {
-  id          String  @id @default(cuid())
-  email       String  @unique
-  fullname    String
-  phonenumber String
-  password    String
-  events      Event[]
 }
 
 model Event {
-  Id             String     @id @default(cuid())
-  user           User?       @relation(fields: [userId], references: [id])
-  AdminUser      AdminUser? @relation(fields: [adminUserId], references: [id])
-  adminUserId    String?
-  userId         String?
+  Id            String     @id @default(cuid())
+  Email       String?  @unique
+  Organizationname String?
+  Phonenumber String?
   EventName      String
   EventDate      String
   EventTime      String
@@ -42,24 +31,26 @@ model Event {
   FlyerImagePath String
   IsEventWeekly  Boolean
   DayofWeek      String
+  EventId String?
   approved       Boolean
   paid           Boolean
 }
 
 model Paragraph{
   id String     @id @unique @default(cuid())
-  title String
-  imagepath String
   body String
+  position Int
+  instagrampostlink String
+  imagepath String
   blog  BlogPost @relation(fields: [blogID], references: [id],onUpdate: Cascade,onDelete: Cascade)
   blogID Int
 }
-
 model BlogPost{
   id Int     @id @unique @default(autoincrement())
   author String
   title String
   date String
   imagepath String
+  approved Boolean
   paragraph Paragraph[]
 }
