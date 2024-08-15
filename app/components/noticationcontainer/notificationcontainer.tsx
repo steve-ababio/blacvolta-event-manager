@@ -4,13 +4,14 @@ import Notifications from "../notifications/notifications"
 import useSWR from "swr";
 import { useEffect, useRef, useState } from "react";
 import { IEditorial, IUserEventDetails } from "@/app/constants/constants";
+import { randomUUID } from "crypto";
 
 const fetcher = (url:string) => fetch(url).then(r => r.json())
 
 
 const NotificationContainer = ()=>{
-    const eventsdata = useSWR("/api/unapprovedevents",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    const editorialsdata = useSWR("/api/unapprovededitorials",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const eventsdata = useSWR(["/api/unapprovedevents",randomUUID()],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const editorialsdata = useSWR(["/api/unapprovededitorials",randomUUID()],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
    
     const [visible,setVisible] = useState(false);
     const notificationref= useRef<HTMLDivElement>(null);
