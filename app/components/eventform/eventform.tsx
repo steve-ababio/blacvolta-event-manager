@@ -172,11 +172,8 @@ export default function EventForm(){
                     <FormControl 
                         min={0}
                         register={register}
-                        onChange={()=>clearErrors("eventtimeframe")}
-                        validationrules={{required:"Event Timeframe is required"}}
-                        name="eventtimeframe"
-                        aria-required="true" type="number" label="Event Timeframe * (number of days)" 
-                        errormessage={errors.eventtimeframe?.message}
+                        name="eventtimeframe" type="number" 
+                        label="Event Timeframe * (number of days)" 
                         disabled ={iseventweekly}
                     />
                 </>
