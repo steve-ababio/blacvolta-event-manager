@@ -9,6 +9,7 @@ import { FaCalendarPlus } from "react-icons/fa";
 import DeleteRecord from "../../../components/modal/content/delete/deletedialog";
 import { IEvent } from "@/app/constants/constants";
 import { Slide, toast } from "react-toastify";
+import TableSearch from "../tablesearch/tablesearch";
 
 interface EventDetailsListProps{
     data:IEvent[],
@@ -48,18 +49,25 @@ export default function Table({data}:EventDetailsListProps){
     return(
         <div className="w-full rounded-t-[12px] pb-10 mb-4 shadow-md bg-white px-5 dark:bg-[#292b32]">
             <h1 className="py-5 font-bold text-slate-600 dark:text-white">Events </h1>
-            <Link className="w-fit block pb-5" href="/event">
-                <button className="
-                    dark:bg-white dark:text-slate-600
-                    bg-black text-white px-3
-                    py-2 rounded-[5px] flex gap-x-1 justify-center
-                    items-center hover:bg-btnprimarybold 
-                    duration-200 shadow-md "
-                >
-                    <FaCalendarPlus className="dark:text-slate-600 text-white " size={17} />
-                    <span>create event</span>
-                </button>
-            </Link>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-start">
+                <div>
+                    <Link className="w-fit block pb-5" href="/event">
+                        <button className="
+                            dark:bg-white dark:text-slate-600
+                            bg-[#383838] text-white px-3
+                            py-2 rounded-[5px] flex gap-x-1 justify-center
+                            items-center hover:bg-btnprimarybold 
+                            duration-200 shadow-md"
+                        >
+                            <FaCalendarPlus className="dark:text-slate-600 text-white " size={17} />
+                            <span>create event</span>
+                        </button>
+                    </Link>
+                </div>
+                <div className="flex gap-x-3 justify-between sm:justify-start flex-row gap-y-8 sm:gap-y-0">
+                    <TableSearch events={data} setFilteredEvents={setEvents}/>
+                </div>
+            </div>
             <div className="w-full overflow-auto pt-10">
             <table className="w-full shadow-sm">
                 <thead className="bg-slate-400/30">
