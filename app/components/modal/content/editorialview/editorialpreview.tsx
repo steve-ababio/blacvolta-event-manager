@@ -37,7 +37,7 @@ export default function EditorialPreview({editorial,modalopen,closeModal}:ViewEv
                         <div  className={`h-[250px] mt-4 py-2 border border-[#a1a1a165] overflow-y-auto px-3 duration-500 ${showparagraph ? 'visible scale-y-100 opacity-100':'invisible opacity-0 scale-y-0'}`}>
                             {
                                 editorial.paragraph.map(paragraph=>(
-                                    <p className="text-[0.80rem]">{paragraph.body}</p>
+                                    <p key={paragraph.id} className="text-[0.80rem]">{paragraph.body}</p>
                                 ))
                             }
                         </div>
