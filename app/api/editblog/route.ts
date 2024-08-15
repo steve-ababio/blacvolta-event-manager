@@ -73,11 +73,11 @@ export async function PUT(req:NextRequest){
     const deletedparagraphs = JSON.parse(deletedparagraphsdata);
 
     let blogimagepath = "";
-    // if(blogimage instanceof File){
-    //     blogimagepath = await uploadImage(blogimage);
-    // }else{
-    //     blogimagepath = blogimage;
-    // }   
+    if(blogimage instanceof File){
+        blogimagepath = await uploadImage(blogimage);
+    }else{
+        blogimagepath = blogimage;
+    }   
     await updateBlogpost(parseInt(Id,10),author,date,blogtitle,blogimagepath);
     
     let paragraphstrings = data.getAll("paragraph");
@@ -94,9 +94,9 @@ export async function PUT(req:NextRequest){
             paragraph.instagrampostlink = `${instagrampostlink.substring(0,startindex)}/embed/`;
         }
         //upload paragraph image 
-        // if(paragraphimage instanceof File) {
-        //     paragraph.imagepath = await uploadImage(paragraphimage);
-        // }
+        if(paragraphimage instanceof File) {
+            paragraph.imagepath = await uploadImage(paragraphimage);
+        }
         paragraphs.push({
             blogID:paragraph.blogID,
             id:paragraph.id,
