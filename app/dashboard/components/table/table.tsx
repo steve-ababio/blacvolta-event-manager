@@ -50,7 +50,7 @@ export default function Table({data}:EventDetailsListProps){
     return(
         <div className="w-full rounded-t-[12px] pb-10 mb-4 shadow-md bg-white px-5 dark:bg-[#292b32]">
             <h1 className="py-5 font-bold text-slate-600 dark:text-white">Events </h1>
-            <div className="flex flex-col sm:flex-row justify-between sm:items-start">
+            <div className="flex justify-between">
                 <div>
                     <Link className="w-fit block pb-5" href="/event">
                         <button className="
@@ -83,7 +83,7 @@ export default function Table({data}:EventDetailsListProps){
                 </thead>
                 <tbody>
                     {
-                        data.map((event:IEvent)=>(
+                        events.map((event:IEvent)=>(
                             <React.Fragment key={event.Id}>
                                 <TableRow
                                     setShowDeletePrompt={setShowDeletePrompt} 
