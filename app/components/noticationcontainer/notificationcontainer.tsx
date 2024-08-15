@@ -6,11 +6,11 @@ import { useEffect, useRef, useState } from "react";
 import { IEditorial, IUserEventDetails } from "@/app/constants/constants";
 import { v4 as uuidv4 } from 'uuid';
 
-const fetcher = (url:string) => fetch(url).then(r => r.json())
+const fetcher = (url:string) => fetch(url,{cache:"no-store"}).then(r => r.json())
 
 const NotificationContainer = ()=>{
-    const eventsdata = useSWR(["/api/unapprovedevents"],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    const editorialsdata = useSWR(["/api/unapprovededitorials"],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const eventsdata = useSWR("/api/unapprovedevents",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const editorialsdata = useSWR("/api/unapprovededitorials",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
    
     const [visible,setVisible] = useState(false);
     const notificationref= useRef<HTMLDivElement>(null);

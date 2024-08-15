@@ -10,7 +10,6 @@ export async function GET(req:NextRequest,res:NextResponse){
                 approved:false,
             }
         });
-        console.log("Results: " + results);
     }catch(error){
         return NextResponse.json({message:"Internal server error"});
     }
