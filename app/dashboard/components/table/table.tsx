@@ -20,6 +20,7 @@ export default function Table({data}:EventDetailsListProps){
     const [loading,setLoading] = useState(false);
     const [event,setEvent] = useState<IEvent>();
     const [showdeleteprompt,setShowDeletePrompt] = useState(false);
+    const [events,setEvents] = useState(data);
 
     function closeModal(){
         setModalOpen(false);
