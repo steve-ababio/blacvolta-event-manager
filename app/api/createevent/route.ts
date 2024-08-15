@@ -21,10 +21,9 @@ export async function POST(req:Request){
     const timeframestring = data.get("eventtimeframe") as string;
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string) as boolean;
 
-    const timeframe = parseInt(timeframestring,10);
+    let timeframe = parseInt(timeframestring,10) || 1;
     let dates = [];
     let initialdate = EventDate;
-
     for(let i = 0; i < timeframe; i++){
         let[year,month,day] = initialdate.split("-");
         let nextday = parseInt(day,10) + i;
