@@ -10,8 +10,8 @@ const fetcher = ([url,_]:string[]) => fetch(url,{cache:"no-store"}).then(r => r.
 
 const NotificationContainer = ()=>{
     const random = useRef(Date.now())
-    const eventsdata = useSWR(["/api/unapprovedevents",random],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    const editorialsdata = useSWR(["/api/unapprovededitorials",random],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const eventsdata = useSWR(["/api/unapprovedevents",random.current],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const editorialsdata = useSWR(["/api/unapprovededitorials",random.current],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
     const [visible,setVisible] = useState(false);
     const notificationref= useRef<HTMLDivElement>(null);
     const unapprovedevents = eventsdata.data;
