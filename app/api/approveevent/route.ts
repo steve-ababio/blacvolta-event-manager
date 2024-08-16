@@ -31,3 +31,4 @@ export async function PUT(req:NextRequest){
     }
     return NextResponse.json({approved:true,message:"Event has been approved"});
 }
+export const revalidate = 0;

@@ -23,3 +23,4 @@ export async function GET(req:NextRequest,res:NextResponse){
         },
     })
 }
+export const revalidate = 0;

@@ -22,3 +22,4 @@ export async function POST(req:NextRequest){
     }
     return NextResponse.json({approved:true,message:"Editorial has been approved"});
 }
+export const revalidate = 0;

@@ -20,3 +20,4 @@ export async function  GET(){
     console.log("results:",results);
     return NextResponse.json(results)
 }
+export const revalidate = 0;

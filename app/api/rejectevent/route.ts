@@ -17,3 +17,4 @@ export async function DELETE(req:NextRequest,){
     }
     return NextResponse.json({message:"Event has been rejected",rejected:true})
 }
+export const revalidate = 0;
