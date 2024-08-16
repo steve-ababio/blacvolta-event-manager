@@ -5,17 +5,21 @@ import useSWR from "swr";
 import { useEffect, useRef, useState } from "react";
 import { IEditorial, IUserEventDetails } from "@/app/constants/constants";
 import { v4 as uuidv4 } from 'uuid';
+import useFetch from "@/app/hooks/fetch/fetch";
 
 const fetcher = ([url,_]:string[]) => fetch(url,{cache:"no-cache"}).then(r => r.json())
 
 const NotificationContainer = ()=>{
     const random = useRef(Date.now())
-    const eventsdata = useSWR(["/api/unapprovedevents",random.current],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    const editorialsdata = useSWR(["/api/unapprovededitorials",random.current],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const eventsdata = useFetch<IUserEventDetails>("/api/unapprovedevents");
+    const editorialsdata = useFetch<IEditorial>("/api/unapprovededitorials");
+    // const eventsdata = useSWR(["/api/unapprovedevents",random.current],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    // const editorialsdata = useSWR(["/api/unapprovededitorials",random.current],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
     const [visible,setVisible] = useState(false);
     const notificationref= useRef<HTMLDivElement>(null);
     const unapprovedevents = eventsdata.data;
-    const unapprovededitorials = editorialsdata.data!;
+    const unapprovededitorials = editorialsdata.data;
+    
     
     const events:IUserEventDetails[] = unapprovedevents || [];
     const editorials:IEditorial[] = unapprovededitorials || [];
@@ -28,11 +32,11 @@ const NotificationContainer = ()=>{
     },[]);
 
     function fetchLatestEvents(){
-        eventsdata.mutate();
+        eventsdata.fetchLatest("/api/unapprovedevents");
         
     }
     function fetchLatestEditorials(){
-        editorialsdata.mutate();
+        editorialsdata.fetchLatest("/api/unapprovededitorials");
     }
     function closeMenu(e:MouseEvent){
         if(!notificationref.current!.contains(e.target as HTMLElement)){
@@ -56,8 +60,8 @@ const NotificationContainer = ()=>{
             <Notifications
                 fetchLatestEvents={fetchLatestEvents} 
                 fetchLatestEditorials={fetchLatestEditorials}
-                iseventloading={eventsdata.isValidating}
-                iseditorialloading={editorialsdata.isValidating}
+                iseventloading={eventsdata.isLoading}
+                iseditorialloading={editorialsdata.isLoading}
                 events={events!} 
                 editorials={editorials} 
                 setVisible={setVisible} 
