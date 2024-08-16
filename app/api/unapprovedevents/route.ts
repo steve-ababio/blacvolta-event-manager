@@ -15,5 +15,11 @@ export async function GET(req:NextRequest,res:NextResponse){
     }catch(error){
         return NextResponse.json({message:"Internal server error"});
     }
-    return NextResponse.json(results)
+    return new NextResponse(JSON.stringify(results),{
+        status:200,
+        headers:{
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store"
+        },
+    })
 }
