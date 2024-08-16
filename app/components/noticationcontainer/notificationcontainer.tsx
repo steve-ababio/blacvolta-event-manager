@@ -6,22 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import { IEditorial, IUserEventDetails } from "@/app/constants/constants";
 import { v4 as uuidv4 } from 'uuid';
 
-const fetcher = (url:string) => fetch(url,{cache:"no-store"}).then(r => r.json())
+const fetcher = ([url,_]:string[]) => fetch(url,{cache:"no-store"}).then(r => r.json())
 
 const NotificationContainer = ()=>{
-    // const eventsdata = useSWR("/api/unapprovedevents",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    // const editorialsdata = useSWR("/api/unapprovededitorials",fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    const eventsdata = useSWR(["events",uuidv4()],async()=>{
-        const response = await fetch("/api/unapprovedevents");
-        const events = await response.json();
-        return events;
-    },{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    const editorialsdata = useSWR(["editorials",uuidv4()],async()=>{
-        const response = await fetch("/api/unapprovededitorials");
-        const editorials = await response.json();
-        return editorials;
-    },{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
-    
+    const random = useRef(Date.now())
+    const eventsdata = useSWR(["/api/unapprovedevents",random],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
+    const editorialsdata = useSWR(["/api/unapprovededitorials",random],fetcher,{refreshWhenHidden:true,revalidateOnMount:true,refreshWhenOffline:true});
     const [visible,setVisible] = useState(false);
     const notificationref= useRef<HTMLDivElement>(null);
     const unapprovedevents = eventsdata.data;
