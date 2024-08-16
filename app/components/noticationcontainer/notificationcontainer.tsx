@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { IEditorial, IUserEventDetails } from "@/app/constants/constants";
 import { v4 as uuidv4 } from 'uuid';
 
-const fetcher = ([url,_]:string[]) => fetch(url,{cache:"no-store"}).then(r => r.json())
+const fetcher = ([url,_]:string[]) => fetch(url,{cache:"no-cache"}).then(r => r.json())
 
 const NotificationContainer = ()=>{
     const random = useRef(Date.now())
