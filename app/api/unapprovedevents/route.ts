@@ -13,6 +13,5 @@ export async function GET(req:NextRequest,res:NextResponse){
     }catch(error){
         return NextResponse.json({message:"Internal server error"});
     }
-    res.headers.set("Cache-Control", "no-store");
     return NextResponse.json(results)
 }
