@@ -33,7 +33,7 @@ export default function EventNotificationItem({event,fetchLatestEvents,setSelect
         setRejectSubmitting(true);
         const response = await fetch("/api/rejectevent",{method:"DELETE",body:JSON.stringify({eventId:Id})});
         const data = await response.json();
-        toast.success(`${EventName} has been rejected`,{
+        toast.success(`${EventName} ${data.message}`,{
             transition:Slide
         });
         setRejectSubmitting(false);
