@@ -2,7 +2,7 @@ import { IEditorial, IUserEventDetails } from "@/app/constants/constants";
 import { useEffect, useState } from "react"
 
 async function fetchItems(url:string){
-    const response = await fetch(url);
+    const response = await fetch(url,{cache:"no-store"});
     const data = await response.json();
     return data;
    
