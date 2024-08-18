@@ -21,7 +21,7 @@ export async function PUT(req:NextRequest){
             email,
             link:"https://paystack.com/pay/anthers",
             subject: "Your event has been Approved!",
-            text: "Follow the link below to complete payment and have your event published."
+            text: `Follow the link below to complete payment with the event id: ${eventId} and have your event published.`
         }
         const response = await fetch("https://mail.blacvolta.com/send.php",{body:JSON.stringify(body),method:"POST",headers:{"Content-Type":"application/json"}});
         const data = await response.json();

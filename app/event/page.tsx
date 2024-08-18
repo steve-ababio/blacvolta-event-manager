@@ -17,7 +17,7 @@ export default async function AddEvent(){
         <main className=" bg-white dark:bg-transparent pt-1 min-h-screen w-full">
             <div className="bg-white w-[80%] mt-12 mx-auto max-w-[50rem] text-slate-600 ">
                 <ToastContainer 
-                    position="top-center"
+                    position="bottom-center"
                     theme="light"
                     hideProgressBar={true}
                     autoClose={5000}

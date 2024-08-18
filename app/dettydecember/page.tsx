@@ -1,12 +1,12 @@
 import { ToastContainer } from "react-toastify";
 import NavBar from "../components/navbar/navbar";
 import "react-toastify/dist/ReactToastify.css";
-import BlogForm from "./components/blogform/blogform";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import authOptions from "../api/auth/[...nextauth]/options";
+import BlogForm from "../blog/components/blogform/blogform";
 
-export default async function Blog(){
+export default async function DettyDecember(){
     const session = await getServerSession(authOptions);
     if(!session){
         redirect("/")
@@ -22,7 +22,7 @@ export default async function Blog(){
                     hideProgressBar={true}
                     autoClose={5000}
                 />
-                <BlogForm submiturl="/api/createblog"/>
+                <BlogForm submiturl="/api/createdettydecemberblog" />
             </div>
         </main>
         </>

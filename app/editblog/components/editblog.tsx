@@ -72,7 +72,8 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
             const response = await fetch("/api/editblog",{method:"PUT",body:formdata});
             const {message,updatedparagraphs} = await response.json();
             toast.success(message,{
-                transition:Slide
+                transition:Slide,
+                position:"bottom-center"
             });
             setDeletedParagraphs([]);
             setParagraphs(updatedparagraphs);

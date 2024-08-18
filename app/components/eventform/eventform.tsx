@@ -100,7 +100,8 @@ export default function EventForm(){
         const response = await fetch("/api/createevent",{method:"POST",body:formdata});
         const {message} = await response.json();
         toast.success(message,{
-            transition:Slide
+            transition:Slide,
+            position:"bottom-center"
         });
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){

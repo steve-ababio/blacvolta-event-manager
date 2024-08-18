@@ -110,7 +110,8 @@ export default function EditEventForm(props:IEvent){
         const response = await fetch(`/api/editevent`,{method:"PUT",body:formdata});
         const {message} = await response.json();
         toast.success(message,{
-            transition:Slide
+            transition:Slide,
+            position:"bottom-center"
         });
     }
     function obtainImageFile(e:React.ChangeEvent<HTMLInputElement>){
