@@ -20,6 +20,7 @@ export default function BlogForm({submiturl}:{submiturl:string}){
     const [paragraphs,setParagraphs] = useState<Paragraph[]>([]);
     const [blogfilename,setBlogFileName] = useState("");
     const blogimage = useRef<File|null>();
+    const isdettydecember = useRef<boolean>();
  
     const{
         register,
@@ -36,6 +37,7 @@ export default function BlogForm({submiturl}:{submiturl:string}){
         formdata.append("authorname",data.authorname);
         formdata.append("datewritten",data.datewritten);
         formdata.append("blogimage",blogimage.current!);
+        formdata.append("isdettydecember",JSON.stringify(isdettydecember.current));
 
         for(let i = 0;i < paragraphs.length;i++){
             formdata.append(`paragraphs[${i}]-image`,paragraphs[i].image!)
@@ -87,6 +89,9 @@ export default function BlogForm({submiturl}:{submiturl:string}){
         newparagraphs.splice(index,1);
         setParagraphs(newparagraphs);
     }
+    function handleDettyDecember(e:React.ChangeEvent<HTMLInputElement>){
+        isdettydecember.current = e.target.checked;
+    }
     return(
         <form onSubmit={handleSubmit(submitFormData)} className="flex flex-col bg-white dark:bg-[#191C20] gap-y-5">
             <div className="h-fit mt-12">
@@ -120,7 +125,7 @@ export default function BlogForm({submiturl}:{submiturl:string}){
                             {...register("blogimage",{
                                 required:"Blog image is required"
                             })}
-                            id="blog-image" className="w-0 h-0 peer overflow-hidden"
+                            id="blog-image" className="w-0 h-0 peer opacity-0 overflow-hidden"
                             onChange={(e)=>{clearErrors("blogimage");ObtainBlogImageFile(e)}}
                             type="file" aria-required="true"
                             accept="image/*" name="blogimage"
@@ -138,7 +143,16 @@ export default function BlogForm({submiturl}:{submiturl:string}){
                             <span className="">Select blog image</span>
                         </label>
                         {( errors.blogimage?.message != undefined) && <Error message={errors.blogimage?.message!} errortype="danger"/>}
-                        {blogfilename.length > 0 && <div className="rounded-[5px]  dark:text-white text-slate-600 py-2 gap-x-2 flex items-center"><IoImageOutline  className="dark:text-white text-slate-500" size={25}/>{blogfilename}</div>}
+                        {blogfilename.length > 0 && <div className="rounded-[5px] dark:text-white text-slate-600 py-2 gap-x-2 flex items-center"><IoImageOutline  className="dark:text-white text-slate-500" size={25}/>{blogfilename}</div>}
+                    </div>
+                    <div className="flex items-center pt-3 pb-7 gap-x-4">
+                        <input 
+                            id="isweekly" 
+                            onChange={handleDettyDecember}
+                            type="checkbox" name="isweekly" 
+                            className="h-5 w-5 focus:ring-2 accent-black rounded-[6px] dark:focus:ring-white focus:ring-black" 
+                        />
+                        <label htmlFor="isweekly" className="dark:text-slate-200 font-bold  text-slate-600">Detty december</label>
                     </div>
                 </div>
                 {
@@ -169,7 +183,7 @@ export default function BlogForm({submiturl}:{submiturl:string}){
                             <div className="h-fit mt-6 mb-5">
                                     <input 
                                         data-index={index}
-                                        id={`image-${index}`} className="w-0 h-0 peer"
+                                        id={`image-${index}`} className="w-0 h-0 opacity-0 peer"
                                         onChange={e=>obtainParagraphImageFile(e,index)} name="image"
                                         type="file" aria-required="false" accept="image/*" 
                                     />
@@ -222,7 +236,7 @@ export default function BlogForm({submiturl}:{submiturl:string}){
                         ${isSubmitting ? 'cursor-not-allowed bg-[rgb(40,40,40)]/30':''}
                         dark:focus-visible:ring-white focus-visible:ring-black`}
                     >
-                        {isSubmitting ? <><Loader /> <span>creating blog</span></>: "create blog"}
+                        {isSubmitting ? <div className="flex items-center gap-x-3 justify-center"><Loader /> <span>creating blog</span></div>: "create blog"}
                     </button>
                 </div>
             </div>

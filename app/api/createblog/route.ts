@@ -14,7 +14,7 @@ function createParagraphs(paragraphs:ParagraphType[]){
         data:paragraphs
     });
 }
-async function createEditorial(author:string,date:string,title:string,imagepath:string,approved:boolean){
+async function createEditorial(author:string,date:string,title:string,imagepath:string,approved:boolean,dettydecember:boolean){
     return await prisma.blogPost.create({
         data:{
             author,
@@ -22,6 +22,7 @@ async function createEditorial(author:string,date:string,title:string,imagepath:
             title,
             imagepath,
             approved,
+            dettydecember
         },
         select:{
             id:true
@@ -37,6 +38,8 @@ export async function POST(req:NextRequest){
     const author = data.get("authorname") as string;
     const date = data.get("datewritten") as string;
     const blogimage = data.get("blogimage") as File|null;
+    const dettydecemberstring = data.get("isdettydecember") as string;
+    const dettydecember = JSON.parse(dettydecemberstring) as boolean;
 
     // upload editorial image
     let blogimagepath = ""
@@ -45,7 +48,7 @@ export async function POST(req:NextRequest){
     }
     //Store editorial into database
     const approved = true;
-    let {id} = await createEditorial(author,date,blogtitle,blogimagepath,approved);
+    let {id} = await createEditorial(author,date,blogtitle,blogimagepath,approved,dettydecember);
     // retreive paragraphs and store in memory
     let paragraphstring = data.getAll("paragraph");
     for(let i = 0;i < paragraphstring.length;i++) {

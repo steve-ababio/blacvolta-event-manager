@@ -156,7 +156,7 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
                     <div className="h-fit my-4">
                         <input 
                             {...register("blogimage")}
-                            id="blog-image" className="w-0 h-0 peer overflow-hidden"
+                            id="blog-image" className="w-0 h-0 peer opacity-0 overflow-hidden"
                             onChange={(e)=>{ObtainBlogImageFile(e)}}
                             type="file" aria-required="true"
                             accept="image/*" name="blogimage"
@@ -202,7 +202,7 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
                                 <div className="h-fit mt-6 mb-5">
                                     <input 
                                         data-index={index}
-                                        id={`image-${index}`} className="w-0 h-0 peer"
+                                        id={`image-${index}`} className="w-0 h-0 opacity-0 peer"
                                         onChange={e=>obtainParagraphImageFile(e,index)} name="image"
                                         type="file" aria-required="false" accept="image/*" 
                                     />
@@ -255,7 +255,7 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
                             ${isSubmitting ? 'cursor-not-allowed bg-[rgb(40,40,40)]/30':''}
                             dark:focus-visible:ring-white focus-visible:ring-black`}
                         >
-                            {isSubmitting ? <><Loader /> <span>saving blog</span></> : "Save blog"}
+                            {isSubmitting ? <div className="flex items-center gap-x-3 justify-center"><Loader /> <span>saving blog</span></div> : "Save blog"}
                         </button>
                     </div>
                 </div>

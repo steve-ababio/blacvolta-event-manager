@@ -84,7 +84,7 @@ export default function EditEventForm(props:IEvent){
         return[hour,meridian]
     }
     const submitFormData:SubmitHandler<IEventForm> = async(formeventdata)=>{
-        console.log(formeventdata);
+        
         const [hourstring,minute] = formeventdata.eventtime.split(":");
         const [hour,meridian] = formatTime(hourstring);
         const eventtime = `${hour}:${minute} ${meridian}`;
@@ -129,7 +129,7 @@ export default function EditEventForm(props:IEvent){
                 <div className="h-fit">
                     <input
                         {...register("eventflyer")}
-                        id="image" className="w-0 h-0 peer" 
+                        id="image" className="w-0 h-0 opacity-0 peer" 
                         onChange={obtainImageFile}
                         type="file"  accept="image/*"
                     />

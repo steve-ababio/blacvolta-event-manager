@@ -119,7 +119,7 @@ export default function EventForm(){
         <form onSubmit={handleSubmit(submitFormData)} className="flex flex-col bg-white dark:bg-[#191C20] gap-y-5">
              <div className="h-fit my-3">
                 <input 
-                    id="image" className="w-0 h-0 overflow-hidden peer"
+                    id="image" className="w-0 h-0 opacity-0 overflow-hidden peer"
                     {...register("eventflyer",{required:"Event flyer image is required"})}
                     onChange={e=>{clearErrors("eventflyer"); obtainImageFile(e)}} type="file"
                     aria-required="true" accept="image/*"
@@ -241,10 +241,10 @@ export default function EventForm(){
                     onClick={handleSubmit(submitFormData)}>
                     {
                         isSubmitting ? 
-                            <>
+                            <div className="flex items-center gap-x-3 justify-center">
                                 <Loader />
                                 <span className="text-[14px]">Adding event</span> 
-                            </>
+                            </div>
                             :<span className="text-[14px]">Add Event</span>
                     }
             </button>
