@@ -22,7 +22,7 @@ export default async function Blog(){
                     hideProgressBar={true}
                     autoClose={5000}
                 />
-                <BlogForm submiturl="/api/createblog"/>
+                <BlogForm />
             </div>
         </main>
         </>

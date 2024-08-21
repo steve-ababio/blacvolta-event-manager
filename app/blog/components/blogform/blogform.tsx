@@ -16,11 +16,11 @@ export type Paragraph = {
     imagename:string,
     instagrampostlink:string,
 }
-export default function BlogForm({submiturl}:{submiturl:string}){
+export default function BlogForm(){
     const [paragraphs,setParagraphs] = useState<Paragraph[]>([]);
     const [blogfilename,setBlogFileName] = useState("");
     const blogimage = useRef<File|null>();
-    const isdettydecember = useRef<boolean>();
+    const isdettydecember = useRef<boolean>(false);
  
     const{
         register,
@@ -37,6 +37,7 @@ export default function BlogForm({submiturl}:{submiturl:string}){
         formdata.append("authorname",data.authorname);
         formdata.append("datewritten",data.datewritten);
         formdata.append("blogimage",blogimage.current!);
+        console.log("detty:",isdettydecember.current);
         formdata.append("isdettydecember",JSON.stringify(isdettydecember.current));
 
         for(let i = 0;i < paragraphs.length;i++){
@@ -44,7 +45,7 @@ export default function BlogForm({submiturl}:{submiturl:string}){
             formdata.append("paragraph",JSON.stringify(paragraphs[i]));
         }
         try{
-            const response = await fetch(submiturl,{method:"POST",body:formdata});
+            const response = await fetch("/api/createblog",{method:"POST",body:formdata});
             const {message} = await response.json();
             toast.success(message,{
                 transition:Slide,
