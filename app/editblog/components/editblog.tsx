@@ -49,7 +49,6 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         setParagraphs([...paragraph]);
     },[]);
 
-    console.log("paragraphs: ",paragraphs);
     const submitFormData:SubmitHandler<BlogFormType> = async(data)=>{
         const formdata = new FormData();
         formdata.append("blogtitle",data.blogtitle);
@@ -57,8 +56,10 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
         formdata.append("datewritten",data.datewritten);
         formdata.append("id",id);
         if(blogimage.current){
+            console.log("blog image: ",blogimage.current);
             formdata.append("blogimage",blogimage.current);
         }else{
+            console.log("blog image: ",blogimage.current);
             formdata.append("blogimage",imagepath);
         }
         for(let i = 0;i < paragraphs.length;i++){
@@ -191,11 +192,16 @@ export default function EditBlogForm(props:{bloginfo:string,paragraphs:string}){
                                     </button>
                                 </div>
                                 <div className={`w-full pb-4 mt-8`}>
-                                    <label className={`text-white`}>Paragraph Instagram Post Link</label>
+                                    <label className={`text-slate-600 dark:text-white`}>Paragraph Instagram Post Link</label>
                                     <input 
                                         value={instagrampostlink}
                                         onChange={e=>handleParagraphInstagraphPostLink(e,index)} 
-                                        className="border text-white bg-transparent mb-2 disabled:cursor-not-allowed border-white focus:ring-2 outline-none duration-300 px-4 focus:ring-white rounded-[5px] w-full py-2"
+                                        className="
+                                            border dark:text-slate-200 dark:bg-transparent 
+                                            mb-2 disabled:text-gray-200/20 disabled:border-gray-200/20
+                                            disabled:cursor-not-allowed border-slate-300/80 focus:ring-2
+                                            outline-none text-slate-600 duration-300 px-4 dark:focus:ring-white
+                                            focus:ring-black rounded-[5px] w-full py-2"
                                         type="text" id="paragraph_instagram_link"
                                     />
                                 </div>
