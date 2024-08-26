@@ -37,11 +37,10 @@ export default function BlogForm(){
         formdata.append("authorname",data.authorname);
         formdata.append("datewritten",data.datewritten);
         formdata.append("blogimage",blogimage.current!);
-        console.log("detty:",isdettydecember.current);
         formdata.append("isdettydecember",JSON.stringify(isdettydecember.current));
 
         for(let i = 0;i < paragraphs.length;i++){
-            formdata.append(`paragraphs[${i}]-image`,paragraphs[i].image!)
+            formdata.append(`paragraphs[${i}]-image`,paragraphs[i].image!);
             formdata.append("paragraph",JSON.stringify(paragraphs[i]));
         }
         try{

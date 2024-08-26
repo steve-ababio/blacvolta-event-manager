@@ -19,7 +19,7 @@ export async function PUT(req:NextRequest){
             name,
             eventId,
             email,
-            link:"https://paystack.com/pay/anthers",
+            link:"https://paystack.com/pay/blacvolta",
             subject: "Your event has been Approved!",
             text: `Follow the link below to complete payment with the event id: ${eventId} and have your event published.`
         }

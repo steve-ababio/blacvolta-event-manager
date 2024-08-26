@@ -45,7 +45,6 @@ export async function POST(req:NextRequest){
     let blogimagepath = ""
 
     if(blogimage instanceof File){
-        console.log("image: ",blogimage);
         blogimagepath = await uploadImage(blogimage);
     }
     //Store editorial into database
