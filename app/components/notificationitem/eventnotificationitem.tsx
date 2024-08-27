@@ -12,7 +12,7 @@ type NotificationItemProp = {
     fetchLatestEvents:()=>void;
 }
 export default function EventNotificationItem({event,fetchLatestEvents,setSelectedEvent,setOpen}:NotificationItemProp){
-    const {Id,EventName,Organizationname,Email} = event;
+    const {Id,EventName,Organizationname,Email,EventId} = event;
     const approveelement = useRef<HTMLButtonElement>(null);
     const rejectelement = useRef<HTMLButtonElement>(null);
     const [approvesubmitting,setApproveSubmitting] = useState(false);
@@ -21,7 +21,7 @@ export default function EventNotificationItem({event,fetchLatestEvents,setSelect
 
     async function approveEvent(){
         setApproveSubmitting(true);
-        const response = await fetch("/api/approveevent",{method:"PUT",body:JSON.stringify({name:Organizationname,email:Email,Id,eventId:Id})});
+        const response = await fetch("/api/approveevent",{method:"PUT",body:JSON.stringify({name:Organizationname,email:Email,Id,eventId:EventId})});
         const data = await response.json();
         toast.success(`${EventName} has been approved successfully`,{
             transition:Slide
