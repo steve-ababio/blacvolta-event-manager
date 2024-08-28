@@ -13,14 +13,14 @@ async function approveEvent(eventId:string){
 }
 export async function PUT(req:NextRequest){
     try{
-        const {email,name,eventId,Id} = await req.json();
+        const {email,name,eventId,Id,eventName} = await req.json();
         await approveEvent(Id);
         const body = {
             name,
             email,
             link:"https://paystack.com/pay/blacvolta",
             subject: "Your event has been Approved!",
-            text: `Follow the link below to complete payment with the Event Id: ${eventId} and have your event published.`
+            text: `Follow the link below to complete payment with the Event ID: ${eventId} and have your event ${eventName} published. Please make sure to provide the correct event ID.`
         }
         const response = await fetch("https://mail.blacvolta.com/send.php",{body:JSON.stringify(body),method:"POST",headers:{"Content-Type":"application/json"}});
         const data = await response.json();

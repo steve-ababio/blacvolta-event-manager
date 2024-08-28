@@ -21,7 +21,7 @@ export default function EventNotificationItem({event,fetchLatestEvents,setSelect
 
     async function approveEvent(){
         setApproveSubmitting(true);
-        const response = await fetch("/api/approveevent",{method:"PUT",body:JSON.stringify({name:Organizationname,email:Email,Id,eventId:EventId})});
+        const response = await fetch("/api/approveevent",{method:"PUT",body:JSON.stringify({name:Organizationname,eventName:EventName,email:Email,Id,eventId:EventId})});
         const data = await response.json();
         toast.success(`${EventName} has been approved successfully`,{
             transition:Slide
