@@ -18,7 +18,7 @@ export async function PUT(req:NextRequest){
         const body = {
             name,
             email,
-            link:"https://paystack.com/pay/blacvoltatest",
+            link:"https://paystack.com/pay/blacvolta",
             subject: "Your event has been Approved!",
             text: `Follow the link below to complete payment with the Event ID: ${eventId} and have your event ${eventName} published. Please make sure to provide the correct event ID.`
         }
