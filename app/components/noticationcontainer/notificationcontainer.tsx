@@ -37,7 +37,7 @@ const NotificationContainer = ()=>{
         
     }
     function fetchLatestEditorials(){
-        eventsdata.mutate();
+        editorialsdata.mutate();
         // editorialsdata.fetchLatest("/api/unapprovededitorials");
     }
     function closeMenu(e:MouseEvent){
