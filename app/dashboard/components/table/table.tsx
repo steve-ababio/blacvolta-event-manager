@@ -47,6 +47,7 @@ export default function Table({data}:EventDetailsListProps){
             closeDeletePrompt();
         }
     }   
+   
     return(
         <div className="w-full rounded-t-[12px] pb-10 mb-4 shadow-md bg-white px-5 dark:bg-[#292b32]">
             <h1 className="py-5 font-bold text-slate-600 dark:text-white">Events </h1>
@@ -66,7 +67,7 @@ export default function Table({data}:EventDetailsListProps){
                     </Link>
                 </div>
                 <div className="flex gap-x-3 justify-between sm:justify-start flex-row gap-y-8 sm:gap-y-0">
-                    <TableSearch events={data} setFilteredEvents={setEvents}/>
+                    <TableSearch placeholder="Search event"  type="events" events={data} setFilteredEvents={setEvents}/>
                 </div>
             </div>
             <div className="w-full overflow-auto pt-10">
