@@ -70,7 +70,7 @@ export default function Table({data}:EventDetailsListProps){
                     <TableSearch placeholder="Search event"  type="events" events={data} setFilteredEvents={setEvents}/>
                 </div>
             </div>
-            <div className="w-full overflow-auto pt-10">
+            <div className="w-full overflow-auto relative pt-20 z-50">
             <table className="w-full shadow-sm">
                 <thead className="bg-slate-400/30">
                     <tr className="text-left dark:text-slate-200 text-slate-600">

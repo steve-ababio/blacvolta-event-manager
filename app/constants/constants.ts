@@ -23,6 +23,7 @@ export interface IEvent{
     DayofWeek:string,
     approved:boolean,
     paid:boolean,
+    hidden:boolean,
 }
 export type IUserEventDetails = IEvent & IUser;
 export interface ParagraphResult {

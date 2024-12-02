@@ -31,9 +31,10 @@ model Event {
   FlyerImagePath String
   IsEventWeekly  Boolean
   DayofWeek      String
-  EventId String?
+  EventId String? @unique
   approved       Boolean
   paid           Boolean
+  hidden  Boolean @default(false)
 }
 
 model Paragraph{
