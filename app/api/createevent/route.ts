@@ -53,6 +53,7 @@ export async function POST(req:Request){
                     DayofWeek,
                     approved:true,
                     paid:true,
+                    hidden:false,
                 }
             )
         });
