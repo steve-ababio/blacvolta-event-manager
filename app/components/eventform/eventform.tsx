@@ -1,7 +1,8 @@
 "use client"
 import { SubmitHandler, useForm } from "react-hook-form";
 import FormControl from "../../components/formcontrol/formcontrol";
-import { RotatingLines } from "react-loader-spinner";
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import { useEffect, useRef, useState} from "react";
 import Error from "../error/error";
 import Select from "../select/select";
@@ -51,6 +52,7 @@ export default function EventForm(){
     const inputref = useRef<HTMLInputElement|null>(null);
     const selectref = useRef<HTMLSelectElement>(null);
     const venue = useRef<string>("");
+    const eventRating = useRef<string>();
     const [iseventweekly,setIsEventWeekly] = useState(false);
     const [fileloadedmessage,setFileLoadedMessage] = useState("");
     const eventimage = useRef<File>();
@@ -95,6 +97,7 @@ export default function EventForm(){
         formdata.append("eventtime",eventtime);
         formdata.append("dayofweek",selecteddayofweek);
         formdata.append("adminUserId",user.id);
+        formdata.append("eventRating",eventRating.current!);
         formdata.append("iseventweekly",JSON.stringify(iseventweekly));
 
         const response = await fetch("/api/createevent",{method:"POST",body:formdata});
@@ -110,7 +113,12 @@ export default function EventForm(){
             eventimage.current = e.target.files[0];
        }
     }
-
+    function getEventRating(e:Event){
+        const e_target = e.target as HTMLInputElement;
+        const rating = e_target.value;
+        eventRating.current = rating;
+        console.log("rating",rating)
+    }
     function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){
         setIsEventWeekly(e.target.checked);
     }
@@ -145,6 +153,22 @@ export default function EventForm(){
                 aria-required="true" type="text" label="Event Name *"
                 errormessage={errors.eventname?.message}
             />
+            <div>
+                <label htmlFor="isweekly" className="dark:text-slate-200 text-slate-600">Event Rating: </label>
+                <Box sx={{ width: 300 }}>
+                    <Slider
+                        aria-label="Rating"
+                        defaultValue={10}
+                        onChange={getEventRating}
+                        valueLabelDisplay="auto"
+                        shiftStep={30}
+                        step={10}
+                        marks
+                        min={0}
+                        max={100}
+                    />
+                </Box>
+            </div>
             <div className="flex items-center gap-x-4">
                 <input 
                     id="isweekly" 

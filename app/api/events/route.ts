@@ -11,7 +11,6 @@ async function getApprovedEvents(){
 }
 
 export async function GET(){
-
     const approvedevents = await getApprovedEvents();
     return NextResponse.json(approvedevents);
 }

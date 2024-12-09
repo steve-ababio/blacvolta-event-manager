@@ -16,7 +16,10 @@ export async function PUT(req:Request){
     const image = data.get("eventflyer") as File|string;
     const DayofWeek = data.get("dayofweek") as string;
     const IsEventWeeklyString = data.get("iseventweekly");
+    const eventRatingString = data.get("eventRating") as string;
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string);
+
+    const eventRating = parseInt(eventRatingString,10) || 0;
 
     try{
         let imageurl = "";
@@ -42,6 +45,7 @@ export async function PUT(req:Request){
                 InquiryNumber,
                 DayofWeek,
                 IsEventWeekly,
+                rating:eventRating
             }
         });
     }catch(error){

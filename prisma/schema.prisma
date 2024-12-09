@@ -35,6 +35,7 @@ model Event {
   approved       Boolean
   paid           Boolean
   hidden  Boolean @default(false)
+  rating Int @default(10)
 }
 
 model Paragraph{

@@ -19,9 +19,11 @@ export async function POST(req:Request){
     const image = data.get("eventflyer") as File;
     const DayofWeek = data.get("dayofweek") as string;
     const timeframestring = data.get("eventtimeframe") as string;
+    const eventRatingString = data.get("eventRating") as string;
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string) as boolean;
 
     let timeframe = parseInt(timeframestring,10) || 1;
+    const eventRating = parseInt(eventRatingString,10) || 0;
     let dates = [];
     let initialdate = EventDate;
     for(let i = 0; i < timeframe; i++){
@@ -54,6 +56,7 @@ export async function POST(req:Request){
                     approved:true,
                     paid:true,
                     hidden:false,
+                    rating:eventRating
                 }
             )
         });

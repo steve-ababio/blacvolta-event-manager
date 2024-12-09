@@ -79,6 +79,7 @@ export default function Table({data}:EventDetailsListProps){
                         <th className="p-[0.75rem]">Event Time</th>
                         <th className="p-[0.75rem]">Venue</th>
                         <th className="p-[0.75rem]">Event Name</th>
+                        <th className="p-[0.75rem]">Status</th>
                         <th className="p-[0.75rem]">Actions</th>
                     </tr>
                 </thead>

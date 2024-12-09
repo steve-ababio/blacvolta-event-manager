@@ -24,6 +24,7 @@ export interface IEvent{
     approved:boolean,
     paid:boolean,
     hidden:boolean,
+    rating:number
 }
 export type IUserEventDetails = IEvent & IUser;
 export interface ParagraphResult {

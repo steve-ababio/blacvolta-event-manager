@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/material": "^6.1.10",
     "@prisma/client": "^5.18.0",
     "@react-google-maps/api": "^2.19.3",
     "@sentry/react": "^7.112.2",

@@ -9,6 +9,8 @@ import FormControl from "../formcontrol/formcontrol";
 import { IEvent} from "@/app/constants/constants";
 import { IoImageOutline } from "react-icons/io5";
 import { Loader } from "../loader/loader";
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 
 function convertTime(EventTime:string){
     const [time,meridian] = EventTime.split(" ");
@@ -27,7 +29,7 @@ function convertTime(EventTime:string){
     return `${hour}:${min}`;
 }
 export default function EditEventForm(props:IEvent){
-    const {Id,EventName,EventDate,FlyerImagePath,IsEventWeekly,DayofWeek,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description} = props;
+    const {Id,EventName,EventDate,FlyerImagePath,IsEventWeekly,DayofWeek,SocialLinks,EventTime,Venue,TicketLinks,InquiryNumber,Description,rating} = props;
     const autocompleteref = useRef<google.maps.places.Autocomplete>();
     const inputref = useRef<HTMLInputElement|null>(null);
     const dayofweek = useRef("");
@@ -38,6 +40,7 @@ export default function EditEventForm(props:IEvent){
     const [iseventweekly,setIsEventWeekly] = useState(JSON.parse(IsEventWeekly.toString()));
     const eventtime = convertTime(EventTime);
     const eventimage = useRef<File>();
+    const eventRating = useRef<string>();
     const{
         register,
         handleSubmit,
@@ -106,6 +109,7 @@ export default function EditEventForm(props:IEvent){
         formdata.append("eventtime",eventtime);
         formdata.append("dayofweek",selecteddayofweek);
         formdata.append("iseventweekly",JSON.stringify(iseventweekly));
+        formdata.append("eventRating",eventRating.current!);
 
         const response = await fetch(`/api/editevent`,{method:"PUT",body:formdata});
         const {message} = await response.json();
@@ -122,6 +126,12 @@ export default function EditEventForm(props:IEvent){
     }
     function checkEventIsWeekly(e:React.ChangeEvent<HTMLInputElement>){
         setIsEventWeekly(e.target.checked);
+    }
+    function getEventRating(e:Event){
+        const e_target = e.target as HTMLInputElement;
+        const rating = e_target.value;
+        eventRating.current = rating;
+        console.log("rating",rating)
     }
     return(
         <form className="mt-12 flex flex-col gap-y-5 w-[80%] max-w-[50rem] mx-auto">
@@ -155,6 +165,22 @@ export default function EditEventForm(props:IEvent){
                 name="eventname"
                 aria-required="true" type="text" label="Event Name"
             />
+             <div>
+                <label htmlFor="isweekly" className="dark:text-slate-200 text-slate-600">Event Rating: </label>
+                <Box sx={{ width: 300 }}>
+                    <Slider
+                        aria-label="Rating"
+                        defaultValue={rating}
+                        onChange={getEventRating}
+                        valueLabelDisplay="auto"
+                        shiftStep={30}
+                        step={10}
+                        marks
+                        min={0}
+                        max={100}
+                    />
+                </Box>
+            </div>
             <div className="flex items-center gap-x-4">
                 <input
                     checked={iseventweekly}

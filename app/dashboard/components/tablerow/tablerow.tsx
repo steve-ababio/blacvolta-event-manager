@@ -73,6 +73,7 @@ export default function TableRow({event,setEvent,setShowDeletePrompt,setModalOpe
                 <td className="align-top p-[.75rem]">{EventTime}</td>
                 <td className="align-top p-[.75rem]">{Venue}</td>
                 <td className="align-top p-[.75rem]">{EventName}</td>
+                <td className="align-top p-[.75rem]">{hidden ? <div className="rounded-[30px] text-center px-4 py-2 bg-[#768490]">Hidden</div>:''}</td>
                 <td className="p-[0.75rem] flex gap-1 items-center">
                     <div className="relative cursor-pointer" >
                         <div ref={activeelement} onClick={showAction} className="hover:bg-slate-300/30 p-1 rounded-[5px]">
