@@ -170,7 +170,7 @@ export default function EditEventForm(props:IEvent){
                 <Box sx={{ width: 300 }}>
                     <Slider
                         aria-label="Rating"
-                        defaultValue={rating}
+                        defaultValue={10}
                         onChange={getEventRating}
                         valueLabelDisplay="auto"
                         shiftStep={30}
