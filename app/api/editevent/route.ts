@@ -19,7 +19,7 @@ export async function PUT(req:Request){
     const eventRatingString = data.get("eventRating") as string;
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string);
 
-    const eventRating = parseInt(eventRatingString,10) || 0;
+    const eventRating = parseInt(eventRatingString,10) || 10;
 
     try{
         let imageurl = "";

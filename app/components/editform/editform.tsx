@@ -130,6 +130,7 @@ export default function EditEventForm(props:IEvent){
     function getEventRating(e:Event){
         const e_target = e.target as HTMLInputElement;
         const rating = e_target.value;
+        console.log(rating)
         eventRating.current = rating;
         console.log("rating",rating)
     }

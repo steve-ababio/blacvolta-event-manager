@@ -23,7 +23,7 @@ export async function POST(req:Request){
     const IsEventWeekly = JSON.parse(IsEventWeeklyString as string) as boolean;
 
     let timeframe = parseInt(timeframestring,10) || 1;
-    const eventRating = parseInt(eventRatingString,10) || 0;
+    const eventRating = parseInt(eventRatingString,10) || 10;
     let dates = [];
     let initialdate = EventDate;
     for(let i = 0; i < timeframe; i++){
