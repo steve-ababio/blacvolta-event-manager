@@ -21,7 +21,7 @@ const ProfileMenu = ({visible,name}:ProfileMenuProps)=>{
     }
     return(
         <div role="menu" aria-hidden={visible} className={`
-            fixed sm:mt-2 sm:rounded-[10px] bottom-0 right-0 left-0 sm:bottom-auto h-[calc(100%-60px)]
+            fixed origin-top  inset-0 top-[60px]  sm:mt-2 sm:rounded-[10px] bottom-0 right-0 left-0 sm:bottom-auto h-[calc(100%-60px)]
             sm:absolute sm:-translate-x-full sm:left-[100%] sm:top-full sm:min-w-[15rem] 
             transition duration-200 shadow-sm bg-white dark:bg-darkprimary sm:h-auto
             ${visible ? 'opacity-100 scale-100':'opacity-0 scale-0'} min-w-screen
