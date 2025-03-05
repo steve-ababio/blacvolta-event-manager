@@ -31,7 +31,7 @@ async function createEditorial(author:string,date:string,title:string,imagepath:
 }
 export async function POST(req:NextRequest){
     const data = await req.formData();
-    const paragraphs:ParagraphType[] = [];
+    const paragraphs:ParagraphType[] = []
     
     // Retrieve form data
     const blogtitle = data.get("blogtitle") as string;
@@ -82,7 +82,7 @@ export async function POST(req:NextRequest){
         let result = await createParagraphs(paragraphs);
         console.log("paragraph results: ",result);
     }catch(error){
-        console.log(error)
+        console.log("Error creating blog",error)
         return NextResponse.json({message:"Error creating blog post: "+error});
     }
     return NextResponse.json({message:"Blog post created successfully"});

@@ -25,7 +25,7 @@ const ProfileMenu = ({visible,name}:ProfileMenuProps)=>{
             sm:absolute sm:-translate-x-full sm:left-[100%] sm:top-full sm:min-w-[15rem] 
             transition duration-200 shadow-sm bg-white dark:bg-darkprimary sm:h-auto
             ${visible ? 'opacity-100 scale-100':'opacity-0 scale-0'} min-w-screen
-             py-4 border-slate-400/30 z-40 dark:text-slate-200 border
+             py-4 border-slate-400/30 z-[100] dark:text-slate-200 border
             dark:border dark:border-slate-100/10`
         }
         >
