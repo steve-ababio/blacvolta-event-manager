@@ -8,6 +8,7 @@ export async function uploadImage(image:File){
         const {file_name} = await imageresponse.json();
         return file_name as string;
     }catch(error){
+        
         throw new Error("Failed to upload image");
     }
 }
